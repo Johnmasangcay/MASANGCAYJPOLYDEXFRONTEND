@@ -1,67 +1,70 @@
-import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button } from 'react-native';
-import polydexBg from '../assets/polydexbg.jpg'
+import React, { useState } from 'react'
 
-export default function LogInScreen({ navigation }) {
+export default function CreateAccScreen({ navigation }) {
+    const [createUserName, setCreateUserName] = useState("");
+    const [createPassword, setCreatePassword] = useState("");
 
-    const [logInUsername, setLogInUsername] = useState("");
-    const [logInPassword, setLogInPassword] = useState("");
 
-
-    const handleLogIn = async () => {
-        await fetch("http://192.168.12.253:5263/User/Login", {
+    const handleCreateNewAccount = async () => {
+        await fetch("http://192.168.12.253:5263/User/AddUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "Username": logInUsername,
-                "Password": logInPassword
+                "Id": 0,
+                "Username": createUserName,
+                "Password": createPassword
             })
         })
-            .then(logInResp => logInResp.json())
-            .then(logInData => {
-                if (logInData.token != null) {
-                    Alert.alert("Hello, " + logInUsername)
-                    navigation.navigate("DashboardScreen");
+            .then(resp => resp.json())
+            .then(data => {
+                if (createUserName == "" || createPassword == "") {
+                    Alert.alert("Please Enter in all fields");
                 } else {
-                    Alert.alert("Wrong Username or Password, Please Enter Again")
+                    if (data == true) {
+                        Alert.alert("Success please Log In");
+                        navigation.navigate("LogInScreen");
+                    } else {
+                        Alert.alert("Username has already exist!")
+                    }
                 }
-                console.log(logInData.token)
+                console.log(data)
             })
     }
 
     return (
         <>
             <View style={styles.container}>
-            <View style={{ paddingTop: 180, alignItems: "center" }}>
-                    <Text style={styles.titleStyle}>Sign In To PolyDex</Text>
+                <View style={{ paddingTop: 180, alignItems: "center" }}>
+                    <Text style={styles.titleStyle}>Create Account</Text>
                 </View>
                 <View style={{ paddingTop: 10 }}>
                     <Text style={styles.txtStyle}>Username</Text>
                     <TextInput
                         style={styles.inputs}
                         placeholder='Enter UserName'
-                        onChangeText={setLogInUsername}
-                        value={logInUsername}
+                        onChangeText={setCreateUserName}
+                        value={createUserName}
                     />
                     <Text style={styles.txtStyle}>Password</Text>
                     <TextInput
                         style={styles.inputs}
                         placeholder='Enter Password'
-                        onChangeText={setLogInPassword}
-                        value={logInPassword}
+                        onChangeText={setCreatePassword}
+                        value={createPassword}
                     />
 
                     <Pressable style={({ pressed }) => [styles.btn, {
                         backgroundColor: pressed ? "blue" : "skyblue",
                         opacity: pressed ? .5 : 1
-                    }]} onPress={handleLogIn}>
-                        <Text style={{ color: "white", fontWeight: "bold" }}>Log In</Text>
+                    }]} onPress={handleCreateNewAccount}>
+                        <Text style={{ color: "white", fontWeight: "bold" }}>Sign Up</Text>
                     </Pressable>
-                    <Pressable style={styles.txtStyleAlreadyHaveAcc} onPress={() => navigation.navigate("CreateAccScreen")}>
+                    <Pressable style={styles.txtStyleAlreadyHaveAcc} onPress={() => navigation.navigate("LogInScreen")}>
                         <Text>
-                            Doesn't have an account? Sign Up
+                            Already have an account? Sign In
                         </Text>
                     </Pressable>
                 </View>
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     txtStyleAlreadyHaveAcc: {
-        paddingLeft: 120,
+        alignItems: "center",
         fontWeight: "normal",
         fontSize: 13
     },
