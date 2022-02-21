@@ -12,7 +12,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen
+        <Stack.Screen
           name='DashboardScreen'
           component={DashboardScreen}
           options={{ headerShown: false, title: "Pokedex" }}
@@ -27,6 +27,7 @@ export default function App() {
           component={CreateAccScreen}
           options={{ headerShown: false }}
         />
+
 
 
       </Stack.Navigator>

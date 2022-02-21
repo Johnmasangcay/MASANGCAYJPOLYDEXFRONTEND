@@ -5,6 +5,9 @@ import polydexBg from '../assets/polydexbg.jpg'
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 
 export default function DashboardScreen() {
+    let star = "★"
+    let starThin = "☆"
+    let hamburgerMenu = "☰"
     const [allPokemonNumbers, setAllPokemonNumbers] = useState(898);
     const [isloaded, setIsloaded] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
@@ -42,9 +45,9 @@ export default function DashboardScreen() {
                 :
                 <View style={styles.container}>
                     <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
-                        <Icon onPress={() => setModalVisible(true)} style={{ color: "black" }} name='bars' size={25} color="white" />
-                        <Text style={{ color: "black", paddingLeft: 20, fontSize: 20 }}>PokeDex</Text>
-                        <Icon style={{ color: "black", paddingLeft: 250 }} name='star' size={25} color="white" />
+                        <Text onPress={() => setModalVisible(true)} style={{fontSize: 30}}>{hamburgerMenu}</Text>
+                        <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>PokeDex</Text>
+                        <Text onPress={() => setModalVisible(true)} style={{fontSize: 30, paddingLeft: 210}}>{star}</Text>
                     </View>
                     <View>
                         <Modal
@@ -90,33 +93,39 @@ export default function DashboardScreen() {
                                 return (
                                     <>
                                         <Pressable style={({ pressed }) => [styles.btn, {
-                                            backgroundColor: pressed ? "blue" : "skyblue",
+                                            backgroundColor: pressed ? "blue" : "#EDF6E5",
                                             opacity: pressed ? .5 : 1
-                                        }]} onPress={console.log("hello")}>
-
+                                        }]} onPress={() => console.log(pokemonData.types)}>
                                             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
                                                 <Text style={styles.txtstyleID}>#{pokemonData.id}</Text>
                                                 <Text style={styles.txtstyleNAME}>{pokemonData.name}</Text>
+                                                <Text style={{fontSize: 40, paddingLeft: 10}}>{starThin}</Text>
                                             </View>
-                                            <View style={{ flexDirection: "row" }}>
-                                                <Text style={styles.txtstyleTYPE}>{pokemonData.types[0].type.name}</Text>
-                                                
-                                                <View style={styles.txtstyleIMAGE}>
+                                            <View style={styles.txtstyleIMAGE}>
                                                     <Image
                                                         source={pokemonData.sprites.front_default}
                                                         style={{
-                                                            height: 70,
-                                                            width: 70,
+                                                            height: 100,
+                                                            width: 100,
                                                         }}
                                                     />
                                                 </View>
+                                            <View style={{ flexDirection: "row", }}>
+                                                <View style={{ flexDirection: "row", padding: 5 }}>
+                                                    {
+                                                        pokemonData.types.map((pokeType) => {
+                                                            
+                                                            return (
+                                                                <>
+                                                                    <Text style={[styles.txtstyleTYPE, {backgroundColor: "#FFBED8"}]}>{pokeType.type.name}</Text>
+                                                                </>
+                                                            )
+                                                        })
+                                                    }
+                                                </View>
+
                                             </View>
-
-
                                         </Pressable>
-                                        {/* -------------------------------------------------------------------------- */}
-
-
                                     </>
                                 )
                             })
@@ -134,7 +143,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "flex-start",
         marginTop: 30,
-        backgroundColor: "azure"
+        backgroundColor: "#FFFEEC"
     },
     centeredView: {
         flex: 1,
@@ -174,8 +183,13 @@ const styles = StyleSheet.create({
     btn: {
         alignItems: "center",
         borderRadius: 20,
-        paddingVertical: 10,
-        marginVertical: 20,
+        paddingVertical: 5,
+        marginVertical: 5,
+        shadowColor: '#171717',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+        height: 150
     },
     textStyle: {
         color: "white",
@@ -188,17 +202,29 @@ const styles = StyleSheet.create({
         paddingLeft: 20
     },
     txtstyleNAME: {
-        fontSize: 20,
-        textTransform: 'capitalize',
-        paddingLeft: 40
-    },
-    txtstyleIMAGE: {
-        paddingLeft: 90
-    },
-    txtstyleTYPE: {
-        fontSize: 20,
+        flex: 1,
+        fontSize: 40,
         textTransform: 'capitalize',
         paddingLeft: 40,
-        paddingTop: 20
-    }
+        fontWeight: "bold",
+        color: "#233142",
+
+    },
+    txtstyleIMAGE: {
+        flex: 1,
+        paddingLeft: 330,
+    },
+    txtstyleTYPE: {
+        fontSize: 30,
+        textTransform: 'capitalize',
+        marginVertical: 20,
+        marginRight: 50,
+        shadowColor: '#171717',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+        borderRadius: 20,
+        paddingHorizontal: 10
+    },
+
 });
