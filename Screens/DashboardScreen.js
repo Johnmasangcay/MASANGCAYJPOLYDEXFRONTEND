@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import Emoji from 'react-native-emoji';
+import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import polydexBg from '../assets/polydexbg.jpg'
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
+import UserContext from './Context/UserContext';
 
-export default function DashboardScreen() {
+export default function DashboardScreen({ navigation }) {
     let star = "★"
     let starThin = "☆"
     let hamburgerMenu = "☰"
-    const [allPokemonNumbers, setAllPokemonNumbers] = useState(898);
     const [isloaded, setIsloaded] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+    const [isFavPokemon, setIsFavPokemon] = useState(false);
     const [pokemons, setPokemons] = useState([]);
+    const [pokeSearch, setPokeSearch] = useState("");
+    const {currentUser} = useContext(UserContext)
+
 
     const getPokemons = async () => {
         let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=898");
@@ -23,17 +25,18 @@ export default function DashboardScreen() {
                 const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
                 const data = await resp.json();
                 setPokemons(currentArr => [...currentArr, data]);
-
             })
         }
         getPokemonObjects(data.results)
     }
 
-
+    const filterPokemon = pokemons.filter(poke => {
+        return poke.name.toLowerCase().includes(pokeSearch.toLowerCase())
+    })
 
     useEffect(() => {
         getPokemons()
-        console.log(pokemons)
+        console.log(currentUser)
         setTimeout(function () {
             setIsloaded(true)
         }, 4000)
@@ -41,13 +44,13 @@ export default function DashboardScreen() {
     return (
         <>
             {!isloaded ?
-                <ActivityIndicator style={{ flex: 1, backgroundColor: "black" }} size={"large"} color={"red"} />
+                <ActivityIndicator style={{ flex: 1, backgroundColor: "#FFFEEC" }} size={"large"} color={"blue"} />
                 :
                 <View style={styles.container}>
                     <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
-                        <Text onPress={() => setModalVisible(true)} style={{fontSize: 30}}>{hamburgerMenu}</Text>
+                        <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
                         <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>PokeDex</Text>
-                        <Text onPress={() => setModalVisible(true)} style={{fontSize: 30, paddingLeft: 210}}>{star}</Text>
+                        <Text onPress={() => navigation.navigate("FavoritePokemonScreen")} style={{ fontSize: 30, paddingLeft: 210 }}>{star}</Text>
                     </View>
                     <View>
                         <Modal
@@ -86,10 +89,17 @@ export default function DashboardScreen() {
                             </View>
                         </Modal>
                     </View>
+                    <View>
+                        <TextInput
+                            placeholder="🔍 What Pokemon Are You Looking For?"
+                            style={styles.input}
+                            onChangeText={setPokeSearch}
+                        />
+                    </View>
 
                     <ScrollView style={{ paddingBottom: 20 }}>
                         {
-                            pokemons.map((pokemonData, keyx) => {
+                            filterPokemon.map((pokemonData, keyx) => {
                                 return (
                                     <>
                                         <Pressable style={({ pressed }) => [styles.btn, {
@@ -98,32 +108,31 @@ export default function DashboardScreen() {
                                         }]} onPress={() => console.log(pokemonData.types)}>
                                             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
                                                 <Text style={styles.txtstyleID}>#{pokemonData.id}</Text>
-                                                <Text style={styles.txtstyleNAME}>{pokemonData.name}</Text>
-                                                <Text style={{fontSize: 40, paddingLeft: 10}}>{starThin}</Text>
+                                                <Text style={[styles.txtstyleNAME]}>{pokemonData.name}</Text>
+                                                <Text onPress={() => setIsFavPokemon(true)}style={{ fontSize: 30, paddingLeft: 10 }}>{
+                                                    isFavPokemon ? star : starThin
+                                                }</Text>
                                             </View>
                                             <View style={styles.txtstyleIMAGE}>
-                                                    <Image
-                                                        source={pokemonData.sprites.front_default}
-                                                        style={{
-                                                            height: 100,
-                                                            width: 100,
-                                                        }}
-                                                    />
-                                                </View>
-                                            <View style={{ flexDirection: "row", }}>
-                                                <View style={{ flexDirection: "row", padding: 5 }}>
-                                                    {
-                                                        pokemonData.types.map((pokeType) => {
-                                                            
-                                                            return (
-                                                                <>
-                                                                    <Text style={[styles.txtstyleTYPE, {backgroundColor: "#FFBED8"}]}>{pokeType.type.name}</Text>
-                                                                </>
-                                                            )
-                                                        })
-                                                    }
-                                                </View>
+                                                <Image
+                                                    source={pokemonData.sprites.front_default}
+                                                    style={{
+                                                        height: 100,
+                                                        width: 100,
+                                                    }}
+                                                />
+                                            </View>
+                                            <View style={{ flexDirection: "row", padding: 5 }}>
+                                                {
+                                                    pokemonData.types.map((pokeType) => {
 
+                                                        return (
+                                                            <>
+                                                                <Text style={[styles.txtstyleTYPE, { backgroundColor: "#FFBED8" }]}>{pokeType.type.name}</Text>
+                                                            </>
+                                                        )
+                                                    })
+                                                }
                                             </View>
                                         </Pressable>
                                     </>
@@ -184,12 +193,21 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 20,
         paddingVertical: 5,
-        marginVertical: 5,
+        paddingHorizontal: 5,
+        marginHorizontal: 10,
+        marginVertical: 10,
+        shadowColor: '#171717',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.4,
+        shadowRadius: 3,
+        height: 150
+    },
+    btnSearch: {
+        borderRadius: 20,
         shadowColor: '#171717',
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
-        height: 150
     },
     textStyle: {
         color: "white",
@@ -203,7 +221,7 @@ const styles = StyleSheet.create({
     },
     txtstyleNAME: {
         flex: 1,
-        fontSize: 40,
+        fontSize: 30,
         textTransform: 'capitalize',
         paddingLeft: 40,
         fontWeight: "bold",
@@ -226,5 +244,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         paddingHorizontal: 10
     },
-
+    input: {
+        padding: 10,
+        paddingVertical: 20,
+        borderRadius: 20,
+        backgroundColor: '#EEEEEE',
+    }
 });

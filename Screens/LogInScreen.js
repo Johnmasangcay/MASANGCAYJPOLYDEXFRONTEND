@@ -1,12 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button } from 'react-native';
 import polydexBg from '../assets/polydexbg.jpg'
+import UserContext from './Context/UserContext';
 
 export default function LogInScreen({ navigation }) {
 
     const [logInUsername, setLogInUsername] = useState("");
     const [logInPassword, setLogInPassword] = useState("");
+    const { currentUser, setCurrentUser } = useContext(UserContext);
 
+    const handleGetUser = async (username) => {
+        await fetch("http://192.168.12.253:5263/User/GetCurrentUser", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "Username": username,
+            })
+        })
+            .then(currentUserResp => currentUserResp.json())
+            .then(currentUserData => {
+                console.log(currentUserData)
+            })
+    }
 
     const handleLogIn = async () => {
         await fetch("http://192.168.12.253:5263/User/Login", {
@@ -23,18 +40,25 @@ export default function LogInScreen({ navigation }) {
             .then(logInData => {
                 if (logInData.token != null) {
                     Alert.alert("Hello, " + logInUsername)
+                    handleGetUser(logInUsername)
                     navigation.navigate("DashboardScreen");
                 } else {
                     Alert.alert("Wrong Username or Password, Please Enter Again")
                 }
                 console.log(logInData.token)
             })
+
     }
+
+
+    useEffect(() => {
+
+    }, [])
 
     return (
         <>
             <View style={styles.container}>
-            <View style={{ paddingTop: 180, alignItems: "center" }}>
+                <View style={{ paddingTop: 180, alignItems: "center" }}>
                     <Text style={styles.titleStyle}>Sign In To PolyDex</Text>
                 </View>
                 <View style={{ paddingTop: 10 }}>
@@ -52,7 +76,6 @@ export default function LogInScreen({ navigation }) {
                         onChangeText={setLogInPassword}
                         value={logInPassword}
                     />
-
                     <Pressable style={({ pressed }) => [styles.btn, {
                         backgroundColor: pressed ? "blue" : "skyblue",
                         opacity: pressed ? .5 : 1
