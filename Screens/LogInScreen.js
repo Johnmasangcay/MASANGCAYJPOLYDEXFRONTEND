@@ -1,55 +1,44 @@
 import { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button } from 'react-native';
 import polydexBg from '../assets/polydexbg.jpg'
+import { LogInFetch } from './Context/apiFetch';
+import { GetUserFetch } from './Context/apiFetch';
 import UserContext from './Context/UserContext';
 
 export default function LogInScreen({ navigation }) {
 
     const [logInUsername, setLogInUsername] = useState("");
     const [logInPassword, setLogInPassword] = useState("");
+    const [usernameError, SetUsernameError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [userFoundError, setUserFoundError] = useState("");
     const { currentUser, setCurrentUser } = useContext(UserContext);
 
-    const handleGetUser = async (username) => {
-        await fetch("http://192.168.12.253:5263/User/GetCurrentUser", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "Username": username,
-            })
-        })
-            .then(currentUserResp => currentUserResp.json())
-            .then(currentUserData => {
-                console.log(currentUserData)
-            })
-    }
-
     const handleLogIn = async () => {
-        await fetch("http://192.168.12.253:5263/User/Login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "Username": logInUsername,
-                "Password": logInPassword
-            })
-        })
-            .then(logInResp => logInResp.json())
-            .then(logInData => {
-                if (logInData.token != null) {
-                    Alert.alert("Hello, " + logInUsername)
-                    handleGetUser(logInUsername)
-                    navigation.navigate("DashboardScreen");
-                } else {
-                    Alert.alert("Wrong Username or Password, Please Enter Again")
-                }
-                console.log(logInData.token)
-            })
+        if (logInUsername != "") {
+            SetUsernameError("")
+        } else {
+            SetUsernameError("Please Type In A Username")
+        }
 
+        if (logInPassword != "") {
+            setPasswordError("")
+        } else {
+            setPasswordError("Please Type In A Password")
+        }
+
+        if (logInUsername != "" && logInPassword != "") {
+            const user = await LogInFetch(logInUsername, logInPassword);
+
+            if (user.token != null) {
+                setCurrentUser(await GetUserFetch(logInUsername));
+                setUserFoundError("")
+                navigation.navigate("DashboardScreen");
+            } else {
+                setUserFoundError("Username and/or Password is incorrect.");
+            }
+        }
     }
-
 
     useEffect(() => {
 
@@ -69,6 +58,7 @@ export default function LogInScreen({ navigation }) {
                         onChangeText={setLogInUsername}
                         value={logInUsername}
                     />
+                    <Text style={styles.error}>{usernameError}</Text>
                     <Text style={styles.txtStyle}>Password</Text>
                     <TextInput
                         style={styles.inputs}
@@ -76,12 +66,14 @@ export default function LogInScreen({ navigation }) {
                         onChangeText={setLogInPassword}
                         value={logInPassword}
                     />
+                    <Text style={styles.error}>{passwordError}</Text>
                     <Pressable style={({ pressed }) => [styles.btn, {
                         backgroundColor: pressed ? "blue" : "skyblue",
                         opacity: pressed ? .5 : 1
                     }]} onPress={handleLogIn}>
                         <Text style={{ color: "white", fontWeight: "bold" }}>Log In</Text>
                     </Pressable>
+                    <Text style={styles.error}>{userFoundError}</Text>
                     <Pressable style={styles.txtStyleAlreadyHaveAcc} onPress={() => navigation.navigate("CreateAccScreen")}>
                         <Text>
                             Doesn't have an account? Sign Up
@@ -126,4 +118,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         margin: 20,
     },
+    error: {
+        color: "#FC4F4F",
+        alignSelf: "center",
+
+    }
 });

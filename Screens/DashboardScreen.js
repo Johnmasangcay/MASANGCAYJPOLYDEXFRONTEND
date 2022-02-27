@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
+import { GetSelectedPokemonData } from './Context/apiFetch';
 
 export default function DashboardScreen({ navigation }) {
     let star = "★"
@@ -12,13 +13,12 @@ export default function DashboardScreen({ navigation }) {
     const [isFavPokemon, setIsFavPokemon] = useState(false);
     const [pokemons, setPokemons] = useState([]);
     const [pokeSearch, setPokeSearch] = useState("");
-    const {currentUser} = useContext(UserContext)
+    const { selectedPokemon, setSelectedPokemon } = useContext(UserContext);
 
 
     const getPokemons = async () => {
         let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=898");
         let data = await resp.json();
-        console.log(data.results);
 
         function getPokemonObjects(pokeObject) {
             pokeObject.forEach(async (pokemon) => {
@@ -36,10 +36,9 @@ export default function DashboardScreen({ navigation }) {
 
     useEffect(() => {
         getPokemons()
-        console.log(currentUser)
         setTimeout(function () {
             setIsloaded(true)
-        }, 4000)
+        }, 5000)
     }, [])
     return (
         <>
@@ -105,17 +104,20 @@ export default function DashboardScreen({ navigation }) {
                                         <Pressable style={({ pressed }) => [styles.btn, {
                                             backgroundColor: pressed ? "blue" : "#EDF6E5",
                                             opacity: pressed ? .5 : 1
-                                        }]} onPress={() => console.log(pokemonData.types)}>
+                                        }]} onPress={async () => {
+                                            setSelectedPokemon(await GetSelectedPokemonData(pokemonData.id))
+                                            navigation.navigate("PokemonInfoScreen")
+                                        }}>
                                             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
                                                 <Text style={styles.txtstyleID}>#{pokemonData.id}</Text>
                                                 <Text style={[styles.txtstyleNAME]}>{pokemonData.name}</Text>
-                                                <Text onPress={() => setIsFavPokemon(true)}style={{ fontSize: 30, paddingLeft: 10 }}>{
+                                                <Text onPress={() => setIsFavPokemon(true)} style={{ fontSize: 30, paddingLeft: 10 }}>{
                                                     isFavPokemon ? star : starThin
                                                 }</Text>
                                             </View>
                                             <View style={styles.txtstyleIMAGE}>
                                                 <Image
-                                                    source={pokemonData.sprites.front_default}
+                                                    source={{ uri: pokemonData.sprites.front_default }}
                                                     style={{
                                                         height: 100,
                                                         width: 100,
@@ -128,7 +130,7 @@ export default function DashboardScreen({ navigation }) {
 
                                                         return (
                                                             <>
-                                                                <Text style={[styles.txtstyleTYPE, { backgroundColor: "#FFBED8" }]}>{pokeType.type.name}</Text>
+                                                                <Text style={[styles.txtstyleTYPE, { backgroundColor: "#D1D1D1" }]}>{pokeType.type.name}</Text>
                                                             </>
                                                         )
                                                     })
@@ -198,7 +200,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         shadowColor: '#171717',
         shadowOffset: { width: -2, height: 4 },
-        shadowOpacity: 0.4,
+        shadowOpacity: 0.5,
         shadowRadius: 3,
         height: 150
     },
@@ -226,14 +228,14 @@ const styles = StyleSheet.create({
         paddingLeft: 40,
         fontWeight: "bold",
         color: "#233142",
-
     },
     txtstyleIMAGE: {
         flex: 1,
         paddingLeft: 330,
     },
     txtstyleTYPE: {
-        fontSize: 30,
+        fontSize: 25,
+        fontWeight: "bold",
         textTransform: 'capitalize',
         marginVertical: 20,
         marginRight: 50,
