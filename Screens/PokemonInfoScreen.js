@@ -1,34 +1,40 @@
-import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image, StatusBar } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react'
+import ProgressBar from 'react-native-progress/Bar';
 import UserContext from './Context/UserContext';
-import { GetSelectedAbility } from './Context/apiFetch';
 
 export default function PokemonInfoScreen({ navigation }) {
 
   const { selectedPokemon } = useContext(UserContext)
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedAbility, setSelectedAbility] = useState()
+  const { selectedPokemonType } = useContext(UserContext)
+  const { selectedPokemonAbility1 } = useContext(UserContext)
+  const { selectedPokemonAbility2 } = useContext(UserContext)
+  const [modalVisibleAbilities, setModalVisibleAbilities] = useState(false);
+
 
   useEffect(() => {
+    console.log(selectedPokemonAbility1)
+    console.log(selectedPokemonAbility2)
   }, [])
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
         <Text style={{ color: "black", paddingLeft: 5, fontSize: 20, fontWeight: "bold" }}>Pokemon Info</Text>
-        <Text onPress={() => navigation.navigate("DashboardScreen")} style={{ fontSize: 20, paddingLeft: 240 }}>Back</Text>
+        <Text onPress={() => navigation.navigate("DashboardScreen")} style={{ fontSize: 20, paddingLeft: 240, color: "#494953" }}>Back</Text>
       </View>
       {/* //-------------------------------PokemonInfo------------------------------------------------------- */}
-      <View style={[styles.btn, { backgroundColor: "#323232" }]}>
+      <View style={[styles.btn, { backgroundColor: "#BCE0DA" }]}>
         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-          <Text style={[styles.txtstyleSelectedNAME, { marginTop: 40 }]}>{selectedPokemon.name}</Text>
+          <Text style={[styles.txtstyleSelectedNAME, { marginTop: 40, position: "absolute" }]}>{selectedPokemon.name}</Text>
           <Image
             source={{ uri: selectedPokemon.sprites.front_default }}
             style={{
               flex: .8,
               height: 120,
               width: 120,
-              marginLeft: 20
+              marginLeft: 220,
+              Position: "relative"
             }}
           />
         </View>
@@ -48,9 +54,9 @@ export default function PokemonInfoScreen({ navigation }) {
       {/* //----------------------------ABILITIES----------------------------------------------------------------- */}
       <ScrollView>
         <View>
-          <Text style={{ color: "black", fontSize: 20, alignSelf: "center", marginTop: 30, fontWeight: "bold" }}>ABILITIES</Text>
+          <Text style={{ color: "#49495385", fontSize: 20, alignSelf: "center", marginTop: 30, fontWeight: "bold" }}>ABILITIES</Text>
         </View>
-        <View style={[styles.btnAbilities, { backgroundColor: "#323232" }]}>
+        <View style={[styles.btnAbilities, { backgroundColor: "#494953" }]}>
           <View>
             {
               selectedPokemon.abilities.map((pokeAbility) => {
@@ -58,7 +64,7 @@ export default function PokemonInfoScreen({ navigation }) {
                   <>
                     <Pressable style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
                       onPress={async () => {
-                        setSelectedAbility(await GetSelectedAbility(pokeAbility.ability.name))
+                        setModalVisibleAbilities(true)
                       }}>
                       <Text style={styles.pokemonAbilitiesTxtHidden}>{pokeAbility.ability.name}</Text>
                     </Pressable>
@@ -71,33 +77,158 @@ export default function PokemonInfoScreen({ navigation }) {
 
         {/* //----------------------------MOVES----------------------------------------------------------------- */}
         <View>
-          <Text style={{ color: "black", fontSize: 20, alignSelf: "center", marginTop: 30, fontWeight: "bold" }}>MOVES</Text>
+          <Text style={{ color: "#49495385", fontSize: 20, alignSelf: "center", marginTop: 30, fontWeight: "bold" }}>MOVES</Text>
         </View>
-        <View style={[styles.btnMoves, { backgroundColor: "#323232" }]}>
+        <View style={[styles.btnMoves, { backgroundColor: "#494953" }]}>
           <ScrollView>
             {
               selectedPokemon.moves.map((pokeMoves) => {
                 return (
                   <>
-                      <Pressable>
-                        <Text style={styles.pokemonMovesTxt}>{pokeMoves.move.name}</Text>
-                      </Pressable>
+                    <Pressable>
+                      <Text style={styles.pokemonMovesTxt}>{pokeMoves.move.name}</Text>
+                    </Pressable>
                   </>
                 )
               })
             }
           </ScrollView>
         </View>
+
+        {/* //----------------------------BASE STAT----------------------------------------------------------------- */}
+        <View>
+          <Text style={{ color: "#49495385", fontSize: 20, alignSelf: "center", marginTop: 30, fontWeight: "bold" }}>Base Stat</Text>
+        </View>
+        <View style={[styles.baseStatContainer, { backgroundColor: "#494953" }]}>
+          <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
+            <Text style={[styles.baseStatNames]}>HP</Text>
+            <ProgressBar progress={selectedPokemon.stats[0].base_stat / 100} width={300} height={25} color={"white"} />
+          </View>
+          <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
+            <Text style={[styles.baseStatNames]}>Attack</Text>
+            <ProgressBar progress={selectedPokemon.stats[1].base_stat / 100} width={300} height={25} color={"white"} />
+          </View>
+          <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
+            <Text style={[styles.baseStatNames]}>Defense</Text>
+            <ProgressBar progress={selectedPokemon.stats[2].base_stat / 100} width={300} height={25} color={"white"} />
+          </View>
+          <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
+            <Text style={[styles.baseStatNames]}>Sp. Atk</Text>
+            <ProgressBar progress={selectedPokemon.stats[3].base_stat / 100} width={300} height={25} color={"white"} />
+          </View>
+          <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
+            <Text style={[styles.baseStatNames]}>Sp. Def</Text>
+            <ProgressBar progress={selectedPokemon.stats[4].base_stat / 100} width={300} height={25} color={"white"} />
+          </View>
+          <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
+            <Text style={[styles.baseStatNames]}>Speed</Text>
+            <ProgressBar progress={selectedPokemon.stats[5].base_stat / 100} width={300} height={25} color={"white"} />
+          </View>
+        </View>
+
+        {/* //----------------------------DMG TAKEN----------------------------------------------------------------- */}
+        <View>
+          <Text style={{ color: "#49495385", fontSize: 20, alignSelf: "center", marginTop: 30, fontWeight: "bold" }}>Damage Taken</Text>
+        </View>
+        <View style={[styles.baseStatContainer, { backgroundColor: "#494953" }]}>
+          <View>
+            <Text style={{ color: "#EEEEEE", fontSize: 20, alignSelf: "center", marginTop: 20, fontWeight: "bold" }}>Weak Against..</Text>
+          </View>
+          <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 20 }}>
+            {
+              selectedPokemonType.damage_relations.double_damage_from.map((poketype) => {
+                return (
+                  <>
+                    <View>
+                      <Text style={[styles.pokeTypeDmgTaken]}>{poketype.name}</Text>
+                    </View>
+                  </>
+                )
+              })
+            }
+          </View>
+
+          <View>
+            <Text style={{ color: "#EEEEEE", fontSize: 20, alignSelf: "center", marginTop: 20, fontWeight: "bold" }}>Super Effective..</Text>
+          </View>
+          <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 20 }}>
+            {
+              selectedPokemonType.damage_relations.double_damage_to.map((poketype) => {
+                return (
+                  <>
+                    <View>
+                      <Text style={[styles.pokeTypeDmgTaken]}>{poketype.name}</Text>
+                    </View>
+                  </>
+                )
+              })
+            }
+          </View>
+
+          <View>
+            <Text style={{ color: "#EEEEEE", fontSize: 20, alignSelf: "center", marginTop: 20, fontWeight: "bold" }}>Normal Effective..</Text>
+          </View>
+          <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 20 }}>
+            {
+              selectedPokemonType.damage_relations.half_damage_to.map((poketype) => {
+                return (
+                  <>
+                    <View>
+                      <Text style={[styles.pokeTypeDmgTaken]}>{poketype.name}</Text>
+                    </View>
+                  </>
+                )
+              })
+            }
+          </View>
+
+        </View>
       </ScrollView>
-    </View>
+      <View style={[styles.btnFooter, { backgroundColor: "#BCE0DA", margin: 15 }]}>
+        <View style={{ flexDirection: "row", alignSelf: "center" }}>
+          <Text style={[styles.txtFooter]}>Add To Team</Text>
+        </View>
+      </View>
+
+      {/* //----------------------------MODALS----------------------------------------------------------------- */}
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisibleAbilities}
+          onRequestClose={() => {
+            setModalVisibleAbilities(!modalVisibleAbilities);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View>
+                <Text style={[styles.modalTxtAbiltyTitle]}>{selectedPokemonAbility1.name}</Text>
+                <Text>{selectedPokemonAbility1.effect_entries[0].effect}</Text>
+              </View>
+              <View>
+                <Text style={[styles.modalTxtAbiltyTitle]}>{selectedPokemonAbility2.name}</Text>
+                <Text>{selectedPokemonAbility2.effect_entries[1].effect}</Text>
+              </View>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisibleAbilities(!modalVisibleAbilities)}
+              >
+                <Text style={styles.textStyle}>CLOSE</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
     marginTop: 30,
+    justifyContent: "flex-start",
     backgroundColor: "#FFFEEC"
   },
   centeredView: {
@@ -108,7 +239,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "dimgrey",
+    backgroundColor: "#BCE0DA",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -121,13 +252,27 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5
   },
+  textStyle: {
+    marginTop: 20,
+    color: "#EEEEEE",
+    backgroundColor: "#494953",
+    fontWeight: "bold",
+    textAlign: "center",
+    height: 30,
+    width: 60
+  },
   btn: {
     alignItems: "center",
-    borderRadius: 20,
     paddingVertical: 5,
     paddingHorizontal: 5,
-    marginTop: 10,
     height: 180,
+    margin: 15
+  },
+  btnFooter: {
+    alignItems: "center",
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+    height: 60,
   },
   btnAbilities: {
     borderRadius: 20,
@@ -141,7 +286,16 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 5,
     marginTop: 10,
-    height: 150
+    height: 210
+  },
+  baseStatContainer: {
+    flex: 1,
+    borderRadius: 20,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+    marginVertical: 10,
+    height: 350,
+
   },
   pokemonAbilitiesTxt: {
     backgroundColor: "#EEEEEE",
@@ -159,16 +313,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     fontSize: 15,
     textAlign: "center",
+    textTransform: 'capitalize',
   },
   pokemonMovesTxt: {
     backgroundColor: "#EEEEEE",
     paddingVertical: 10,
-    paddingHorizontal: 160,
+    paddingHorizontal: 10,
     marginTop: 10,
     borderRadius: 20,
     fontSize: 15,
     textAlign: "center",
-    height: 40
   },
   txtstyleSelectedTYPE: {
     fontSize: 35,
@@ -185,6 +339,40 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     paddingLeft: 50,
     fontWeight: "bold",
-    color: "#EFEFEF"
+    color: "#323232"
   },
+  baseStatNames: {
+    backgroundColor: "#EFEFEF",
+    paddingHorizontal: 20,
+    fontSize: 12,
+    textAlign: "center",
+    color: "#323232",
+    borderRadius: 5,
+    height: 27,
+    width: 80,
+  },
+  pokeTypeDmgTaken: {
+    backgroundColor: "#EFEFEF",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    fontSize: 12,
+    textAlign: "center",
+    color: "#323232",
+    borderRadius: 5,
+    textTransform: 'capitalize',
+    fontWeight: "bold",
+  },
+  txtFooter: {
+    color: "#323232",
+    fontSize: 40,
+    fontWeight: "bold",
+    marginLeft: 20,
+  }, 
+  modalTxtAbiltyTitle: {
+    color: "#323232", 
+    fontSize: 20, 
+    alignSelf: "center", 
+    marginTop: 20, 
+    fontWeight: "bold"
+  }
 })

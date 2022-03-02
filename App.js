@@ -8,6 +8,8 @@ import DashboardScreen from './Screens/DashboardScreen';
 import CreateAccScreen from './Screens/CreateAccScreen';
 import FavoritePokemonScreen from './Screens/FavoritePokemonScreen';
 import PokemonInfoScreen from './Screens/PokemonInfoScreen';
+import MovesScreen from './Screens/MovesScreen';
+import ItemsScreen from './Screens/ItemsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,10 +18,10 @@ export default function App() {
     <UserProvider>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
-            name='DashboardScreen'
-            component={DashboardScreen}
-            options={{ headerShown: false, title: "Pokedex" }}
+        <Stack.Screen
+            name='MovesScreen'
+            component={MovesScreen}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name='LogInScreen'
@@ -32,6 +34,11 @@ export default function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
+            name='DashboardScreen'
+            component={DashboardScreen}
+            options={{ headerShown: false, title: "Pokedex" }}
+          />
+          <Stack.Screen
             name='FavoritePokemonScreen'
             component={FavoritePokemonScreen}
             options={{ headerShown: false }}
@@ -39,6 +46,12 @@ export default function App() {
           <Stack.Screen
             name='PokemonInfoScreen'
             component={PokemonInfoScreen}
+            options={{ headerShown: false }}
+          />
+          
+          <Stack.Screen
+            name='ItemsScreen'
+            component={ItemsScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

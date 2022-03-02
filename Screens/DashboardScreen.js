@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
-import { GetSelectedPokemonData } from './Context/apiFetch';
+import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2} from './Context/apiFetch';
 
 export default function DashboardScreen({ navigation }) {
     let star = "★"
@@ -14,10 +14,13 @@ export default function DashboardScreen({ navigation }) {
     const [pokemons, setPokemons] = useState([]);
     const [pokeSearch, setPokeSearch] = useState("");
     const { selectedPokemon, setSelectedPokemon } = useContext(UserContext);
+    const { selectedPokemonType, setSelectedPokemonType } = useContext(UserContext);
+    const { selectedPokemonAbility1, setSelectedPokemonAbility1 } = useContext(UserContext);
+    const { selectedPokemonAbility2, setSelectedPokemonAbility2 } = useContext(UserContext);
 
 
     const getPokemons = async () => {
-        let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=898");
+        let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=10");
         let data = await resp.json();
 
         function getPokemonObjects(pokeObject) {
@@ -104,8 +107,11 @@ export default function DashboardScreen({ navigation }) {
                                         <Pressable style={({ pressed }) => [styles.btn, {
                                             backgroundColor: pressed ? "blue" : "#EDF6E5",
                                             opacity: pressed ? .5 : 1
-                                        }]} onPress={async () => {
+                                        }]} onPress={async () => {           
                                             setSelectedPokemon(await GetSelectedPokemonData(pokemonData.id))
+                                            setSelectedPokemonType(await GetDmgTaken(pokemonData.types[0].type.name))
+                                            setSelectedPokemonAbility1(await GetSelectedAbility1(pokemonData.abilities[0].ability.name))
+                                            setSelectedPokemonAbility2(await GetSelectedAbility2(pokemonData.abilities[1].ability.name))
                                             navigation.navigate("PokemonInfoScreen")
                                         }}>
                                             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>

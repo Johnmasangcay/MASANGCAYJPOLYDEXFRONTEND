@@ -43,13 +43,32 @@ const LogInFetch = async (logInUsername, logInPassword) => {
     }
 
     // selected ability
-    const GetSelectedAbility = async (ability) => {
-        let selectedAbility;
-        let resp = await fetch(`https://pokeapi.co/api/v2/ability/${ability}`)
+    const GetSelectedAbility1 = async (ability1) => {
+        let selectedAbility1;
+        let resp = await fetch(`https://pokeapi.co/api/v2/ability/${ability1}`)
         let data = await resp.json();
         console.log(data);
-        selectedAbility = data;
-        return selectedAbility;
+        selectedAbility1 = data;
+        return selectedAbility1;
     }
 
-    export {LogInFetch, GetUserFetch, GetSelectedPokemonData, GetSelectedAbility}
+    const GetSelectedAbility2 = async (ability2) => {
+        let selectedAbility2;
+        let resp = await fetch(`https://pokeapi.co/api/v2/ability/${ability2}`)
+        let data = await resp.json();
+        console.log(data);
+        selectedAbility2 = data;
+        return selectedAbility2;
+    }
+
+    // type Dmg taken from
+    const GetDmgTaken = async (type) => {
+        let selectedType;
+        let resp = await fetch(`https://pokeapi.co/api/v2/type/${type}`)
+        let data = await resp.json();
+        console.log(data);
+        selectedType = data;
+        return selectedType;
+    }
+
+    export {LogInFetch, GetUserFetch, GetSelectedPokemonData, GetSelectedAbility1, GetSelectedAbility2, GetDmgTaken}
