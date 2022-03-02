@@ -22,7 +22,7 @@ export default function DashboardScreen({ navigation }) {
     const getPokemons = async () => {
         let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=10");
         let data = await resp.json();
-
+        
         function getPokemonObjects(pokeObject) {
             pokeObject.forEach(async (pokemon) => {
                 const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
@@ -30,6 +30,7 @@ export default function DashboardScreen({ navigation }) {
                 setPokemons(currentArr => [...currentArr, data]);
             })
         }
+        
         getPokemonObjects(data.results)
     }
 
