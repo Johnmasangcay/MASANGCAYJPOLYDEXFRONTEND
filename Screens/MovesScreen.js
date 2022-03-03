@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
-import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2 } from './Context/apiFetch';
+
 
 export default function DashboardScreen({ navigation }) {
   let star = "★"
@@ -10,28 +10,29 @@ export default function DashboardScreen({ navigation }) {
   let hamburgerMenu = "☰"
   const [isloaded, setIsloaded] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [isFavPokemon, setIsFavPokemon] = useState(false);
+  const [modalVisibleMove, setModalVisibleMove] = useState(false);
   const [moves, setMoves] = useState([]);
   const [pokeSearch, setPokeSearch] = useState("");
-  const { selectedPokemon, setSelectedPokemon } = useContext(UserContext);
-  const { selectedPokemonType, setSelectedPokemonType } = useContext(UserContext);
-  const { selectedPokemonAbility1, setSelectedPokemonAbility1 } = useContext(UserContext);
-  const { selectedPokemonAbility2, setSelectedPokemonAbility2 } = useContext(UserContext);
+  const [defaultMove, setDefaultMove] = useState()
+  const [defaultMoveDescription, setDefaultMoveDescription] = useState()
 
 
   const getPokemons = async () => {
-    let resp = await fetch("https://pokeapi.co/api/v2/move/?offset=0&limit=50");
+    let resp = await fetch("https://pokeapi.co/api/v2/move/?offset=0&limit=10");
     let data = await resp.json();
 
-    function getPokemonObjects(pokeObject) {
-      data.results.map(async (move) => {
+    function getPokemonObjects(moveObject) {
+      moveObject.forEach(async (move) => {
         const resp = await fetch(`https://pokeapi.co/api/v2/move/${move.name}`)
         const data = await resp.json();
+        console.log(data)
+        setDefaultMove(data.name)
+        setDefaultMoveDescription(data.effect_entries[0].effect)
         setMoves(currentArr => [...currentArr, data]);
       })
     }
-
-    getPokemonObjects(data)
+    console.log(moves)
+    getPokemonObjects(data.results)
   }
 
   const filterMove = moves.filter(poke => {
@@ -56,6 +57,43 @@ export default function DashboardScreen({ navigation }) {
             <Text onPress={() => navigation.navigate("FavoritePokemonScreen")} style={{ fontSize: 30, paddingLeft: 210 }}>{star}</Text>
           </View>
           <View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                    <Icon style={{ color: "gainsboro", paddingRight: 100 }} name='mobile' size={25} color="white" />
+                    <Text style={styles.modalText}>POKEDEX</Text>
+                  </View>
+                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                    <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='shield' size={25} color="white" />
+                    <Text style={styles.modalText}>MOVES</Text>
+                  </View>
+                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                    <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
+                    <Text style={styles.modalText}>ITEMS</Text>
+                  </View>
+                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                    <Icon style={{ color: "gainsboro", paddingRight: 50 }} name='user' size={25} color="white" />
+                    <Text style={styles.modalText}>TEAM BUILDER</Text>
+                  </View>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
+                    <Text style={styles.textStyle}>Hide Modal</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
+          </View>
+          <View>
             <TextInput
               placeholder="🔍 What Pokemon Are You Looking For?"
               style={styles.input}
@@ -78,6 +116,9 @@ export default function DashboardScreen({ navigation }) {
                       backgroundColor: pressed ? "blue" : "#EDF6E5",
                       opacity: pressed ? .5 : 1
                     }]} onPress={async () => {
+                      setDefaultMove(moveData.name)
+                      setDefaultMoveDescription(moveData.effect_entries[0].effect)
+                      setModalVisibleMove(true)
                       console.log(moveData)
                     }}>
                       <View style={{ flexDirection: "column", alignSelf: "flex-start" }}>
@@ -97,6 +138,29 @@ export default function DashboardScreen({ navigation }) {
                 )
               })
             }
+            <View>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisibleMove}
+                onRequestClose={() => {
+                  setModalVisibleMove(!modalVisibleMove);
+                }}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Text style={[styles.modalTxtAbiltyTitle]}>{defaultMove}</Text>
+                    <Text>{defaultMoveDescription}</Text>
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => setModalVisibleMove(!modalVisibleMove)}
+                    >
+                      <Text style={styles.textStyle}>CLOSE</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </Modal>
+            </View>
           </ScrollView>
         </View>
       }
@@ -120,7 +184,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "dimgrey",
+    backgroundColor: "#EDF6E5",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -133,11 +197,19 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5
   },
+  modalTxtAbiltyTitle: {
+    color: "#323232", 
+    fontSize: 20, 
+    alignSelf: "center", 
+    marginVertical: 20, 
+    fontWeight: "bold"
+  },
   modalText: {
     marginBottom: 25,
     textAlign: "left",
     fontSize: 20,
-    color: "gainsboro"
+    color: "gainsboro",
+    textTransform: 'capitalize',
   },
   buttonClose: {
     backgroundColor: "#2196F3",
@@ -145,6 +217,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
+    marginTop: 20,
     elevation: 2
   },
   btn: {
@@ -168,9 +241,9 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   textStyle: {
-    color: "white",
+    color: "#EEEEEE",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center", 
   },
   txtstyleID: {
     fontSize: 15,
