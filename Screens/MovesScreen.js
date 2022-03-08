@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image, FlatList } from 'react-native';
 import UserContext from './Context/UserContext';
 
 
@@ -18,7 +18,7 @@ export default function DashboardScreen({ navigation }) {
 
 
   const getPokemons = async () => {
-    let resp = await fetch("https://pokeapi.co/api/v2/move/?offset=0&limit=10");
+    let resp = await fetch("https://pokeapi.co/api/v2/move/?offset=0&limit=30");
     let data = await resp.json();
 
     function getPokemonObjects(moveObject) {
@@ -54,7 +54,6 @@ export default function DashboardScreen({ navigation }) {
           <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
             <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
             <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>MoveDex</Text>
-            <Text onPress={() => navigation.navigate("FavoritePokemonScreen")} style={{ fontSize: 30, paddingLeft: 210 }}>{star}</Text>
           </View>
           <View>
             <Modal
@@ -67,22 +66,61 @@ export default function DashboardScreen({ navigation }) {
             >
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                    <Icon style={{ color: "gainsboro", paddingRight: 100 }} name='mobile' size={25} color="white" />
-                    <Text style={styles.modalText}>POKEDEX</Text>
-                  </View>
-                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                    <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='shield' size={25} color="white" />
-                    <Text style={styles.modalText}>MOVES</Text>
-                  </View>
-                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                    <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
-                    <Text style={styles.modalText}>ITEMS</Text>
-                  </View>
-                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                    <Icon style={{ color: "gainsboro", paddingRight: 50 }} name='user' size={25} color="white" />
-                    <Text style={styles.modalText}>TEAM BUILDER</Text>
-                  </View>
+                  <Pressable onPress={() => {
+                    navigation.navigate("DashboardScreen")
+                    setModalVisible(!modalVisible)
+                  }
+                  }>
+                    <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                      <Icon style={{ color: "gainsboro", paddingRight: 100 }} name='mobile' size={25} color="white" />
+                      <Text style={styles.modalText}>POKEDEX</Text>
+                    </View>
+                  </Pressable>
+
+                  <Pressable onPress={() => {
+                    navigation.navigate("MovesScreen")
+                    setModalVisible(!modalVisible)
+                  }
+                  }>
+                    <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                      <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='shield' size={25} color="white" />
+                      <Text style={styles.modalText}>MOVES</Text>
+                    </View>
+                  </Pressable>
+
+                  <Pressable onPress={() => {
+                    navigation.navigate("ItemsScreen")
+                    setModalVisible(!modalVisible)
+                  }
+                  }>
+                    <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                      <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
+                      <Text style={styles.modalText}>ITEMS</Text>
+                    </View>
+                  </Pressable>
+
+                  <Pressable onPress={() => {
+                    navigation.navigate("NatureScreen")
+                    setModalVisible(!modalVisible)
+                  }
+                  }>
+                    <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                      <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
+                      <Text style={styles.modalText}>NATURE</Text>
+                    </View>
+                  </Pressable>
+
+                  <Pressable onPress={() => {
+                    navigation.navigate("TeambuilderScreen")
+                    setModalVisible(!modalVisible)
+                  }
+                  }>
+                    <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                      <Icon style={{ color: "gainsboro", paddingRight: 50 }} name='user' size={25} color="white" />
+                      <Text style={styles.modalText}>TEAM BUILDER</Text>
+                    </View>
+                  </Pressable>
+                  
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
                     onPress={() => setModalVisible(!modalVisible)}
@@ -109,34 +147,37 @@ export default function DashboardScreen({ navigation }) {
 
           <ScrollView style={{ paddingBottom: 20 }}>
             {
-              filterMove.map((moveData, keyx) => {
-                return (
-                  <>
-                    <Pressable style={({ pressed }) => [styles.btn, {
-                      backgroundColor: pressed ? "blue" : "#EDF6E5",
-                      opacity: pressed ? .5 : 1
-                    }]} onPress={async () => {
-                      setDefaultMove(moveData.name)
-                      setDefaultMoveDescription(moveData.effect_entries[0].effect)
-                      setModalVisibleMove(true)
-                      console.log(moveData)
-                    }}>
-                      <View style={{ flexDirection: "column", alignSelf: "flex-start" }}>
-                        <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-                          <Text style={[styles.txtstyleNAMEMove]}>{moveData.name}</Text>
-                          <Text style={[styles.txtstylePower]}>{moveData.power}</Text>
-                          <Text style={[styles.txtstylePP]}>{moveData.pp}</Text>
-                          <Text style={[styles.txtstylePP]}>{moveData.accuracy}</Text>
+              <FlatList
+                data={filterMove}
+                renderItem={({ item }) => {
+                  return (
+                    <>
+                      <Pressable style={({ pressed }) => [styles.btn, {
+                        backgroundColor: pressed ? "blue" : "#EDF6E5",
+                        opacity: pressed ? .5 : 1
+                      }]} onPress={async () => {
+                        setDefaultMove(item.name)
+                        setDefaultMoveDescription(item.effect_entries[0].effect)
+                        setModalVisibleMove(true)
+                        console.log(item)
+                      }}>
+                        <View style={{ flexDirection: "column", alignSelf: "flex-start" }}>
+                          <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+                            <Text style={[styles.txtstyleNAMEMove]}>{item.name}</Text>
+                            <Text style={[styles.txtstylePower]}>{item.power}</Text>
+                            <Text style={[styles.txtstylePP]}>{item.pp}</Text>
+                            <Text style={[styles.txtstylePP]}>{item.accuracy}</Text>
+                          </View>
+                          <View style={{ flexDirection: "row" }}>
+                            <Text style={[styles.txtstyleTYPE, { width: 250 }]}>{item.type.name}</Text>
+                            <Text style={[styles.txtstyleStatus, { width: 120 }]}>{item.damage_class.name}</Text>
+                          </View>
                         </View>
-                        <View style={{ flexDirection: "row" }}>
-                          <Text style={[styles.txtstyleTYPE, { width: 250 }]}>{moveData.type.name}</Text>
-                          <Text style={[styles.txtstyleStatus, { width: 120 }]}>{moveData.damage_class.name}</Text>
-                        </View>
-                      </View>
-                    </Pressable>
-                  </>
-                )
-              })
+                      </Pressable>
+                    </>
+                  )
+                }}
+              />
             }
             <View>
               <Modal
@@ -184,7 +225,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "#EDF6E5",
+    backgroundColor: "dimgrey",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -198,10 +239,10 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   modalTxtAbiltyTitle: {
-    color: "#323232", 
-    fontSize: 20, 
-    alignSelf: "center", 
-    marginVertical: 20, 
+    color: "#323232",
+    fontSize: 20,
+    alignSelf: "center",
+    marginVertical: 20,
     fontWeight: "bold"
   },
   modalText: {
@@ -243,7 +284,7 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "#EEEEEE",
     fontWeight: "bold",
-    textAlign: "center", 
+    textAlign: "center",
   },
   txtstyleID: {
     fontSize: 15,

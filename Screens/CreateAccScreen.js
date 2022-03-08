@@ -1,38 +1,28 @@
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button } from 'react-native';
 import React, { useState } from 'react'
+import { signingUpNewUser, GetNewUserData, GetUserIntoFav } from "./Context/apiFetch";
+import UserContext from './Context/UserContext';
 
 export default function CreateAccScreen({ navigation }) {
     const [createUserName, setCreateUserName] = useState("");
     const [createPassword, setCreatePassword] = useState("");
+    const [createId, setCreateId] = useState(0);
 
 
     const handleCreateNewAccount = async () => {
-        await fetch("http://192.168.12.253:5263/User/AddUser", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "Id": 0,
-                "Username": createUserName,
-                "Password": createPassword
-            })
-        })
-            .then(resp => resp.json())
-            .then(data => {
-                if (createUserName == "" || createPassword == "") {
-                    Alert.alert("Please Enter in all fields");
-                } else {
-                    if (data == true) {
-                        Alert.alert("Success please Log In");
-                        navigation.navigate("LogInScreen");
-                    } else {
-                        Alert.alert("Username has already exist!")
-                    }
-                }
-                console.log(data)
-            })
+        if (createUserName != "" && createPassword != "") {
+            const newuser = await signingUpNewUser(createUserName, createPassword, createId) 
+            const newuserData = await GetNewUserData(createUserName) 
+            if (newuser == true) {
+                await GetUserIntoFav(newuserData)
+                Alert.alert("Success please Log In");
+                navigation.navigate("LogInScreen");
+            } else {
+                Alert.alert("Username has already exist!")
+            }
+        }
     }
+
 
     return (
         <>

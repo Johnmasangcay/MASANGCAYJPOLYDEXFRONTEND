@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
-import UserContext from './Context/UserContext';
-import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, UpdateFavPokemon } from './Context/apiFetch';
 
 export default function DashboardScreen({ navigation }) {
     let star = "★"
@@ -10,45 +8,36 @@ export default function DashboardScreen({ navigation }) {
     let hamburgerMenu = "☰"
     const [isloaded, setIsloaded] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
-    const [isFavPokemon, setIsFavPokemon] = useState(false);
-    const [pokemons, setPokemons] = useState([]);
+    const [nature, setNature] = useState([]);
     const [pokeSearch, setPokeSearch] = useState("");
-    const [getUserId, setGetUserId] = useState(0)
-    const { currentUser } = useContext(UserContext)
-    const { selectedPokemon, setSelectedPokemon } = useContext(UserContext);
-    const { selectedPokemonType, setSelectedPokemonType } = useContext(UserContext);
-    const { selectedPokemonAbility1, setSelectedPokemonAbility1 } = useContext(UserContext);
-    const { selectedPokemonAbility2, setSelectedPokemonAbility2 } = useContext(UserContext);
-    const { usersFavData, setUsersFavData } = useContext(UserContext);
 
 
-    const getPokemons = async () => {
-        let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=10");
+
+    const getNature = async () => {
+        let resp = await fetch("https://pokeapi.co/api/v2/nature?offset=0&limit=25");
         let data = await resp.json();
-        console.log(data)
+
         function getPokemonObjects(pokeObject) {
-            pokeObject.forEach(async (pokemon) => {
-                const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
+            pokeObject.forEach(async (nature) => {
+                const resp = await fetch(`https://pokeapi.co/api/v2/nature/${nature.name}`)
                 const data = await resp.json();
-                setPokemons(currentArr => [...currentArr, data]);
+                setNature(currentArr => [...currentArr, data]);
             })
         }
 
         getPokemonObjects(data.results)
     }
 
-    const filterPokemon = pokemons.filter(poke => {
-        return poke.name.toLowerCase().includes(pokeSearch.toLowerCase())
+    const filterPokemon = nature.filter(natures => {
+        return natures.name.toLowerCase().includes(pokeSearch.toLowerCase())
     })
 
-    useEffect(async () => {
-        getPokemons()
-        setGetUserId(currentUser[0].id)
+    useEffect(() => {
+        getNature()
         setTimeout(function () {
             setIsloaded(true)
         }, 5000)
     }, [])
-
     return (
         <>
             {!isloaded ?
@@ -58,10 +47,6 @@ export default function DashboardScreen({ navigation }) {
                     <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
                         <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
                         <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>PokeDex</Text>
-                        <Text onPress={async () => {
-                            navigation.navigate("FavoritePokemonScreen")
-                            setUsersFavData(await GetFavPokemonByUser(getUserId))
-                        }} style={{ fontSize: 30, paddingLeft: 210 }}>{star}</Text>
                     </View>
                     <View>
                         <Modal
@@ -74,7 +59,7 @@ export default function DashboardScreen({ navigation }) {
                         >
                             <View style={styles.centeredView}>
                                 <View style={styles.modalView}>
-                                    <Pressable onPress={() => {
+                                <Pressable onPress={() => {
                                         navigation.navigate("DashboardScreen")
                                         setModalVisible(!modalVisible)
                                     }
@@ -128,7 +113,6 @@ export default function DashboardScreen({ navigation }) {
                                             <Text style={styles.modalText}>TEAM BUILDER</Text>
                                         </View>
                                     </Pressable>
-
                                     <Pressable
                                         style={[styles.button, styles.buttonClose]}
                                         onPress={() => setModalVisible(!modalVisible)}
@@ -149,57 +133,23 @@ export default function DashboardScreen({ navigation }) {
 
                     <ScrollView style={{ paddingBottom: 20 }}>
                         {
-                            filterPokemon.map((pokemonData, keyx) => {
+                            filterPokemon.map((natureData, keyx) => {
                                 return (
                                     <>
                                         <Pressable style={({ pressed }) => [styles.btn, {
                                             backgroundColor: pressed ? "blue" : "#EDF6E5",
                                             opacity: pressed ? .5 : 1
-                                        }]} onPress={async () => {
-                                            setSelectedPokemon(await GetSelectedPokemonData(pokemonData.id))
-                                            setSelectedPokemonType(await GetDmgTaken(pokemonData.types[0].type.name))
-                                            setSelectedPokemonAbility1(await GetSelectedAbility1(pokemonData.abilities[0].ability.name))
-                                            setSelectedPokemonAbility2(await GetSelectedAbility2(pokemonData.abilities[1].ability.name))
-                                            console.log(pokemonData.name)
-                                            navigation.navigate("PokemonInfoScreen")
-                                        }}>
+                                        }]}>
                                             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-                                                <Text style={styles.txtstyleID}>#{pokemonData.id}</Text>
-                                                <Text style={[styles.txtstyleNAME]}>{pokemonData.name}</Text>
-                                                <Pressable style={({ pressed }) => [{
-                                                    backgroundColor: pressed ? "blue" : "#EDF6E5",
-                                                    opacity: pressed ? .5 : 1
-                                                }]} onPress={async () => {
-                                                    setIsFavPokemon(true)
-                                                    setUsersFavData(await GetFavPokemonByUser(getUserId, pokemonData.name))
-                                                    await UpdateFavPokemon()
-                                                    console.log(await UpdateFavPokemon())
-                                                }}>
-                                                    <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-                                                        <Text style={{ fontSize: 40, paddingLeft: 10 }}>fav</Text>
-                                                    </View>
-                                                </Pressable>
+                                                <Text OnPress={console.log(natureData)} style={[styles.txtstyleNAME]}>{natureData.name}</Text>
                                             </View>
-                                            <View style={styles.txtstyleIMAGE}>
-                                                <Image
-                                                    source={{ uri: pokemonData.sprites.front_default }}
-                                                    style={{
-                                                        height: 100,
-                                                        width: 100,
-                                                    }}
-                                                />
+                                            <View style={[{flexDirection: "row", marginBottom: 5}]}>
+                                                    <Text style={styles.increasedStatText}>Increased</Text>
+                                                    <Text>Decreased</Text>
                                             </View>
-                                            <View style={{ flexDirection: "row", padding: 5 }}>
-                                                {
-                                                    pokemonData.types.map((pokeType) => {
-
-                                                        return (
-                                                            <>
-                                                                <Text style={[styles.txtstyleTYPE, { backgroundColor: "#D1D1D1" }]}>{pokeType.type.name}</Text>
-                                                            </>
-                                                        )
-                                                    })
-                                                }
+                                            <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+                                                <Text style={[styles.natureIncreaseTextStyle, { width: 190, alignItems: "center" }]}>{natureData.increased_stat == null ? "-" : natureData.increased_stat.name}</Text>
+                                                <Text style={[styles.natureIncreaseTextStyle, { width: 190, alignItems: "center" }]}>{natureData.decreased_stat == null ? "-" : natureData.decreased_stat.name}</Text>
                                             </View>
                                         </Pressable>
                                     </>
@@ -267,7 +217,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.5,
         shadowRadius: 3,
-        height: 150
+        height: 100
     },
     btnSearch: {
         borderRadius: 20,
@@ -290,13 +240,13 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 30,
         textTransform: 'capitalize',
-        paddingLeft: 40,
+        paddingLeft: 150,
         fontWeight: "bold",
         color: "#233142",
     },
     txtstyleIMAGE: {
         flex: 1,
-        paddingLeft: 300,
+        paddingLeft: 330,
     },
     txtstyleTYPE: {
         fontSize: 25,
@@ -316,5 +266,17 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         borderRadius: 20,
         backgroundColor: '#EEEEEE',
+    },
+    natureIncreaseTextStyle: {
+        fontSize: 20,
+        backgroundColor: "#9DDCDC",
+        height: 40,
+        borderRadius: 20,
+        textTransform: 'capitalize',
+        paddingLeft: 50
+    },
+    increasedStatText: {
+        marginRight: 130,
+        color: "#323232"
     }
 });

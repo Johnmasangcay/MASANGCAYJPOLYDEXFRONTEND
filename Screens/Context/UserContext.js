@@ -8,6 +8,12 @@ export const UserProvider = ({ children }) => {
         FirstName: null,
         LastName: null
     });
+    const [newUser, setNewUser] = useState({
+        newUsername: null,
+        newUsernameId: null,
+        newUsernameFirstName: null,
+        newUsernameLastName: null
+    });
     const [selectedPokemon, setSelectedPokemon] = useState({
         PokemonName: null
     })
@@ -20,11 +26,15 @@ export const UserProvider = ({ children }) => {
     const [selectedPokemonAbility2, setSelectedPokemonAbility2] = useState({
         PokemonAbility2: null
     })
+    const [usersFavData, setUsersFavData] = useState({
+        FavData: null
+    })
     return (
         <>
             <UserContext.Provider value={{
                 currentUser, setCurrentUser, selectedPokemon, setSelectedPokemon, selectedPokemonType, setSelectedPokemonType,
-                selectedPokemonAbility1, setSelectedPokemonAbility1, selectedPokemonAbility2, setSelectedPokemonAbility2
+                selectedPokemonAbility1, setSelectedPokemonAbility1, selectedPokemonAbility2, setSelectedPokemonAbility2,
+                usersFavData, setUsersFavData
             }}>
                 {children}
             </UserContext.Provider>

@@ -40,10 +40,6 @@ export default function LogInScreen({ navigation }) {
         }
     }
 
-    useEffect(() => {
-
-    }, [])
-
     return (
         <>
             <View style={styles.container}>
