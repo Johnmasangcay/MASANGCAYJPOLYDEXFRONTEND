@@ -2,13 +2,16 @@ import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, Imag
 import React, { useState, useEffect, useContext } from 'react'
 import ProgressBar from 'react-native-progress/Bar';
 import UserContext from './Context/UserContext';
+import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon } from './Context/apiFetch';
 
 export default function FavoritePokemonScreen({ navigation }) {
-  const { usersFavData } = useContext(UserContext);
+  const { usersFavData, setUsersFavData } = useContext(UserContext);
   const [pokemons, setPokemons] = useState([]);
+  const [getUserId, setGetUserId] = useState(0)
+  const { currentUser } = useContext(UserContext)
 
   const getFavPokemon = async () => {
-    Object.keys(usersFavData[0]).forEach(async (pokemon) => {
+    Object.keys(usersFavData).forEach(async (pokemon) => {
       const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
       const data = await resp.json();
       setPokemons(currentArr => [...currentArr, data])
@@ -17,7 +20,8 @@ export default function FavoritePokemonScreen({ navigation }) {
 
   useEffect(async () => {
     getFavPokemon()
-    console.log(pokemons)
+    setGetUserId(currentUser[0].id)
+    console.log(usersFavData)
   }, [])
 
 
@@ -47,8 +51,6 @@ export default function FavoritePokemonScreen({ navigation }) {
                       opacity: pressed ? .5 : 1
                     }]} onPress={async () => {
                       setUsersFavData(await GetFavPokemonByUser(getUserId, pokemon.name))
-                      await UpdateFavPokemon()
-                      console.log(await UpdateFavPokemon())
                     }}>
                       <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
                         <Text style={{ fontSize: 40, paddingLeft: 10 }}>fav</Text>

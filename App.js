@@ -12,6 +12,7 @@ import MovesScreen from './Screens/MovesScreen';
 import ItemsScreen from './Screens/ItemsScreen';
 import NatureScreen from './Screens/NatureScreen';
 import TeambuilderScreen from './Screens/TeambuilderScreen';
+import CreateTeamScreen from './Screens/CreateTeamScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -64,6 +65,11 @@ export default function App() {
           <Stack.Screen
             name='TeambuilderScreen'
             component={TeambuilderScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='CreateTeamScreen'
+            component={CreateTeamScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

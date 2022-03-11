@@ -1,11 +1,17 @@
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button } from 'react-native';
 import React, { useState } from 'react'
-import { signingUpNewUser, GetNewUserData, GetUserIntoFav } from "./Context/apiFetch";
+import { signingUpNewUser, GetNewUserData, GetUserIntoFav, GetUserIntoTeamBuilder } from "./Context/apiFetch";
 import UserContext from './Context/UserContext';
 
 export default function CreateAccScreen({ navigation }) {
     const [createUserName, setCreateUserName] = useState("");
     const [createPassword, setCreatePassword] = useState("");
+    const [poke1, setPoke1] = useState("");
+    const [poke2, setPoke2] = useState("");
+    const [poke3, setPoke3] = useState("");
+    const [poke4, setPoke4] = useState("");
+    const [poke5, setPoke5] = useState("");
+    const [poke6, setPoke6] = useState("");
     const [createId, setCreateId] = useState(0);
 
 
@@ -15,6 +21,7 @@ export default function CreateAccScreen({ navigation }) {
             const newuserData = await GetNewUserData(createUserName) 
             if (newuser == true) {
                 await GetUserIntoFav(newuserData)
+                await GetUserIntoTeamBuilder(newuserData)
                 Alert.alert("Success please Log In");
                 navigation.navigate("LogInScreen");
             } else {

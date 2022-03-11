@@ -29,12 +29,17 @@ export const UserProvider = ({ children }) => {
     const [usersFavData, setUsersFavData] = useState({
         FavData: null
     })
+    const [usersTeam, setUsersTeam] = useState({
+        userTeam: null
+    })
+    const [route, setRoute] = useState("PokemonInfoScreen")
+    const [teambuilderToDash, setTeambuilderToDash] = useState(false)
     return (
         <>
             <UserContext.Provider value={{
                 currentUser, setCurrentUser, selectedPokemon, setSelectedPokemon, selectedPokemonType, setSelectedPokemonType,
                 selectedPokemonAbility1, setSelectedPokemonAbility1, selectedPokemonAbility2, setSelectedPokemonAbility2,
-                usersFavData, setUsersFavData
+                usersFavData, setUsersFavData, usersTeam, setUsersTeam, route, setRoute, teambuilderToDash, setTeambuilderToDash
             }}>
                 {children}
             </UserContext.Provider>

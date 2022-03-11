@@ -10,6 +10,7 @@ export default function PokemonInfoScreen({ navigation }) {
   const { selectedPokemonAbility1 } = useContext(UserContext)
   const { selectedPokemonAbility2 } = useContext(UserContext)
   const [modalVisibleAbilities, setModalVisibleAbilities] = useState(false);
+  const [addButtonTerna, setAddButtonTerna] = useState(false)
 
 
   useEffect(() => {

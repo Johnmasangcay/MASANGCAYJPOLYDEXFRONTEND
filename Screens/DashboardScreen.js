@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
-import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, UpdateFavPokemon } from './Context/apiFetch';
+import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon } from './Context/apiFetch';
 
 export default function DashboardScreen({ navigation }) {
     let star = "★"
@@ -20,6 +20,9 @@ export default function DashboardScreen({ navigation }) {
     const { selectedPokemonAbility1, setSelectedPokemonAbility1 } = useContext(UserContext);
     const { selectedPokemonAbility2, setSelectedPokemonAbility2 } = useContext(UserContext);
     const { usersFavData, setUsersFavData } = useContext(UserContext);
+    const { usersTeam, setUsersTeam } = useContext(UserContext);
+    const { route, setRoute } = useContext(UserContext);
+    const { teambuilderToDash, setTeambuilderToDash } = useContext(UserContext);
 
 
     const getPokemons = async () => {
@@ -33,7 +36,6 @@ export default function DashboardScreen({ navigation }) {
                 setPokemons(currentArr => [...currentArr, data]);
             })
         }
-
         getPokemonObjects(data.results)
     }
 
@@ -55,14 +57,23 @@ export default function DashboardScreen({ navigation }) {
                 <ActivityIndicator style={{ flex: 1, backgroundColor: "#FFFEEC" }} size={"large"} color={"blue"} />
                 :
                 <View style={styles.container}>
-                    <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
-                        <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
-                        <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>PokeDex</Text>
-                        <Text onPress={async () => {
-                            navigation.navigate("FavoritePokemonScreen")
-                            setUsersFavData(await GetFavPokemonByUser(getUserId))
-                        }} style={{ fontSize: 30, paddingLeft: 210 }}>{star}</Text>
-                    </View>
+                    {
+                        teambuilderToDash ?
+                            <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
+                                <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>Select A Pokemon</Text>
+                                <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>Back</Text>
+                            </View>
+                            :
+                            <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
+                                <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
+                                <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>PokeDex</Text>
+                                <Text onPress={async () => {
+                                    navigation.navigate("FavoritePokemonScreen")
+                                    setUsersFavData(await GetFavPokemonByUser(getUserId))
+                                }} style={{ fontSize: 30, paddingLeft: 210 }}>{star}</Text>
+                            </View>
+                    }
+
                     <View>
                         <Modal
                             animationType="slide"
@@ -118,9 +129,10 @@ export default function DashboardScreen({ navigation }) {
                                         </View>
                                     </Pressable>
 
-                                    <Pressable onPress={() => {
-                                        navigation.navigate("TeambuilderScreen")
+                                    <Pressable onPress={async () => {
+                                        setUsersTeam(await GetUserTeam(getUserId))
                                         setModalVisible(!modalVisible)
+                                        navigation.navigate("TeambuilderScreen")
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
@@ -161,7 +173,7 @@ export default function DashboardScreen({ navigation }) {
                                             setSelectedPokemonAbility1(await GetSelectedAbility1(pokemonData.abilities[0].ability.name))
                                             setSelectedPokemonAbility2(await GetSelectedAbility2(pokemonData.abilities[1].ability.name))
                                             console.log(pokemonData.name)
-                                            navigation.navigate("PokemonInfoScreen")
+                                            navigation.navigate(route)
                                         }}>
                                             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
                                                 <Text style={styles.txtstyleID}>#{pokemonData.id}</Text>
@@ -172,8 +184,7 @@ export default function DashboardScreen({ navigation }) {
                                                 }]} onPress={async () => {
                                                     setIsFavPokemon(true)
                                                     setUsersFavData(await GetFavPokemonByUser(getUserId, pokemonData.name))
-                                                    await UpdateFavPokemon()
-                                                    console.log(await UpdateFavPokemon())
+                                                    // await UpdateFavPokemon(getUserId)
                                                 }}>
                                                     <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
                                                         <Text style={{ fontSize: 40, paddingLeft: 10 }}>fav</Text>
