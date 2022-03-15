@@ -6,166 +6,186 @@ import UserContext from './Context/UserContext';
 export default function TeamBuilderScreen({ navigation }) {
   let hamburgerMenu = "☰"
   const [modalVisible, setModalVisible] = useState(false);
+  const [pokemons, setPokemons] = useState([]);
+  const [pokemons2, setPokemons2] = useState([]);
+  const [UsersTeamName, setUsersTeamName] = useState();
+  const [isloaded, setIsloaded] = useState(false);
   const { usersTeam } = useContext(UserContext);
+  const { selectedTeam, setSelectedTeam } = useContext(UserContext);
+
+  const getPokeInfo = async () => {
+    let test = []
+    usersTeam.map(async (poke, i) => {
+      let pokemon = Object.entries(poke).map(x => {
+        return x[1]
+      }).filter((y, i) => {
+        if (i > 2) {
+          return y;
+        }
+      })
+      console.log(pokemon)
+      let pokemonDataArr = [];
+      pokemon.map(async (n, i) => {
+        const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon[i]}`)
+        const data = await resp.json();
+        pokemonDataArr.push(data)
+      })
+      test.push(pokemonDataArr)
+    })
+    setPokemons([...test])
+    console.log(test)
+  }
+
 
   useEffect(async () => {
-    console.log(await usersTeam)
+    getPokeInfo()
+    console.log(usersTeam)
+
+    setTimeout(function () {
+      setIsloaded(true)
+    }, 5000)
   }, [])
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
-        <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
-          <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
-          <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>TeamBuilder</Text>
-          <Text onPress={() => navigation.navigate("CreateTeamScreen")} style={{ color: "black", paddingLeft: 180, fontSize: 30 }}>+</Text>
-        </View>
+      {!isloaded ?
+        <ActivityIndicator style={{ flex: 1, backgroundColor: "#FFFEEC" }} size={"large"} color={"blue"} />
+        :
+        <SafeAreaView style={styles.container}>
+          <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
+            <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
+            <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>TeamBuilder</Text>
+            <Text onPress={() => navigation.navigate("CreateTeamScreen")} style={{ color: "black", paddingLeft: 180, fontSize: 30 }}>+</Text>
+          </View>
 
-        <View>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Pressable onPress={() => {
-                  navigation.navigate("DashboardScreen")
-                  setModalVisible(!modalVisible)
-                }
-                }>
-                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                    <Icon style={{ color: "gainsboro", paddingRight: 100 }} name='mobile' size={25} color="white" />
-                    <Text style={styles.modalText}>POKEDEX</Text>
-                  </View>
-                </Pressable>
+          <View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Pressable onPress={() => {
+                    navigation.navigate("DashboardScreen")
+                    setModalVisible(!modalVisible)
+                  }
+                  }>
+                    <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                      <Icon style={{ color: "gainsboro", paddingRight: 100 }} name='mobile' size={25} color="white" />
+                      <Text style={styles.modalText}>POKEDEX</Text>
+                    </View>
+                  </Pressable>
 
-                <Pressable onPress={() => {
-                  navigation.navigate("MovesScreen")
-                  setModalVisible(!modalVisible)
-                }
-                }>
-                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                    <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='shield' size={25} color="white" />
-                    <Text style={styles.modalText}>MOVES</Text>
-                  </View>
-                </Pressable>
+                  <Pressable onPress={() => {
+                    navigation.navigate("MovesScreen")
+                    setModalVisible(!modalVisible)
+                  }
+                  }>
+                    <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                      <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='shield' size={25} color="white" />
+                      <Text style={styles.modalText}>MOVES</Text>
+                    </View>
+                  </Pressable>
 
-                <Pressable onPress={() => {
-                  navigation.navigate("ItemsScreen")
-                  setModalVisible(!modalVisible)
-                }
-                }>
-                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                    <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
-                    <Text style={styles.modalText}>ITEMS</Text>
-                  </View>
-                </Pressable>
+                  <Pressable onPress={() => {
+                    navigation.navigate("ItemsScreen")
+                    setModalVisible(!modalVisible)
+                  }
+                  }>
+                    <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                      <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
+                      <Text style={styles.modalText}>ITEMS</Text>
+                    </View>
+                  </Pressable>
 
-                <Pressable onPress={() => {
-                  navigation.navigate("NatureScreen")
-                  setModalVisible(!modalVisible)
-                }
-                }>
-                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                    <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
-                    <Text style={styles.modalText}>NATURE</Text>
-                  </View>
-                </Pressable>
+                  <Pressable onPress={() => {
+                    navigation.navigate("NatureScreen")
+                    setModalVisible(!modalVisible)
+                  }
+                  }>
+                    <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                      <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
+                      <Text style={styles.modalText}>NATURE</Text>
+                    </View>
+                  </Pressable>
 
-                <Pressable onPress={() => {
-                  navigation.navigate("TeambuilderScreen")
-                  setModalVisible(!modalVisible)
-                }
-                }>
-                  <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                    <Icon style={{ color: "gainsboro", paddingRight: 50 }} name='user' size={25} color="white" />
-                    <Text style={styles.modalText}>TEAM BUILDER</Text>
-                  </View>
-                </Pressable>
+                  <Pressable onPress={() => {
+                    navigation.navigate("TeambuilderScreen")
+                    setModalVisible(!modalVisible)
+                  }
+                  }>
+                    <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                      <Icon style={{ color: "gainsboro", paddingRight: 50 }} name='user' size={25} color="white" />
+                      <Text style={styles.modalText}>TEAM BUILDER</Text>
+                    </View>
+                  </Pressable>
 
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Text style={styles.textStyle}>Hide Modal</Text>
-                </Pressable>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
+                    <Text style={styles.textStyle}>Hide Modal</Text>
+                  </Pressable>
+                </View>
               </View>
-            </View>
-          </Modal>
-        </View>
+            </Modal>
+          </View>
 
-
-        <ScrollView>
-          {
-            usersTeam.map(poke => {
-              return (
-                <>
-                  <View style={[styles.btn]}>
-                    <Text style={[styles.teamNameStyle]}>{poke.teamname}</Text>
-                    <View style={{ flexDirection: "row" }}>
-                      <View>
+          
+          <ScrollView>
+            {
+              pokemons.map(pokemon => {
+                console.log(pokemon)
+                return (
+                  <>
+                    <View style={[styles.btn]}>
+                      <SafeAreaView>
                         <Pressable style={({ pressed }) => [styles.btnSelection, {
-                          backgroundColor: pressed ? "blue" : "#494953",
                           opacity: pressed ? .5 : 1
-                        }]}>
-                          <Text onPress={console.log(poke)}>{poke.pokemon1}</Text>
+                        }]} onPress={() => {
+                          navigation.navigate("TeamViewer")
+                          setSelectedTeam(pokemon)
+                          console.log(pokemon)
+                        }}>
+                          {
+                            pokemon.map(poke => {
+                              return (
+                                <>
+                                <View>
+                                  {
+                                    
+                                  }
+                                </View>
+                                  <SafeAreaView>
+                                    <SafeAreaView style={[styles.imgStyle]}>
+                                      <Image
+                                        source={{ uri: poke.sprites.front_default }}
+                                        style={{
+                                          height: 100,
+                                          width: 100,
+                                        }}
+                                      />
+                                    </SafeAreaView>
+                                    <Text style={[styles.pokeName]}>{poke.name}</Text>
+                                  </SafeAreaView>
+                                </>
+                              )
+                            })
+                          }
                         </Pressable>
-                      </View>
-                      <View>
-                        <Pressable style={({ pressed }) => [styles.btnSelection, {
-                          backgroundColor: pressed ? "blue" : "#494953",
-                          opacity: pressed ? .5 : 1
-                        }]}>
-                          <Text>{poke.pokemon2}</Text>
-                        </Pressable>
-                      </View>
-                      <View>
-                        <Pressable style={({ pressed }) => [styles.btnSelection, {
-                          backgroundColor: pressed ? "blue" : "#494953",
-                          opacity: pressed ? .5 : 1
-                        }]}>
-                          <Text>{poke.pokemon3}</Text>
-                        </Pressable>
-                      </View>
+                      </SafeAreaView>
                     </View>
-                    <View style={{ flexDirection: "row" }}>
-                      <View>
-                        <Pressable style={({ pressed }) => [styles.btnSelection, {
-                          backgroundColor: pressed ? "blue" : "#494953",
-                          opacity: pressed ? .5 : 1
-                        }]}>
-                          <Text>{poke.pokemon4}</Text>
-                        </Pressable>
-                      </View>
-                      <View>
-                        <Pressable style={({ pressed }) => [styles.btnSelection, {
-                          backgroundColor: pressed ? "blue" : "#494953",
-                          opacity: pressed ? .5 : 1
-                        }]}>
-                          <Text>{poke.pokemon5}</Text>
-                        </Pressable>
-                      </View>
-                      <View>
-                        <Pressable style={({ pressed }) => [styles.btnSelection, {
-                          backgroundColor: pressed ? "blue" : "#494953",
-                          opacity: pressed ? .5 : 1
-                        }]}>
-                          <Text>{poke.pokemon6}</Text>
-                        </Pressable>
-                      </View>
-                    </View>
-                  </View>
-
-                </>
-              )
-            })
-          }
-        </ScrollView>
-      </SafeAreaView>
+                  </>
+                )
+              })
+            }
+          </ScrollView>
+        </SafeAreaView>
+      }
     </>
   )
 }
@@ -188,8 +208,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.5,
     shadowRadius: 3,
-    height: 460,
-    backgroundColor: "#EDF6E5",
+    height: 360,
+    backgroundColor: "#D1D1D1",
+    flexDirection: "row",
+    maxWidth: 460
   },
   teamNameStyle: {
     fontSize: 30,
@@ -197,18 +219,22 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   btnSelection: {
+    flex: 1,
+    flexWrap: "wrap",
     marginHorizontal: 5,
     marginVertical: 10,
-    height: 180,
-    width: 115,
+    height: 130,
+    width: 215,
+    justifyContent: "space-around",
+    paddingLeft: 20
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
-},
-modalView: {
+  },
+  modalView: {
     margin: 20,
     backgroundColor: "dimgrey",
     borderRadius: 20,
@@ -216,11 +242,29 @@ modalView: {
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
-        width: 0,
-        height: 2
+      width: 0,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5
-},
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  imgStyle: {
+    paddingLeft: 10,
+  },
+  pokeName: {
+    fontSize: 20,
+    textTransform: 'capitalize',
+    fontWeight: "bold",
+    alignSelf: "center",
+    height: 48,
+  }
 });

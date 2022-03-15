@@ -16,17 +16,18 @@ export default function DashboardScreen({ navigation }) {
     const [getUserId, setGetUserId] = useState(0)
     const { currentUser } = useContext(UserContext)
     const { selectedPokemon, setSelectedPokemon } = useContext(UserContext);
+    const { selectedPokemon2, setSelectedPokemon2 } = useContext(UserContext);
     const { selectedPokemonType, setSelectedPokemonType } = useContext(UserContext);
     const { selectedPokemonAbility1, setSelectedPokemonAbility1 } = useContext(UserContext);
     const { selectedPokemonAbility2, setSelectedPokemonAbility2 } = useContext(UserContext);
     const { usersFavData, setUsersFavData } = useContext(UserContext);
     const { usersTeam, setUsersTeam } = useContext(UserContext);
     const { route, setRoute } = useContext(UserContext);
-    const { teambuilderToDash, setTeambuilderToDash } = useContext(UserContext);
+    const { createTeamToDash, setCreateTeamToDash } = useContext(UserContext);
 
 
     const getPokemons = async () => {
-        let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=10");
+        let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=15");
         let data = await resp.json();
         console.log(data)
         function getPokemonObjects(pokeObject) {
@@ -58,10 +59,10 @@ export default function DashboardScreen({ navigation }) {
                 :
                 <View style={styles.container}>
                     {
-                        teambuilderToDash ?
+                        createTeamToDash ?
                             <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
-                                <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>Select A Pokemon</Text>
-                                <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>Back</Text>
+                                <Text style={{ color: "black", paddingLeft: 5, fontSize: 20, fontWeight: "bold" }}>Select A Pokemon</Text>
+                                <Text onPress={() => setModalVisible(true)} style={{ fontSize: 20, paddingLeft: 200 }}>Back</Text>
                             </View>
                             :
                             <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
@@ -169,9 +170,11 @@ export default function DashboardScreen({ navigation }) {
                                             opacity: pressed ? .5 : 1
                                         }]} onPress={async () => {
                                             setSelectedPokemon(await GetSelectedPokemonData(pokemonData.id))
+                                            setSelectedPokemon2(await GetSelectedPokemonData(pokemonData.id))
                                             setSelectedPokemonType(await GetDmgTaken(pokemonData.types[0].type.name))
                                             setSelectedPokemonAbility1(await GetSelectedAbility1(pokemonData.abilities[0].ability.name))
                                             setSelectedPokemonAbility2(await GetSelectedAbility2(pokemonData.abilities[1].ability.name))
+                                            setCreateTeamToDash(false)
                                             console.log(pokemonData.name)
                                             navigation.navigate(route)
                                         }}>

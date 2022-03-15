@@ -1009,7 +1009,7 @@ const GetFavPokemonByUser = async (getUserId, pokeName) => {
     let getFavByUser;
     let resp = await fetch(`http://192.168.12.253:5263/FavoritePokemon/FavoritePokemonbyUser/${getUserId}`)
     let data = await resp.json()
-    if(data[0][pokeName] == false) {
+    if (data[0][pokeName] == false) {
         data[0][pokeName] = true;
     } else {
         data[0][pokeName] = false;
@@ -1045,7 +1045,7 @@ const UpdateFavPokemon = async (getUserId) => {
 }
 
 // ---------------- get the users a default team.
-const GetUserIntoTeamBuilder = async (newuserData) => {
+const GetUserIntoTeamBuilder = async (getUserId) => {
     let GetUserIntoTeam;
     await fetch("http://192.168.12.253:5263/TeamBuilder/AddTeams", {
         method: "POST",
@@ -1054,7 +1054,7 @@ const GetUserIntoTeamBuilder = async (newuserData) => {
         },
         body: JSON.stringify({
             "Id": 0,
-            "UserId": newuserData[0].id,
+            "UserId": getUserId[0].id,
             "Pokemon1": "",
             "Pokemon2": "",
             "Pokemon3": "",
@@ -1070,13 +1070,40 @@ const GetUserIntoTeamBuilder = async (newuserData) => {
 }
 
 // get users team info
-const GetUserTeam = async (newuserData) => {
+const GetUserTeam = async (getUserId) => {
     let userTeam;
-    let resp = await fetch(`http://192.168.12.253:5263/TeamBuilder/GetTeamByUser/${newuserData}`)
+    let resp = await fetch(`http://192.168.12.253:5263/TeamBuilder/GetTeamByUser/${getUserId}`)
     let data = await resp.json();
     userTeam = data;
     console.log(userTeam);
     return userTeam;
+}
+
+// users can add new teams.
+const UsersNewAddedTeam = async (getUserId, selectedPokemon, selectedPokemon2) => {
+    let usersNewAddedTeam;
+    await fetch("http://192.168.12.253:5263/TeamBuilder/AddTeams", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "Id": 0,
+            "UserId": getUserId,
+            "Teamname": "",
+            "Pokemon1": selectedPokemon,
+            "Pokemon2": selectedPokemon2,
+            "Pokemon3": "",
+            "Pokemon4": "",
+            "Pokemon5": "",
+            "Pokemon6": ""
+        })
+    })
+        .then(resp => resp.json())
+        .then(data => usersNewAddedTeam = data)
+        .catch(console.error)
+    console.log(usersNewAddedTeam)
+    return usersNewAddedTeam;
 }
 
 
@@ -1999,5 +2026,5 @@ const GetUserIntoFav = async (newuserData) => {
 
 export {
     LogInFetch, GetUserFetch, GetSelectedPokemonData, GetSelectedAbility1, GetSelectedAbility2, GetDmgTaken, signingUpNewUser, GetUserIntoFav, GetNewUserData, GetFavPokemonByUser,
-    GetUserIntoTeamBuilder, GetUserTeam
+    GetUserIntoTeamBuilder, GetUserTeam, UsersNewAddedTeam
 }
