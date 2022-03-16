@@ -14,6 +14,7 @@ import NatureScreen from './Screens/NatureScreen';
 import TeambuilderScreen from './Screens/TeambuilderScreen';
 import CreateTeamScreen from './Screens/CreateTeamScreen'
 import TeamViewer from './Screens/TeamViewer';
+import SelectedPokemonTV from './Screens/selectedPokemonTV';
 
 const Stack = createNativeStackNavigator();
 
@@ -76,6 +77,10 @@ export default function App() {
           <Stack.Screen
             name='TeamViewer'
             component={TeamViewer}
+          />
+          <Stack.Screen
+            name='SelectedPokemonTV'
+            component={SelectedPokemonTV}
           />
         </Stack.Navigator>
       </NavigationContainer>

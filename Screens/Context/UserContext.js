@@ -50,6 +50,8 @@ export const UserProvider = ({ children }) => {
     const [route, setRoute] = useState("PokemonInfoScreen")
     const [createTeamToDash, setCreateTeamToDash] = useState(false)
     const [selectedTeam, setSelectedTeam] = useState({selectedTeam: null})
+    const [selectedPokemonTeamViewer, setSelectedPokemonTeamViewer] = useState({selectedPokemonTeamViewer: null})
+    const [condPokemon, setCondPokemon] = useState("poke1")
     return (
         <>
             <UserContext.Provider value={{
@@ -57,7 +59,8 @@ export const UserProvider = ({ children }) => {
                 selectedPokemonAbility1, setSelectedPokemonAbility1, selectedPokemonAbility2, setSelectedPokemonAbility2,
                 usersFavData, setUsersFavData, usersTeam, setUsersTeam, route, setRoute, createTeamToDash, setCreateTeamToDash,
                 selectedPokemon2, setSelectedPokemon2, selectedPokemon3, setSelectedPokemon3, selectedPokemon4, setSelectedPokemon4,
-                selectedPokemon5, setSelectedPokemon5, selectedPokemon6, setSelectedPokemon6, selectedTeam, setSelectedTeam
+                selectedPokemon5, setSelectedPokemon5, selectedPokemon6, setSelectedPokemon6, selectedTeam, setSelectedTeam,
+                selectedPokemonTeamViewer, setSelectedPokemonTeamViewer, condPokemon, setCondPokemon
                             }}>
                 {children}
             </UserContext.Provider>

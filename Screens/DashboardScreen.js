@@ -17,6 +17,10 @@ export default function DashboardScreen({ navigation }) {
     const { currentUser } = useContext(UserContext)
     const { selectedPokemon, setSelectedPokemon } = useContext(UserContext);
     const { selectedPokemon2, setSelectedPokemon2 } = useContext(UserContext);
+    const { selectedPokemon3, setSelectedPokemon3 } = useContext(UserContext);
+    const { selectedPokemon4, setSelectedPokemon4 } = useContext(UserContext);
+    const { selectedPokemon5, setSelectedPokemon5 } = useContext(UserContext);
+    const { selectedPokemon6, setSelectedPokemon6 } = useContext(UserContext);
     const { selectedPokemonType, setSelectedPokemonType } = useContext(UserContext);
     const { selectedPokemonAbility1, setSelectedPokemonAbility1 } = useContext(UserContext);
     const { selectedPokemonAbility2, setSelectedPokemonAbility2 } = useContext(UserContext);
@@ -24,6 +28,7 @@ export default function DashboardScreen({ navigation }) {
     const { usersTeam, setUsersTeam } = useContext(UserContext);
     const { route, setRoute } = useContext(UserContext);
     const { createTeamToDash, setCreateTeamToDash } = useContext(UserContext);
+    const { condPokemon, setCondPokemon } = useContext(UserContext);
 
 
     const getPokemons = async () => {
@@ -43,6 +48,10 @@ export default function DashboardScreen({ navigation }) {
     const filterPokemon = pokemons.filter(poke => {
         return poke.name.toLowerCase().includes(pokeSearch.toLowerCase())
     })
+
+
+
+
 
     useEffect(async () => {
         getPokemons()
@@ -169,8 +178,19 @@ export default function DashboardScreen({ navigation }) {
                                             backgroundColor: pressed ? "blue" : "#EDF6E5",
                                             opacity: pressed ? .5 : 1
                                         }]} onPress={async () => {
-                                            setSelectedPokemon(await GetSelectedPokemonData(pokemonData.id))
-                                            setSelectedPokemon2(await GetSelectedPokemonData(pokemonData.id))
+                                            if (condPokemon == "poke1") {
+                                                setSelectedPokemon(await GetSelectedPokemonData(pokemonData.id))
+                                            } else if (condPokemon == "poke2") {
+                                                setSelectedPokemon2(await GetSelectedPokemonData(pokemonData.id))
+                                            } else if (condPokemon == "poke3") {
+                                                setSelectedPokemon3(await GetSelectedPokemonData(pokemonData.id))
+                                            } else if (condPokemon == "poke4") {
+                                                setSelectedPokemon4(await GetSelectedPokemonData(pokemonData.id))
+                                            } else if (condPokemon == "poke5") {
+                                                setSelectedPokemon5(await GetSelectedPokemonData(pokemonData.id))
+                                            } else if (condPokemon == "poke6") {
+                                                setSelectedPokemon6(await GetSelectedPokemonData(pokemonData.id))
+                                            }
                                             setSelectedPokemonType(await GetDmgTaken(pokemonData.types[0].type.name))
                                             setSelectedPokemonAbility1(await GetSelectedAbility1(pokemonData.abilities[0].ability.name))
                                             setSelectedPokemonAbility2(await GetSelectedAbility2(pokemonData.abilities[1].ability.name))
@@ -190,7 +210,7 @@ export default function DashboardScreen({ navigation }) {
                                                     // await UpdateFavPokemon(getUserId)
                                                 }}>
                                                     <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-                                                        <Text style={{ fontSize: 40, paddingLeft: 10 }}>fav</Text>
+                                                        <Text style={{ fontSize: 40, paddingLeft: 10 }}>{starThin}</Text>
                                                     </View>
                                                 </Pressable>
                                             </View>

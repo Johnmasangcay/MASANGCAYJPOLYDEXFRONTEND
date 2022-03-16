@@ -182,14 +182,13 @@ export default function PokemonInfoScreen({ navigation }) {
               })
             }
           </View>
-
         </View>
       </ScrollView>
-      <View style={[styles.btnFooter, { backgroundColor: "#BCE0DA", margin: 15 }]}>
+      {/* <View style={[styles.btnFooter, { backgroundColor: "#BCE0DA", margin: 15 }]}>
         <View style={{ flexDirection: "row", alignSelf: "center" }}>
           <Text style={[styles.txtFooter]}>Add To Team</Text>
         </View>
-      </View>
+      </View> */}
 
       {/* //----------------------------MODALS----------------------------------------------------------------- */}
       <View>

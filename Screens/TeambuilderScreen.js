@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
+import { GetSelectedPokemonData, GetDmgTaken } from './Context/apiFetch';
 
 export default function TeamBuilderScreen({ navigation }) {
   let hamburgerMenu = "☰"
@@ -12,9 +13,11 @@ export default function TeamBuilderScreen({ navigation }) {
   const [isloaded, setIsloaded] = useState(false);
   const { usersTeam } = useContext(UserContext);
   const { selectedTeam, setSelectedTeam } = useContext(UserContext);
+  const { selectedPokemonType, setSelectedPokemonType } = useContext(UserContext);
 
   const getPokeInfo = async () => {
     let test = []
+    console.log(usersTeam)
     usersTeam.map(async (poke, i) => {
       let pokemon = Object.entries(poke).map(x => {
         return x[1]
@@ -23,24 +26,36 @@ export default function TeamBuilderScreen({ navigation }) {
           return y;
         }
       })
-      console.log(pokemon)
+      
       let pokemonDataArr = [];
       pokemon.map(async (n, i) => {
         const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon[i]}`)
         const data = await resp.json();
         pokemonDataArr.push(data)
+        console.log(pokemonDataArr)
       })
       test.push(pokemonDataArr)
     })
+    // let pokemonDataId = [];
+    // usersTeam.map(async (pokeId) => {
+    //  let pokemonId = Object.entries(pokeId).map(n => {
+    //    return n[1]
+    //  }).filter((m, i) => {
+    //    if(i < 1) {
+    //      return m;
+    //    }
+    //  })
+    //  console.log(pokemonId)
+    //  test.push(pokemonId)
+    // })
+
     setPokemons([...test])
     console.log(test)
   }
 
-
   useEffect(async () => {
     getPokeInfo()
     console.log(usersTeam)
-
     setTimeout(function () {
       setIsloaded(true)
     }, 5000)
@@ -135,7 +150,7 @@ export default function TeamBuilderScreen({ navigation }) {
             </Modal>
           </View>
 
-          
+
           <ScrollView>
             {
               pokemons.map(pokemon => {
@@ -146,20 +161,16 @@ export default function TeamBuilderScreen({ navigation }) {
                       <SafeAreaView>
                         <Pressable style={({ pressed }) => [styles.btnSelection, {
                           opacity: pressed ? .5 : 1
-                        }]} onPress={() => {
-                          navigation.navigate("TeamViewer")
+                        }]} onPress={async () => {
                           setSelectedTeam(pokemon)
-                          console.log(pokemon)
+                          setSelectedPokemonType(await GetDmgTaken(pokemon[0].types[0].type.name))
+                          console.log(pokemon[0].types[0].type.name)
+                          navigation.navigate("TeamViewer")
                         }}>
                           {
                             pokemon.map(poke => {
                               return (
                                 <>
-                                <View>
-                                  {
-                                    
-                                  }
-                                </View>
                                   <SafeAreaView>
                                     <SafeAreaView style={[styles.imgStyle]}>
                                       <Image
