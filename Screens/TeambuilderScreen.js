@@ -14,11 +14,18 @@ export default function TeamBuilderScreen({ navigation }) {
   const { usersTeam } = useContext(UserContext);
   const { selectedTeam, setSelectedTeam } = useContext(UserContext);
   const { selectedPokemonType, setSelectedPokemonType } = useContext(UserContext);
+  const { teamPokemon2Type, setTeamPokemon2Type } = useContext(UserContext);
+  const { teamPokemon3Type, setTeamPokemon3Type } = useState(UserContext);
+  const { teamPokemon4Type, setTeamPokemon4Type } = useState(UserContext);
+  const { teamPokemon5Type, setTeamPokemon5Type } = useState(UserContext);
+  const { teamPokemon6Type, setTeamPokemon6Type } = useState(UserContext);
 
   const getPokeInfo = async () => {
     let test = []
+    let teamIds = []
     console.log(usersTeam)
     usersTeam.map(async (poke, i) => {
+      teamIds.push({ "teamId": poke.id })
       let pokemon = Object.entries(poke).map(x => {
         return x[1]
       }).filter((y, i) => {
@@ -26,7 +33,7 @@ export default function TeamBuilderScreen({ navigation }) {
           return y;
         }
       })
-      
+
       let pokemonDataArr = [];
       pokemon.map(async (n, i) => {
         const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon[i]}`)
@@ -36,19 +43,6 @@ export default function TeamBuilderScreen({ navigation }) {
       })
       test.push(pokemonDataArr)
     })
-    // let pokemonDataId = [];
-    // usersTeam.map(async (pokeId) => {
-    //  let pokemonId = Object.entries(pokeId).map(n => {
-    //    return n[1]
-    //  }).filter((m, i) => {
-    //    if(i < 1) {
-    //      return m;
-    //    }
-    //  })
-    //  console.log(pokemonId)
-    //  test.push(pokemonId)
-    // })
-
     setPokemons([...test])
     console.log(test)
   }
@@ -151,9 +145,9 @@ export default function TeamBuilderScreen({ navigation }) {
           </View>
 
 
-          <ScrollView>
+          <ScrollView onPress={console.log(pokemons)}>
             {
-              pokemons.map(pokemon => {
+              pokemons.map((pokemon, i) => {
                 console.log(pokemon)
                 return (
                   <>
@@ -164,7 +158,8 @@ export default function TeamBuilderScreen({ navigation }) {
                         }]} onPress={async () => {
                           setSelectedTeam(pokemon)
                           setSelectedPokemonType(await GetDmgTaken(pokemon[0].types[0].type.name))
-                          console.log(pokemon[0].types[0].type.name)
+                          console.log(pokemon.length)
+                          pokemon.map(type => { console.log(type) })
                           navigation.navigate("TeamViewer")
                         }}>
                           {

@@ -1080,7 +1080,7 @@ const GetUserTeam = async (getUserId) => {
 }
 
 // users can add new teams.
-const UsersNewAddedTeam = async (getUserId, selectedPokemon, selectedPokemon2) => {
+const UsersNewAddedTeam = async (getUserId, selectedPokemon, selectedPokemon2, selectedPokemon3, selectedPokemon4, selectedPokemon5, selectedPokemon6) => {
     let usersNewAddedTeam;
     await fetch("http://192.168.12.253:5263/TeamBuilder/AddTeams", {
         method: "POST",
@@ -1093,10 +1093,10 @@ const UsersNewAddedTeam = async (getUserId, selectedPokemon, selectedPokemon2) =
             "Teamname": "",
             "Pokemon1": selectedPokemon,
             "Pokemon2": selectedPokemon2,
-            "Pokemon3": "",
-            "Pokemon4": "",
-            "Pokemon5": "",
-            "Pokemon6": ""
+            "Pokemon3": selectedPokemon3,
+            "Pokemon4": selectedPokemon4,
+            "Pokemon5": selectedPokemon5,
+            "Pokemon6": selectedPokemon6
         })
     })
         .then(resp => resp.json())

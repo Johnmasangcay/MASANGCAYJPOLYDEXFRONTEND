@@ -14,7 +14,7 @@ import NatureScreen from './Screens/NatureScreen';
 import TeambuilderScreen from './Screens/TeambuilderScreen';
 import CreateTeamScreen from './Screens/CreateTeamScreen'
 import TeamViewer from './Screens/TeamViewer';
-import SelectedPokemonTV from './Screens/selectedPokemonTV';
+import SelectedPokemonTV from './Screens/SelectedPokemonTV';
 
 const Stack = createNativeStackNavigator();
 

@@ -328,7 +328,7 @@ export default function CreateTeamScreen({ navigation }) {
                     <Pressable
                         style={[styles.button, styles.buttonClose]}
                         onPress={async () => {
-                            await UsersNewAddedTeam(getUserId, selectedPokemon.name, selectedPokemon2.name)
+                            await UsersNewAddedTeam(getUserId, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
                             navigation.navigate("TeambuilderScreen")
                             setCreateTeamToDash(false)
                         }}

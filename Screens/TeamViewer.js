@@ -10,6 +10,11 @@ export default function TeamViewer({ navigation }) {
     const { selectedTeam } = useContext(UserContext);
     const { selectedPokemonType } = useContext(UserContext)
     const { selectedPokemonTeamViewer, setSelectedPokemonTeamViewer } = useContext(UserContext)
+    const { teamPokemon2Type } = useContext(UserContext);
+    const { teamPokemon3Type } = useContext(UserContext);
+    const { teamPokemon4Type } = useContext(UserContext);
+    const { teamPokemon5Type } = useContext(UserContext);
+    const { teamPokemon6Type } = useContext(UserContext);
 
     useEffect(async () => {
         console.log(selectedTeam)
@@ -19,8 +24,6 @@ export default function TeamViewer({ navigation }) {
     return (
         <>
             <ScrollView>
-
-
                 <SafeAreaView style={styles.container}>
                     <View style={[styles.containerBtn]} >
                         <View style={[styles.EditBtn]}>
@@ -115,29 +118,19 @@ export default function TeamViewer({ navigation }) {
                         </View>
                     </View>
 
-
-                    <View style={[styles.dmgTakenContainer, { backgroundColor: "#D1D1D1", marginTop: 40 }]}>
+                    <View>
+                        <Text style={[styles.dmgTitle, { marginTop: 30 }]}>Type Relations</Text>
+                    </View>
+                    <View style={[styles.dmgTakenContainer, { backgroundColor: "#D1D1D1", marginTop: 10 }]}>
                         <View>
-                            <Text style={[styles.dmgTitle]}>Weak Against..</Text>
-                        </View>
-                        <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 10, flex: 1, flexWrap: "wrap", paddingLeft: 15 }}>
-                            {
-                                selectedPokemonType.damage_relations.double_damage_from.map((poketype) => {
-                                    return (
-                                        <>
-                                            <View>
-                                                <Text style={[styles.pokeTypeDmgTaken]}>{poketype.name}</Text>
-                                            </View>
-                                        </>
-                                    )
-                                })
-                            }
+                            <Text style={[styles.descriptionTxt]}>Based on the types of the Pokemon in your party, you have super effective (x2) damage inflicting types of moves of your pokemon against the following types:</Text>
                         </View>
 
                         <View>
-                            <Text style={[styles.dmgTitle]}>Super Effective..</Text>
+                            <Text style={[styles.dmgTitle, { marginTop: 10 }]}>Resistant Against..</Text>
                         </View>
-                        <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 10, flex: 1, flexWrap: "wrap", paddingLeft: 15 }}>
+
+                        <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 10, flexWrap: "wrap", paddingLeft: 15 }}>
                             {
                                 selectedPokemonType.damage_relations.double_damage_to.map((poketype) => {
                                     return (
@@ -150,13 +143,28 @@ export default function TeamViewer({ navigation }) {
                                 })
                             }
                         </View>
-
+                        <View style={{ flexDirection: "row", marginLeft: 20, flexWrap: "wrap", paddingLeft: 15 }}>
+                            {
+                                selectedPokemonType.damage_relations.half_damage_to.map((poketype) => {
+                                    return (
+                                        <>
+                                            <View>
+                                                <Text style={[styles.pokeTypeDmgTaken]}>{poketype.name}</Text>
+                                            </View>
+                                        </>
+                                    )
+                                })
+                            }
+                        </View>
+                        <View style={{ flexDirection: "row", marginLeft: 20, flexWrap: "wrap", paddingLeft: 15, flex: .5 }}>
+                            <Text style={{fontSize: 10, marginLeft: 25, fontWeight: "bold"}}>Highest positive value indicates more moves affecting this types.</Text>
+                        </View>
                         <View>
-                            <Text style={[styles.dmgTitle]}>Normal Effective..</Text>
+                            <Text style={{fontSize: 15, marginLeft: 15, fontWeight: "bold"}}>You do not have enough coverage against the following types:</Text>
                         </View>
                         <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 10, flex: 1, flexWrap: "wrap", paddingLeft: 15 }}>
                             {
-                                selectedPokemonType.damage_relations.half_damage_to.map((poketype) => {
+                                selectedPokemonType.damage_relations.double_damage_from.map((poketype) => {
                                     return (
                                         <>
                                             <View>
@@ -282,7 +290,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 5,
         marginVertical: 10,
-        height: 480,
+        height: 400,
     },
     baseStatNames: {
         backgroundColor: "#9D9D9D",
@@ -305,4 +313,10 @@ const styles = StyleSheet.create({
         textTransform: 'capitalize',
         fontWeight: "bold",
     },
+    descriptionTxt: {
+        fontSize: 12,
+        textAlign: "center",
+        marginTop: 10,
+        marginHorizontal: 40
+    }
 })
