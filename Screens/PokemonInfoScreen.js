@@ -135,7 +135,7 @@ export default function PokemonInfoScreen({ navigation }) {
           <View>
             <Text style={{ color: "#EEEEEE", fontSize: 20, alignSelf: "center", marginTop: 20, fontWeight: "bold" }}>Weak Against..</Text>
           </View>
-          <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 20 }}>
+          <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 20, flexWrap: "wrap" }}>
             {
               selectedPokemonType.damage_relations.double_damage_from.map((poketype) => {
                 return (
@@ -152,7 +152,7 @@ export default function PokemonInfoScreen({ navigation }) {
           <View>
             <Text style={{ color: "#EEEEEE", fontSize: 20, alignSelf: "center", marginTop: 20, fontWeight: "bold" }}>Super Effective..</Text>
           </View>
-          <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 20 }}>
+          <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 20, flexWrap: "wrap" }}>
             {
               selectedPokemonType.damage_relations.double_damage_to.map((poketype) => {
                 return (
@@ -169,7 +169,7 @@ export default function PokemonInfoScreen({ navigation }) {
           <View>
             <Text style={{ color: "#EEEEEE", fontSize: 20, alignSelf: "center", marginTop: 20, fontWeight: "bold" }}>Normal Effective..</Text>
           </View>
-          <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 20 }}>
+          <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 20, flexWrap: "wrap" }}>
             {
               selectedPokemonType.damage_relations.half_damage_to.map((poketype) => {
                 return (
@@ -184,11 +184,6 @@ export default function PokemonInfoScreen({ navigation }) {
           </View>
         </View>
       </ScrollView>
-      {/* <View style={[styles.btnFooter, { backgroundColor: "#BCE0DA", margin: 15 }]}>
-        <View style={{ flexDirection: "row", alignSelf: "center" }}>
-          <Text style={[styles.txtFooter]}>Add To Team</Text>
-        </View>
-      </View> */}
 
       {/* //----------------------------MODALS----------------------------------------------------------------- */}
       <View>

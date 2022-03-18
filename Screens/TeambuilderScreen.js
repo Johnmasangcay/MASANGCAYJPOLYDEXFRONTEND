@@ -22,10 +22,8 @@ export default function TeamBuilderScreen({ navigation }) {
 
   const getPokeInfo = async () => {
     let test = []
-    let teamIds = []
-    console.log(usersTeam)
     usersTeam.map(async (poke, i) => {
-      teamIds.push({ "teamId": poke.id })
+      console.log(poke)
       let pokemon = Object.entries(poke).map(x => {
         return x[1]
       }).filter((y, i) => {
@@ -38,8 +36,7 @@ export default function TeamBuilderScreen({ navigation }) {
       pokemon.map(async (n, i) => {
         const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon[i]}`)
         const data = await resp.json();
-        pokemonDataArr.push(data)
-        console.log(pokemonDataArr)
+        pokemonDataArr.push({ ...data, "teamId": poke.id, "teamName": poke.teamname })
       })
       test.push(pokemonDataArr)
     })
@@ -49,7 +46,6 @@ export default function TeamBuilderScreen({ navigation }) {
 
   useEffect(async () => {
     getPokeInfo()
-    console.log(usersTeam)
     setTimeout(function () {
       setIsloaded(true)
     }, 5000)
@@ -145,10 +141,9 @@ export default function TeamBuilderScreen({ navigation }) {
           </View>
 
 
-          <ScrollView onPress={console.log(pokemons)}>
+          <ScrollView>
             {
               pokemons.map((pokemon, i) => {
-                console.log(pokemon)
                 return (
                   <>
                     <View style={[styles.btn]}>
@@ -158,7 +153,6 @@ export default function TeamBuilderScreen({ navigation }) {
                         }]} onPress={async () => {
                           setSelectedTeam(pokemon)
                           setSelectedPokemonType(await GetDmgTaken(pokemon[0].types[0].type.name))
-                          console.log(pokemon.length)
                           pokemon.map(type => { console.log(type) })
                           navigation.navigate("TeamViewer")
                         }}>
@@ -272,5 +266,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     height: 48,
-  }
+  },
+  modalText: {
+    marginBottom: 25,
+    textAlign: "left",
+    fontSize: 20,
+    color: "gainsboro"
+  },
 });

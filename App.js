@@ -82,6 +82,7 @@ export default function App() {
             name='SelectedPokemonTV'
             component={SelectedPokemonTV}
           />
+
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>

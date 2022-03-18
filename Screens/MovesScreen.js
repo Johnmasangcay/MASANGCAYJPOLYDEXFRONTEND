@@ -15,7 +15,6 @@ export default function DashboardScreen({ navigation }) {
   const [pokeSearch, setPokeSearch] = useState("");
   const [defaultMove, setDefaultMove] = useState()
   const [defaultMoveDescription, setDefaultMoveDescription] = useState()
-
   const { condMove, setCondMove } = useContext(UserContext)
   const { routeForSelectedPokeToMove, setRouteForSelectedPokeToMove } = useContext(UserContext)
   const { selectedPokeToMove, setSelectedPokeToMove } = useContext(UserContext)
@@ -86,12 +85,23 @@ export default function DashboardScreen({ navigation }) {
                   </Pressable>
 
                   <Pressable onPress={() => {
+                    navigation.navigate("DashboardScreen")
+                    setModalVisible(!modalVisible)
+                  }
+                  }>
+                    <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                      <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='mobile' size={25} color="white" />
+                      <Text style={styles.modalText}>POKEDEX</Text>
+                    </View>
+                  </Pressable>
+
+                  <Pressable onPress={() => {
                     navigation.navigate("MovesScreen")
                     setModalVisible(!modalVisible)
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='shield' size={25} color="white" />
+                      <Icon style={{ color: "gainsboro", paddingRight: 130 }} name='shield' size={25} color="white" />
                       <Text style={styles.modalText}>MOVES</Text>
                     </View>
                   </Pressable>
@@ -102,7 +112,7 @@ export default function DashboardScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
+                      <Icon style={{ color: "gainsboro", paddingRight: 135 }} name='book' size={25} color="white" />
                       <Text style={styles.modalText}>ITEMS</Text>
                     </View>
                   </Pressable>
@@ -124,7 +134,7 @@ export default function DashboardScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 50 }} name='user' size={25} color="white" />
+                      <Icon style={{ color: "gainsboro", paddingRight: 70 }} name='user' size={25} color="white" />
                       <Text style={styles.modalText}>TEAM BUILDER</Text>
                     </View>
                   </Pressable>
@@ -276,7 +286,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "dimgrey",
+    backgroundColor: "#9D9D9D",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",

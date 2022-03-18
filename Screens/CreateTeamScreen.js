@@ -143,7 +143,6 @@ export default function CreateTeamScreen({ navigation }) {
                                                 </View>
                                                 <Text style={[styles.pokeName]}>{selectedPokemon.name}</Text>
                                             </View>
-
                                             :
                                             <Text style={[styles.plusIcon]}>+</Text>
                                     }
@@ -313,7 +312,6 @@ export default function CreateTeamScreen({ navigation }) {
                                                 </View>
                                                 <Text style={[styles.pokeName]}>{selectedPokemon6.name}</Text>
                                             </View>
-
                                             :
                                             <Text style={[styles.plusIcon]}>+</Text>
                                     }
@@ -321,15 +319,14 @@ export default function CreateTeamScreen({ navigation }) {
                             </Pressable>
                         </View>
                     </View>
-
                 </View>
 
                 <View>
                     <Pressable
                         style={[styles.button, styles.buttonClose]}
                         onPress={async () => {
-                            await UsersNewAddedTeam(getUserId, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
-                            navigation.navigate("TeambuilderScreen")
+                            await UsersNewAddedTeam(getUserId,teamName, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
+                            navigation.navigate("DashboardScreen")
                             setCreateTeamToDash(false)
                         }}
                     >

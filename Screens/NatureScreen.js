@@ -59,13 +59,13 @@ export default function DashboardScreen({ navigation }) {
                         >
                             <View style={styles.centeredView}>
                                 <View style={styles.modalView}>
-                                <Pressable onPress={() => {
+                                    <Pressable onPress={() => {
                                         navigation.navigate("DashboardScreen")
                                         setModalVisible(!modalVisible)
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 100 }} name='mobile' size={25} color="white" />
+                                            <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='mobile' size={25} color="white" />
                                             <Text style={styles.modalText}>POKEDEX</Text>
                                         </View>
                                     </Pressable>
@@ -76,7 +76,7 @@ export default function DashboardScreen({ navigation }) {
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='shield' size={25} color="white" />
+                                            <Icon style={{ color: "gainsboro", paddingRight: 130 }} name='shield' size={25} color="white" />
                                             <Text style={styles.modalText}>MOVES</Text>
                                         </View>
                                     </Pressable>
@@ -87,7 +87,7 @@ export default function DashboardScreen({ navigation }) {
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
+                                            <Icon style={{ color: "gainsboro", paddingRight: 135 }} name='book' size={25} color="white" />
                                             <Text style={styles.modalText}>ITEMS</Text>
                                         </View>
                                     </Pressable>
@@ -109,7 +109,7 @@ export default function DashboardScreen({ navigation }) {
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 50 }} name='user' size={25} color="white" />
+                                            <Icon style={{ color: "gainsboro", paddingRight: 70 }} name='user' size={25} color="white" />
                                             <Text style={styles.modalText}>TEAM BUILDER</Text>
                                         </View>
                                     </Pressable>
@@ -143,9 +143,9 @@ export default function DashboardScreen({ navigation }) {
                                             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
                                                 <Text OnPress={console.log(natureData)} style={[styles.txtstyleNAME]}>{natureData.name}</Text>
                                             </View>
-                                            <View style={[{flexDirection: "row", marginBottom: 5}]}>
-                                                    <Text style={styles.increasedStatText}>Increased</Text>
-                                                    <Text>Decreased</Text>
+                                            <View style={[{ flexDirection: "row", marginBottom: 5 }]}>
+                                                <Text style={styles.increasedStatText}>Increased</Text>
+                                                <Text>Decreased</Text>
                                             </View>
                                             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
                                                 <Text style={[styles.natureIncreaseTextStyle, { width: 190, alignItems: "center" }]}>{natureData.increased_stat == null ? "-" : natureData.increased_stat.name}</Text>
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         margin: 20,
-        backgroundColor: "dimgrey",
+        backgroundColor: "#9D9D9D",
         borderRadius: 20,
         padding: 35,
         alignItems: "center",

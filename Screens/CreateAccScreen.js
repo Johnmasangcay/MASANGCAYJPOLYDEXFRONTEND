@@ -21,7 +21,6 @@ export default function CreateAccScreen({ navigation }) {
             const newuserData = await GetNewUserData(createUserName) 
             if (newuser == true) {
                 await GetUserIntoFav(newuserData)
-                await GetUserIntoTeamBuilder(newuserData)
                 Alert.alert("Success please Log In");
                 navigation.navigate("LogInScreen");
             } else {

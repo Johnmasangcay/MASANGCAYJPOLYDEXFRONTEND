@@ -9,6 +9,7 @@ export default function DashboardScreen({ navigation }) {
     let star = "★"
     let starThin = "☆"
     let hamburgerMenu = "☰"
+    let imageUrl = "https://tenor.com/view/pikachu-running-run-run-away-gif-13709403";
     const [isloaded, setIsloaded] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [isFavPokemon, setIsFavPokemon] = useState(false);
@@ -49,9 +50,6 @@ export default function DashboardScreen({ navigation }) {
     const filterPokemon = pokemons.filter(poke => {
         return poke.name.toLowerCase().includes(pokeSearch.toLowerCase())
     })
-
-
-
 
 
     useEffect(async () => {
@@ -102,7 +100,7 @@ export default function DashboardScreen({ navigation }) {
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 100 }} name='mobile' size={25} color="white" />
+                                            <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='mobile' size={25} color="white" />
                                             <Text style={styles.modalText}>POKEDEX</Text>
                                         </View>
                                     </Pressable>
@@ -113,7 +111,7 @@ export default function DashboardScreen({ navigation }) {
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='shield' size={25} color="white" />
+                                            <Icon style={{ color: "gainsboro", paddingRight: 130 }} name='shield' size={25} color="white" />
                                             <Text style={styles.modalText}>MOVES</Text>
                                         </View>
                                     </Pressable>
@@ -124,7 +122,7 @@ export default function DashboardScreen({ navigation }) {
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
+                                            <Icon style={{ color: "gainsboro", paddingRight: 135 }} name='book' size={25} color="white" />
                                             <Text style={styles.modalText}>ITEMS</Text>
                                         </View>
                                     </Pressable>
@@ -140,14 +138,14 @@ export default function DashboardScreen({ navigation }) {
                                         </View>
                                     </Pressable>
 
-                                    <Pressable onPress={async () => {
+                                    <Pressable onPress={async() => {
                                         setUsersTeam(await GetUserTeam(getUserId))
-                                        setModalVisible(!modalVisible)
                                         navigation.navigate("TeambuilderScreen")
+                                        setModalVisible(!modalVisible)
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 50 }} name='user' size={25} color="white" />
+                                            <Icon style={{ color: "gainsboro", paddingRight: 70 }} name='user' size={25} color="white" />
                                             <Text style={styles.modalText}>TEAM BUILDER</Text>
                                         </View>
                                     </Pressable>
@@ -156,7 +154,7 @@ export default function DashboardScreen({ navigation }) {
                                         style={[styles.button, styles.buttonClose]}
                                         onPress={() => setModalVisible(!modalVisible)}
                                     >
-                                        <Text style={styles.textStyle}>Hide Modal</Text>
+                                        <Text style={styles.textStyle}>Close</Text>
                                     </Pressable>
                                 </View>
                             </View>
@@ -208,7 +206,7 @@ export default function DashboardScreen({ navigation }) {
                                                 }]} onPress={async () => {
                                                     setIsFavPokemon(true)
                                                     setUsersFavData(await GetFavPokemonByUser(getUserId, pokemonData.name))
-                                                    // await UpdateFavPokemon(getUserId)
+                                                    Alert.alert("You've added " + pokemonData.name + " to favorite")
                                                 }}>
                                                     <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
                                                         <Text style={{ fontSize: 40, paddingLeft: 10 }}>{starThin}</Text>
@@ -264,7 +262,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         margin: 20,
-        backgroundColor: "dimgrey",
+        backgroundColor: "#9D9D9D",
         borderRadius: 20,
         padding: 35,
         alignItems: "center",

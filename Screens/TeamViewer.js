@@ -2,11 +2,12 @@ import React, { useState, useEffect, useContext } from 'react'
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
 import ProgressBar from 'react-native-progress/Bar';
-import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon } from './Context/apiFetch';
+import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, DeleteUsersTeam } from './Context/apiFetch';
 
 
 export default function TeamViewer({ navigation }) {
 
+    const [modalVisible, setModalVisible] = useState(false);
     const { selectedTeam } = useContext(UserContext);
     const { selectedPokemonType } = useContext(UserContext)
     const { selectedPokemonTeamViewer, setSelectedPokemonTeamViewer } = useContext(UserContext)
@@ -18,34 +19,55 @@ export default function TeamViewer({ navigation }) {
 
     useEffect(async () => {
         console.log(selectedTeam)
-        console.log(selectedPokemonType)
     }, [])
 
     return (
         <>
             <ScrollView>
                 <SafeAreaView style={styles.container}>
+                    <View>
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={modalVisible}
+                            onRequestClose={() => {
+                                Alert.alert("Modal has been closed.");
+                                setModalVisible(!modalVisible);
+                            }}
+                        >
+                            <View style={styles.centeredView}>
+                                <View style={styles.modalView}>
+                                    <Text style={styles.modalText}>Are you sure you want Delete Team?</Text>
+                                    <View style={{ flexDirection: "row", marginTop: 15 }}>
+                                        <Pressable
+                                            style={[styles.button, styles.buttonClose, { backgroundColor: "#FF6363" }]}
+                                            onPress={() => setModalVisible(!modalVisible)}
+                                        >
+                                            <Text style={styles.textStyle}>Cancel</Text>
+                                        </Pressable>
+                                        <Pressable
+                                            style={[styles.button, styles.buttonClose, { backgroundColor: "#42C2FF" }]}
+                                            onPress={async () => {
+                                                await DeleteUsersTeam(selectedTeam[0].teamId)
+                                                setModalVisible(!modalVisible)
+                                                navigation.navigate("DashboardScreen")
+                                            }}
+                                        >
+                                            <Text style={styles.textStyle}>Continue</Text>
+                                        </Pressable>
+                                    </View>
+
+                                </View>
+                            </View>
+                        </Modal>
+                    </View>
                     <View style={[styles.containerBtn]} >
-                        <View style={[styles.EditBtn]}>
-                            <Pressable
-                                style={[styles.button]}
-                                onPress={async () => {
-                                    await UsersNewAddedTeam(getUserId, selectedPokemon.name, selectedPokemon2.name)
-                                    navigation.navigate("TeambuilderScreen")
-                                    setCreateTeamToDash(false)
-                                }}
-                            >
-                                <Text style={styles.textStyle}>Edit Team</Text>
-                            </Pressable>
-                        </View>
 
                         <View style={[styles.deleteBtn]}>
                             <Pressable
                                 style={[styles.button, styles.buttonCloseDelete]}
                                 onPress={async () => {
-                                    await UsersNewAddedTeam(getUserId, selectedPokemon.name, selectedPokemon2.name)
-                                    navigation.navigate("TeambuilderScreen")
-                                    setCreateTeamToDash(false)
+                                    setModalVisible(true)
                                 }}
                             >
                                 <Text style={styles.textStyle}>Delete</Text>
@@ -65,7 +87,6 @@ export default function TeamViewer({ navigation }) {
                                             <Pressable onPress={async () => {
                                                 setSelectedPokemonTeamViewer(await GetSelectedPokemonData(poke.name))
                                                 navigation.navigate("SelectedPokemonTV")
-                                                console.log(poke.name)
                                             }}>
                                                 <View style={[styles.imgStyle]}>
                                                     <Image
@@ -113,7 +134,7 @@ export default function TeamViewer({ navigation }) {
                             <ProgressBar progress={selectedTeam[0].stats[4].base_stat / 100} width={300} height={25} color={"#9D9D9D"} />
                         </View>
                         <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
-                            <Text onPress={console.log(selectedTeam[0])} style={[styles.baseStatNames]}>Speed</Text>
+                            <Text style={[styles.baseStatNames]}>Speed</Text>
                             <ProgressBar progress={selectedTeam[0].stats[5].base_stat / 100} width={300} height={25} color={"#9D9D9D"} />
                         </View>
                     </View>
@@ -157,10 +178,10 @@ export default function TeamViewer({ navigation }) {
                             }
                         </View>
                         <View style={{ flexDirection: "row", marginLeft: 20, flexWrap: "wrap", paddingLeft: 15, flex: .5 }}>
-                            <Text style={{fontSize: 10, marginLeft: 25, fontWeight: "bold"}}>Highest positive value indicates more moves affecting this types.</Text>
+                            <Text style={{ fontSize: 10, marginLeft: 25, fontWeight: "bold" }}>Highest positive value indicates more moves affecting this types.</Text>
                         </View>
                         <View>
-                            <Text style={{fontSize: 15, marginLeft: 15, fontWeight: "bold"}}>You do not have enough coverage against the following types:</Text>
+                            <Text style={{ fontSize: 15, marginLeft: 15, fontWeight: "bold" }}>You do not have enough coverage against the following types:</Text>
                         </View>
                         <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 10, flex: 1, flexWrap: "wrap", paddingLeft: 15 }}>
                             {
@@ -177,7 +198,6 @@ export default function TeamViewer({ navigation }) {
                         </View>
                     </View>
                     <View>
-
                     </View>
                 </SafeAreaView>
             </ScrollView>
@@ -198,7 +218,8 @@ const styles = StyleSheet.create({
     button: {
         borderRadius: 20,
         padding: 10,
-        elevation: 2
+        elevation: 2,
+        marginHorizontal: 4
     },
     containerBtn: {
         borderRadius: 20,
@@ -231,8 +252,7 @@ const styles = StyleSheet.create({
     },
     deleteBtn: {
         justifyContent: "center",
-        width: 130,
-        paddingRight: 10
+        width: 380,
     },
     EditBtn: {
         justifyContent: "center",
@@ -241,7 +261,8 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         fontWeight: "bold",
-        textAlign: "center"
+        textAlign: "center",
+        marginHorizontal: 1
     },
     pokeTeamTitle: {
         fontWeight: "bold",
@@ -318,5 +339,26 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginTop: 10,
         marginHorizontal: 40
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
 })

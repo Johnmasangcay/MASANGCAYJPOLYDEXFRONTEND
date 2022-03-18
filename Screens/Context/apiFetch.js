@@ -1080,7 +1080,7 @@ const GetUserTeam = async (getUserId) => {
 }
 
 // users can add new teams.
-const UsersNewAddedTeam = async (getUserId, selectedPokemon, selectedPokemon2, selectedPokemon3, selectedPokemon4, selectedPokemon5, selectedPokemon6) => {
+const UsersNewAddedTeam = async (getUserId, teamName, selectedPokemon, selectedPokemon2, selectedPokemon3, selectedPokemon4, selectedPokemon5, selectedPokemon6) => {
     let usersNewAddedTeam;
     await fetch("http://192.168.12.253:5263/TeamBuilder/AddTeams", {
         method: "POST",
@@ -1090,7 +1090,7 @@ const UsersNewAddedTeam = async (getUserId, selectedPokemon, selectedPokemon2, s
         body: JSON.stringify({
             "Id": 0,
             "UserId": getUserId,
-            "Teamname": "",
+            "Teamname": teamName,
             "Pokemon1": selectedPokemon,
             "Pokemon2": selectedPokemon2,
             "Pokemon3": selectedPokemon3,
@@ -1104,6 +1104,14 @@ const UsersNewAddedTeam = async (getUserId, selectedPokemon, selectedPokemon2, s
         .catch(console.error)
     console.log(usersNewAddedTeam)
     return usersNewAddedTeam;
+}
+
+const DeleteUsersTeam = async (teamId) => {
+    let deleteTeam;
+    let resp = await fetch(`http://192.168.12.253:5263/TeamBuilder/RemoveTeams/${teamId}`)
+    let data = await resp.json();
+    deleteTeam = data;
+    return deleteTeam;
 }
 
 
@@ -2026,5 +2034,5 @@ const GetUserIntoFav = async (newuserData) => {
 
 export {
     LogInFetch, GetUserFetch, GetSelectedPokemonData, GetSelectedAbility1, GetSelectedAbility2, GetDmgTaken, signingUpNewUser, GetUserIntoFav, GetNewUserData, GetFavPokemonByUser,
-    GetUserIntoTeamBuilder, GetUserTeam, UsersNewAddedTeam
+    GetUserIntoTeamBuilder, GetUserTeam, UsersNewAddedTeam, DeleteUsersTeam
 }

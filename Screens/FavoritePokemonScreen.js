@@ -5,6 +5,7 @@ import UserContext from './Context/UserContext';
 import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon } from './Context/apiFetch';
 
 export default function FavoritePokemonScreen({ navigation }) {
+  let star = "★"
   const { usersFavData, setUsersFavData } = useContext(UserContext);
   const [pokemons, setPokemons] = useState([]);
   const [getUserId, setGetUserId] = useState(0)
@@ -51,9 +52,10 @@ export default function FavoritePokemonScreen({ navigation }) {
                       opacity: pressed ? .5 : 1
                     }]} onPress={async () => {
                       setUsersFavData(await GetFavPokemonByUser(getUserId, pokemon.name))
+                      Alert.alert("You unfavorited " + pokemon.name + " from favorite")
                     }}>
                       <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-                        <Text style={{ fontSize: 40, paddingLeft: 10 }}>fav</Text>
+                        <Text style={{ fontSize: 40, paddingLeft: 10 }}>{star}</Text>
                       </View>
                     </Pressable>
                   </View>
