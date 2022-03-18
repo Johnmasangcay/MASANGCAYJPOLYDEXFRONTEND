@@ -34,7 +34,7 @@ export default function DashboardScreen({ navigation }) {
 
 
     const getPokemons = async () => {
-        let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=15");
+        let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=850");
         let data = await resp.json();
         console.log(data)
         function getPokemonObjects(pokeObject) {
