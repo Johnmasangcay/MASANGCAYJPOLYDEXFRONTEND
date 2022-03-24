@@ -903,7 +903,7 @@ let pokeData = {
 
 const LogInFetch = async (logInUsername, logInPassword) => {
     let userToken;
-    await fetch("http://192.168.12.253:5263/User/Login", {
+    await fetch("https://masangcayjpolydex.azurewebsites.net/User/Login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -921,7 +921,7 @@ const LogInFetch = async (logInUsername, logInPassword) => {
 // get logged in user data
 const GetUserFetch = async (logInUsername) => {
     let currentUser;
-    await fetch("http://192.168.12.253:5263/User/GetCurrentUser", {
+    await fetch("https://masangcayjpolydex.azurewebsites.net/User/GetCurrentUser", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -977,7 +977,7 @@ const GetDmgTaken = async (type) => {
 // Api for putting userId into Favorite
 const signingUpNewUser = async (createUserName, createPassword, createId) => {
     let newUser;
-    await fetch("http://192.168.12.253:5263/User/AddUser", {
+    await fetch("https://masangcayjpolydex.azurewebsites.net/User/AddUser", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -997,7 +997,7 @@ const signingUpNewUser = async (createUserName, createPassword, createId) => {
 // get new userdata
 const GetNewUserData = async (createUserName) => {
     let userData;
-    let resp = await fetch(`http://192.168.12.253:5263/User/GetNewUsername/${createUserName}`)
+    let resp = await fetch(`https://masangcayjpolydex.azurewebsites.net/User/GetNewUsername/${createUserName}`)
     let data = await resp.json();
     console.log(data);
     userData = data;
@@ -1007,7 +1007,7 @@ const GetNewUserData = async (createUserName) => {
 // get users selected favorite pokemon
 const GetFavPokemonByUser = async (getUserId, pokeName) => {
     let getFavByUser;
-    let resp = await fetch(`http://192.168.12.253:5263/FavoritePokemon/FavoritePokemonbyUser/${getUserId}`)
+    let resp = await fetch(`https://masangcayjpolydex.azurewebsites.net/FavoritePokemon/FavoritePokemonbyUser/${getUserId}`)
     let data = await resp.json()
     if (data[0][pokeName] == false) {
         data[0][pokeName] = true;
@@ -1029,7 +1029,7 @@ const GetFavPokemonByUser = async (getUserId, pokeName) => {
 // update fav pokemon data
 const UpdateFavPokemon = async (getUserId) => {
     let test;
-    await fetch("http://192.168.12.253:5263/FavoritePokemon/updateFavPokemon", {
+    await fetch("https://masangcayjpolydex.azurewebsites.net/FavoritePokemon/updateFavPokemon", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -1047,7 +1047,7 @@ const UpdateFavPokemon = async (getUserId) => {
 // ---------------- get the users a default team.
 const GetUserIntoTeamBuilder = async (getUserId) => {
     let GetUserIntoTeam;
-    await fetch("http://192.168.12.253:5263/TeamBuilder/AddTeams", {
+    await fetch("https://masangcayjpolydex.azurewebsites.net/TeamBuilder/AddTeams", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -1072,7 +1072,7 @@ const GetUserIntoTeamBuilder = async (getUserId) => {
 // get users team info
 const GetUserTeam = async (getUserId) => {
     let userTeam;
-    let resp = await fetch(`http://192.168.12.253:5263/TeamBuilder/GetTeamByUser/${getUserId}`)
+    let resp = await fetch(`https://masangcayjpolydex.azurewebsites.net/TeamBuilder/GetTeamByUser/${getUserId}`)
     let data = await resp.json();
     userTeam = data;
     console.log(userTeam);
@@ -1082,7 +1082,7 @@ const GetUserTeam = async (getUserId) => {
 // users can add new teams.
 const UsersNewAddedTeam = async (getUserId, teamName, selectedPokemon, selectedPokemon2, selectedPokemon3, selectedPokemon4, selectedPokemon5, selectedPokemon6) => {
     let usersNewAddedTeam;
-    await fetch("http://192.168.12.253:5263/TeamBuilder/AddTeams", {
+    await fetch("https://masangcayjpolydex.azurewebsites.net/TeamBuilder/AddTeams", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -1108,17 +1108,50 @@ const UsersNewAddedTeam = async (getUserId, teamName, selectedPokemon, selectedP
 
 const DeleteUsersTeam = async (teamId) => {
     let deleteTeam;
-    let resp = await fetch(`http://192.168.12.253:5263/TeamBuilder/RemoveTeams/${teamId}`)
+    let resp = await fetch(`https://masangcayjpolydex.azurewebsites.net/TeamBuilder/RemoveTeams/${teamId}`)
     let data = await resp.json();
     deleteTeam = data;
     return deleteTeam;
 }
 
 
+const GetTeamByTeamID = async (teamId) => {
+    let Team;
+    let resp = await fetch(`http://192.168.12.253:5263/TeamBuilder/GetTeamByTeamId/${teamId}`)
+    let data = await resp.json();
+    Team = data;
+    return Team;
+}
+
+const EditedTeamByUser = async (teamId, userId, poke1, poke2, poke3, poke4, poke5, poke6) => {
+    let editedTeam;
+    await fetch("https://masangcayjpolydex.azurewebsites.net/TeamBuilder/UpdateTeam", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "Id": teamId,
+            "UserId": userId,
+            "Pokemon1": poke1,
+            "Pokemon2": poke2,
+            "Pokemon3": poke3,
+            "Pokemon4": poke4,
+            "Pokemon5": poke5,
+            "Pokemon6": poke6
+        })
+    })
+    .then(resp => resp.json())
+    .then(data => editedTeam = data)
+    console.log(editedTeam)
+    return editedTeam;
+}
+
+
 // get the users a default favorite pokemon
 const GetUserIntoFav = async (newuserData) => {
     let getUserIntoFav;
-    await fetch("http://192.168.12.253:5263/FavoritePokemon/AddFavoritePokemon", {
+    await fetch("https://masangcayjpolydex.azurewebsites.net/FavoritePokemon/AddFavoritePokemon", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -2034,5 +2067,5 @@ const GetUserIntoFav = async (newuserData) => {
 
 export {
     LogInFetch, GetUserFetch, GetSelectedPokemonData, GetSelectedAbility1, GetSelectedAbility2, GetDmgTaken, signingUpNewUser, GetUserIntoFav, GetNewUserData, GetFavPokemonByUser,
-    GetUserIntoTeamBuilder, GetUserTeam, UsersNewAddedTeam, DeleteUsersTeam
+    GetUserIntoTeamBuilder, GetUserTeam, UsersNewAddedTeam, DeleteUsersTeam, EditedTeamByUser, GetTeamByTeamID
 }

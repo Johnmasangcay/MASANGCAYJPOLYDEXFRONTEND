@@ -16,6 +16,12 @@ export default function TeamViewer({ navigation }) {
     const { teamPokemon4Type } = useContext(UserContext);
     const { teamPokemon5Type } = useContext(UserContext);
     const { teamPokemon6Type } = useContext(UserContext);
+    const { selectedPokemon, setSelectedPokemon } = useContext(UserContext)
+    const { selectedPokemon2, setSelectedPokemon2 } = useContext(UserContext)
+    const { selectedPokemon3, setSelectedPokemon3 } = useContext(UserContext);
+    const { selectedPokemon4, setSelectedPokemon4 } = useContext(UserContext);
+    const { selectedPokemon5, setSelectedPokemon5 } = useContext(UserContext);
+    const { selectedPokemon6, setSelectedPokemon6 } = useContext(UserContext);
 
     useEffect(async () => {
         console.log(selectedTeam)
@@ -62,7 +68,22 @@ export default function TeamViewer({ navigation }) {
                         </Modal>
                     </View>
                     <View style={[styles.containerBtn]} >
-
+                        <View style={[styles.EditBtn]}>
+                            <Pressable
+                                style={[styles.button, styles.buttonCloseDelete]}
+                                onPress={async () => {
+                                    setSelectedPokemon(selectedTeam[0])
+                                    setSelectedPokemon2(selectedTeam[1])
+                                    setSelectedPokemon3(selectedTeam[2])
+                                    setSelectedPokemon4(selectedTeam[3])
+                                    setSelectedPokemon5(selectedTeam[4])
+                                    setSelectedPokemon6(selectedTeam[5])
+                                    navigation.navigate("EditTeamScreen")
+                                }}
+                            >
+                                <Text style={styles.textStyle}>Edit</Text>
+                            </Pressable>
+                        </View>
                         <View style={[styles.deleteBtn]}>
                             <Pressable
                                 style={[styles.button, styles.buttonCloseDelete]}
@@ -81,10 +102,10 @@ export default function TeamViewer({ navigation }) {
                     <View style={[styles.containerBtnForTeam]}>
                         <View style={{ flex: 1, flexWrap: "wrap", paddingLeft: 30 }}>
                             {
-                                selectedTeam.map(poke => {
+                                selectedTeam.map((poke, i) => {
                                     return (
-                                        <>
-                                            <Pressable onPress={async () => {
+                                        
+                                            <Pressable key={i} onPress={async () => {
                                                 setSelectedPokemonTeamViewer(await GetSelectedPokemonData(poke.name))
                                                 navigation.navigate("SelectedPokemonTV")
                                             }}>
@@ -101,7 +122,7 @@ export default function TeamViewer({ navigation }) {
                                                     <Text style={[styles.pokeName]}>{poke.name}</Text>
                                                 </View>
                                             </Pressable>
-                                        </>
+                                        
                                     )
                                 })
                             }
@@ -252,8 +273,9 @@ const styles = StyleSheet.create({
     },
     deleteBtn: {
         justifyContent: "center",
-        width: 380,
+        width: 120,
     },
+
     EditBtn: {
         justifyContent: "center",
         paddingLeft: 10,

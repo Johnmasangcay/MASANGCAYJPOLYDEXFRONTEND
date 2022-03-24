@@ -5,7 +5,7 @@ import { UsersNewAddedTeam } from '../Screens/Context/apiFetch'
 
 export default function CreateTeamScreen({ navigation }) {
 
-    const { selectedPokemon } = useContext(UserContext)
+    const { selectedPokemon, setSelectedPokemon } = useContext(UserContext)
     const { selectedPokemon2, setSelectedPokemon2 } = useContext(UserContext)
     const { selectedPokemon3, setSelectedPokemon3 } = useContext(UserContext);
     const { selectedPokemon4, setSelectedPokemon4 } = useContext(UserContext);
@@ -217,6 +217,7 @@ export default function CreateTeamScreen({ navigation }) {
                             </Pressable>
                         </View>
                     </View>
+                    
                     <View style={{ flexDirection: "row" }}>
                         <View>
                             <Pressable style={({ pressed }) => [styles.btnSelection, {
@@ -326,6 +327,7 @@ export default function CreateTeamScreen({ navigation }) {
                         style={[styles.button, styles.buttonClose]}
                         onPress={async () => {
                             await UsersNewAddedTeam(getUserId,teamName, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
+                            setRoute("PokemonInfoScreen")
                             navigation.navigate("DashboardScreen")
                             setCreateTeamToDash(false)
                         }}

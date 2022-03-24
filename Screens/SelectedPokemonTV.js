@@ -7,7 +7,7 @@ import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAb
 export default function SelectedPokemonTV({ navigation }) {
 
     const [isloaded, setIsloaded] = useState(false);
-    const { selectedPokemonTeamViewer } = useContext(UserContext)
+    const { selectedPokemonTeamViewer, setSelectedPokemonTeamViewer } = useContext(UserContext)
     const { condMove, setCondMove } = useContext(UserContext)
     const { routeForSelectedPokeToMove, setRouteForSelectedPokeToMove } = useContext(UserContext)
     const { selectedPokeToMove, setSelectedPokeToMove } = useContext(UserContext)
@@ -16,10 +16,11 @@ export default function SelectedPokemonTV({ navigation }) {
     const { selectedMove3, setSelectedMove3 } = useContext(UserContext)
     const { selectedMove4, setSelectedMove4 } = useContext(UserContext)
     const { forSelectedTV, setForSelectedTV } = useContext(UserContext)
-    const [isFilledMove1, setIsFilledMove1] = useState(false);
+    const {arr, setArr} = useContext(UserContext)
 
     useEffect(async () => {
-        console.log(selectedMove1)
+        console.log(selectedPokemonTeamViewer)    
+        console.log(selectedMove1)         
         setTimeout(function () {
             setIsloaded(true)
         }, 5000)
@@ -31,8 +32,6 @@ export default function SelectedPokemonTV({ navigation }) {
                 <ActivityIndicator style={{ flex: 1, backgroundColor: "#FFFEEC" }} size={"large"} color={"blue"} />
                 :
                 <SafeAreaView style={styles.container}>
-
-
 
                     <View style={[styles.btn, { backgroundColor: "#BCE0DA" }]}>
                         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
@@ -60,6 +59,9 @@ export default function SelectedPokemonTV({ navigation }) {
                             }
                         </View>
                     </View>
+                    <View>
+                        <Text style={{ color: "#49495385", fontSize: 20, alignSelf: "center", marginTop: 30, fontWeight: "bold" }}>MOVES</Text>
+                    </View>
                     <View style={[styles.containerBtn]}>
                         <View style={[styles.btn]}>
                             <View style={{ flexDirection: "row" }}>
@@ -81,7 +83,7 @@ export default function SelectedPokemonTV({ navigation }) {
                                                         <Text style={[styles.plusIcon]}>+</Text>
                                                     </View>
                                                     :
-                                                    <Text style={[styles.pokeName]}>{selectedMove1.name}</Text>
+                                                    <Text style={[styles.pokeName]}>{selectedPokemonTeamViewer.move1}</Text>
                                             }
                                         </View>
                                     </Pressable>
@@ -157,6 +159,29 @@ export default function SelectedPokemonTV({ navigation }) {
                             </View>
                         </View>
                     </View>
+
+                    <View>
+                        <Text style={{ color: "#49495385", fontSize: 20, alignSelf: "center", marginTop: 30, fontWeight: "bold" }}>ABILITIES</Text>
+                    </View>
+                    <View style={[styles.btnAbilities, { backgroundColor: "#494953" }]}>
+                        <View>
+                            {
+                                selectedPokemonTeamViewer.abilities.map((pokeAbility) => {
+                                    return (
+                                        <>
+                                            <Pressable style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
+                                                onPress={async () => {
+
+                                                }}>
+                                                <Text style={styles.pokemonAbilitiesTxtHidden}>{pokeAbility.ability.name}</Text>
+                                            </Pressable>
+                                        </>
+                                    )
+                                })
+                            }
+                        </View>
+                    </View>
+
                 </SafeAreaView>
             }
         </>
@@ -227,8 +252,25 @@ const styles = StyleSheet.create({
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.5,
         shadowRadius: 3,
-        backgroundColor: "#D1D1D1",
+        backgroundColor: "#494953",
         flexDirection: "row",
         height: 155
+    },
+    btnAbilities: {
+        borderRadius: 20,
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        marginTop: 10,
+        height: 120,
+    },
+    pokemonAbilitiesTxtHidden: {
+        backgroundColor: "#EEEEEE",
+        paddingHorizontal: 155,
+        paddingVertical: 10,
+        marginTop: 10,
+        borderRadius: 20,
+        fontSize: 15,
+        textAlign: "center",
+        textTransform: 'capitalize',
     },
 })

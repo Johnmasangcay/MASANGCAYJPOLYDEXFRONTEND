@@ -8,6 +8,7 @@ export default function DashboardScreen({ navigation }) {
   let star = "★"
   let starThin = "☆"
   let hamburgerMenu = "☰"
+  let test = []
   const [isloaded, setIsloaded] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleMove, setModalVisibleMove] = useState(false);
@@ -23,6 +24,8 @@ export default function DashboardScreen({ navigation }) {
   const { selectedMove3, setSelectedMove3 } = useContext(UserContext)
   const { selectedMove4, setSelectedMove4 } = useContext(UserContext)
   const { forSelectedTV, setForSelectedTV } = useContext(UserContext)
+  const { selectedPokemonTeamViewer } = useContext(UserContext)
+  const {arr, setArr} = useContext(UserContext)
 
 
   const getPokemons = async () => {

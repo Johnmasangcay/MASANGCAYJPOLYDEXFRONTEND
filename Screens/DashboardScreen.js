@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
-import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon } from './Context/apiFetch';
+import { GetSelectedPokemonData, GetDmgTaken, EditedTeamByUser, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetTeamByTeamID } from './Context/apiFetch';
 import PikaGif from '../assets/Pika.gif'
 
 export default function DashboardScreen({ navigation }) {
@@ -31,12 +31,12 @@ export default function DashboardScreen({ navigation }) {
     const { route, setRoute } = useContext(UserContext);
     const { createTeamToDash, setCreateTeamToDash } = useContext(UserContext);
     const { condPokemon, setCondPokemon } = useContext(UserContext);
+    const { selectedTeam, setSelectedTeam } = useContext(UserContext);
 
 
     const getPokemons = async () => {
-        let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=850");
+        let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=10");
         let data = await resp.json();
-        console.log(data)
         function getPokemonObjects(pokeObject) {
             pokeObject.forEach(async (pokemon) => {
                 const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
@@ -172,8 +172,8 @@ export default function DashboardScreen({ navigation }) {
                         {
                             filterPokemon.map((pokemonData, keyx) => {
                                 return (
-                                    <>
-                                        <Pressable style={({ pressed }) => [styles.btn, {
+                                  
+                                        <Pressable key={keyx} style={({ pressed }) => [styles.btn, {
                                             backgroundColor: pressed ? "blue" : "#EDF6E5",
                                             opacity: pressed ? .5 : 1
                                         }]} onPress={async () => {
@@ -228,14 +228,14 @@ export default function DashboardScreen({ navigation }) {
 
                                                         return (
                                                             <>
-                                                                <Text style={[styles.txtstyleTYPE, { backgroundColor: "#D1D1D1" }]}>{pokeType.type.name}</Text>
+                                                                <Text key={pokeType.type.name} style={[styles.txtstyleTYPE, { backgroundColor: "#D1D1D1" }]}>{pokeType.type.name}</Text>
                                                             </>
                                                         )
                                                     })
                                                 }
                                             </View>
                                         </Pressable>
-                                    </>
+                                 
                                 )
                             })
                         }

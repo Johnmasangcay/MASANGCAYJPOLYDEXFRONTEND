@@ -36,7 +36,7 @@ export default function TeamBuilderScreen({ navigation }) {
       pokemon.map(async (n, i) => {
         const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon[i]}`)
         const data = await resp.json();
-        pokemonDataArr.push({ ...data, "teamId": poke.id, "teamName": poke.teamname })
+        pokemonDataArr.push({ ...data, "teamId": poke.id, "teamName": poke.teamname, "userId": poke.userId })
       })
       test.push(pokemonDataArr)
     })
@@ -145,41 +145,41 @@ export default function TeamBuilderScreen({ navigation }) {
             {
               pokemons.map((pokemon, i) => {
                 return (
-                  <>
-                    <View style={[styles.btn]}>
-                      <SafeAreaView>
-                        <Pressable style={({ pressed }) => [styles.btnSelection, {
-                          opacity: pressed ? .5 : 1
-                        }]} onPress={async () => {
-                          setSelectedTeam(pokemon)
-                          setSelectedPokemonType(await GetDmgTaken(pokemon[0].types[0].type.name))
-                          pokemon.map(type => { console.log(type) })
-                          navigation.navigate("TeamViewer")
-                        }}>
-                          {
-                            pokemon.map(poke => {
-                              return (
-                                <>
-                                  <SafeAreaView>
-                                    <SafeAreaView style={[styles.imgStyle]}>
-                                      <Image
-                                        source={{ uri: poke.sprites.front_default }}
-                                        style={{
-                                          height: 100,
-                                          width: 100,
-                                        }}
-                                      />
-                                    </SafeAreaView>
-                                    <Text style={[styles.pokeName]}>{poke.name}</Text>
+
+                  <View key={i} style={[styles.btn]}>
+                    <SafeAreaView>
+                      <Pressable style={({ pressed }) => [styles.btnSelection, {
+                        opacity: pressed ? .5 : 1
+                      }]} onPress={async () => {
+                        setSelectedTeam(pokemon)
+                        setSelectedPokemonType(await GetDmgTaken(pokemon[0].types[0].type.name))
+                        pokemon.map(type => { console.log(type) })
+                        navigation.navigate("TeamViewer")
+                      }}>
+                        {
+                          pokemon.map(poke => {
+                            return (
+                              <>
+                                <SafeAreaView>
+                                  <SafeAreaView style={[styles.imgStyle]}>
+                                    <Image
+                                      source={{ uri: poke.sprites.front_default }}
+                                      style={{
+                                        height: 100,
+                                        width: 100,
+                                      }}
+                                    />
                                   </SafeAreaView>
-                                </>
-                              )
-                            })
-                          }
-                        </Pressable>
-                      </SafeAreaView>
-                    </View>
-                  </>
+                                  <Text style={[styles.pokeName]}>{poke.name}</Text>
+                                </SafeAreaView>
+                              </>
+                            )
+                          })
+                        }
+                      </Pressable>
+                    </SafeAreaView>
+                  </View>
+
                 )
               })
             }
