@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
+import loading from '../assets/loading.json'
+import LottieView from 'lottie-react-native';
 
 export default function DashboardScreen({ navigation }) {
     let star = "★"
@@ -41,7 +43,13 @@ export default function DashboardScreen({ navigation }) {
     return (
         <>
             {!isloaded ?
-                <ActivityIndicator style={{ flex: 1, backgroundColor: "#FFFEEC" }} size={"large"} color={"blue"} />
+                <View style={styles.loadingScreen}>
+                    {/* <LottieView
+                        style={styles.loadingScreen}
+                        source={loading}
+                        autoPlay loop
+                    /> */}
+                </View>
                 :
                 <View style={styles.container}>
                     <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
@@ -135,8 +143,8 @@ export default function DashboardScreen({ navigation }) {
                         {
                             filterPokemon.map((natureData, keyx) => {
                                 return (
-                                    <>
-                                        <Pressable style={({ pressed }) => [styles.btn, {
+     
+                                        <Pressable key={keyx} style={({ pressed }) => [styles.btn, {
                                             backgroundColor: pressed ? "blue" : "#EDF6E5",
                                             opacity: pressed ? .5 : 1
                                         }]}>
@@ -152,7 +160,7 @@ export default function DashboardScreen({ navigation }) {
                                                 <Text style={[styles.natureIncreaseTextStyle, { width: 190, alignItems: "center" }]}>{natureData.decreased_stat == null ? "-" : natureData.decreased_stat.name}</Text>
                                             </View>
                                         </Pressable>
-                                    </>
+       
                                 )
                             })
                         }
@@ -278,5 +286,8 @@ const styles = StyleSheet.create({
     increasedStatText: {
         marginRight: 130,
         color: "#323232"
+    },
+    loadingScreen: {
+        flex: 1
     }
 });

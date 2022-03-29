@@ -16,14 +16,14 @@ export default function SelectedPokemonTV({ navigation }) {
     const { selectedMove3, setSelectedMove3 } = useContext(UserContext)
     const { selectedMove4, setSelectedMove4 } = useContext(UserContext)
     const { forSelectedTV, setForSelectedTV } = useContext(UserContext)
-    const {arr, setArr} = useContext(UserContext)
+    const { arr, setArr } = useContext(UserContext)
 
     useEffect(async () => {
-        console.log(selectedPokemonTeamViewer)    
-        console.log(selectedMove1)         
+        console.log(selectedPokemonTeamViewer)
+        console.log(selectedMove1)
         setTimeout(function () {
             setIsloaded(true)
-        }, 5000)
+        }, 6000)
     }, [])
 
     return (
@@ -59,15 +59,15 @@ export default function SelectedPokemonTV({ navigation }) {
                             }
                         </View>
                     </View>
-                    <View>
-                        <Text style={{ color: "#49495385", fontSize: 20, alignSelf: "center", marginTop: 30, fontWeight: "bold" }}>MOVES</Text>
-                    </View>
                     <View style={[styles.containerBtn]}>
                         <View style={[styles.btn]}>
+                            <View>
+                                <Text style={{ color: "white", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>MOVES</Text>
+                            </View>
                             <View style={{ flexDirection: "row" }}>
                                 <View>
                                     <Pressable style={({ pressed }) => [styles.btnSelection, {
-                                        backgroundColor: pressed ? "blue" : "#9D9D9D",
+                                        backgroundColor: pressed ? "blue" : "#EEEEEE",
                                         opacity: pressed ? .5 : 1
                                     }]} onPress={() => {
                                         setCondMove("move1")
@@ -90,7 +90,7 @@ export default function SelectedPokemonTV({ navigation }) {
                                 </View>
                                 <View>
                                     <Pressable style={({ pressed }) => [styles.btnSelection, {
-                                        backgroundColor: pressed ? "blue" : "#9D9D9D",
+                                        backgroundColor: pressed ? "blue" : "#EEEEEE",
                                         opacity: pressed ? .5 : 1
                                     }]} onPress={() => {
                                         setCondMove("move2")
@@ -114,7 +114,7 @@ export default function SelectedPokemonTV({ navigation }) {
                             <View style={{ flexDirection: "row" }}>
                                 <View>
                                     <Pressable style={({ pressed }) => [styles.btnSelection, {
-                                        backgroundColor: pressed ? "blue" : "#9D9D9D",
+                                        backgroundColor: pressed ? "blue" : "#EEEEEE",
                                         opacity: pressed ? .5 : 1
                                     }]} onPress={() => {
                                         setCondMove("move3")
@@ -136,7 +136,7 @@ export default function SelectedPokemonTV({ navigation }) {
                                 </View>
                                 <View>
                                     <Pressable style={({ pressed }) => [styles.btnSelection, {
-                                        backgroundColor: pressed ? "blue" : "#9D9D9D",
+                                        backgroundColor: pressed ? "blue" : "#EEEEEE",
                                         opacity: pressed ? .5 : 1
                                     }]} onPress={() => {
                                         setCondMove("move4")
@@ -166,16 +166,13 @@ export default function SelectedPokemonTV({ navigation }) {
                     <View style={[styles.btnAbilities, { backgroundColor: "#494953" }]}>
                         <View>
                             {
-                                selectedPokemonTeamViewer.abilities.map((pokeAbility) => {
-                                    return (
-                                        <>
-                                            <Pressable style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
+                                selectedPokemonTeamViewer.abilities.map((pokeAbility, i) => {
+                                    return (    
+                                            <Pressable key={i} style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
                                                 onPress={async () => {
-
                                                 }}>
                                                 <Text style={styles.pokemonAbilitiesTxtHidden}>{pokeAbility.ability.name}</Text>
                                             </Pressable>
-                                        </>
                                     )
                                 })
                             }
@@ -229,11 +226,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         marginVertical: 10,
         height: 50,
-        width: 170,
+        width: 175,
+        borderRadius: 20,
     },
     plusIcon: {
-        fontSize: 50,
-        color: "#fff",
+        fontSize: 40,
+        color: "#AAAAAA",
         alignSelf: "center",
     },
     pokeName: {
@@ -254,7 +252,8 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         backgroundColor: "#494953",
         flexDirection: "row",
-        height: 155
+        height: 175,
+        marginTop: 30
     },
     btnAbilities: {
         borderRadius: 20,

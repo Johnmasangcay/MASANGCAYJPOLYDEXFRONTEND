@@ -217,7 +217,7 @@ export default function CreateTeamScreen({ navigation }) {
                             </Pressable>
                         </View>
                     </View>
-                    
+
                     <View style={{ flexDirection: "row" }}>
                         <View>
                             <Pressable style={({ pressed }) => [styles.btnSelection, {
@@ -326,7 +326,7 @@ export default function CreateTeamScreen({ navigation }) {
                     <Pressable
                         style={[styles.button, styles.buttonClose]}
                         onPress={async () => {
-                            await UsersNewAddedTeam(getUserId,teamName, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
+                            await UsersNewAddedTeam(getUserId, teamName, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
                             setRoute("PokemonInfoScreen")
                             navigation.navigate("DashboardScreen")
                             setCreateTeamToDash(false)

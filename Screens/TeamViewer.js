@@ -104,25 +104,25 @@ export default function TeamViewer({ navigation }) {
                             {
                                 selectedTeam.map((poke, i) => {
                                     return (
-                                        
-                                            <Pressable key={i} onPress={async () => {
-                                                setSelectedPokemonTeamViewer(await GetSelectedPokemonData(poke.name))
-                                                navigation.navigate("SelectedPokemonTV")
-                                            }}>
-                                                <View style={[styles.imgStyle]}>
-                                                    <Image
-                                                        source={{ uri: poke.sprites.front_default }}
-                                                        style={{
-                                                            height: 100,
-                                                            width: 100,
-                                                        }}
-                                                    />
-                                                </View>
-                                                <View>
-                                                    <Text style={[styles.pokeName]}>{poke.name}</Text>
-                                                </View>
-                                            </Pressable>
-                                        
+
+                                        <Pressable key={i} onPress={async () => {
+                                            setSelectedPokemonTeamViewer(poke)
+                                            navigation.navigate("SelectedPokemonTV")
+                                        }}>
+                                            <View style={[styles.imgStyle]}>
+                                                <Image
+                                                    source={{ uri: poke.sprites.front_default }}
+                                                    style={{
+                                                        height: 100,
+                                                        width: 100,
+                                                    }}
+                                                />
+                                            </View>
+                                            <View>
+                                                <Text style={[styles.pokeName]}>{poke.name}</Text>
+                                            </View>
+                                        </Pressable>
+
                                     )
                                 })
                             }
@@ -174,26 +174,18 @@ export default function TeamViewer({ navigation }) {
 
                         <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 10, flexWrap: "wrap", paddingLeft: 15 }}>
                             {
-                                selectedPokemonType.damage_relations.double_damage_to.map((poketype) => {
+                                selectedPokemonType.damage_relations.double_damage_to.map((poketype, n) => {
                                     return (
-                                        <>
-                                            <View>
-                                                <Text style={[styles.pokeTypeDmgTaken]}>{poketype.name}</Text>
-                                            </View>
-                                        </>
+                                        <Text key={n} style={[styles.pokeTypeDmgTaken]}>{poketype.name}</Text>
                                     )
                                 })
                             }
                         </View>
                         <View style={{ flexDirection: "row", marginLeft: 20, flexWrap: "wrap", paddingLeft: 15 }}>
                             {
-                                selectedPokemonType.damage_relations.half_damage_to.map((poketype) => {
+                                selectedPokemonType.damage_relations.half_damage_to.map((poketype, m) => {
                                     return (
-                                        <>
-                                            <View>
-                                                <Text style={[styles.pokeTypeDmgTaken]}>{poketype.name}</Text>
-                                            </View>
-                                        </>
+                                        <Text key={m} style={[styles.pokeTypeDmgTaken]}>{poketype.name}</Text>
                                     )
                                 })
                             }
@@ -206,13 +198,9 @@ export default function TeamViewer({ navigation }) {
                         </View>
                         <View style={{ flexDirection: "row", marginLeft: 20, marginTop: 10, flex: 1, flexWrap: "wrap", paddingLeft: 15 }}>
                             {
-                                selectedPokemonType.damage_relations.double_damage_from.map((poketype) => {
+                                selectedPokemonType.damage_relations.double_damage_from.map((poketype, j) => {
                                     return (
-                                        <>
-                                            <View>
-                                                <Text style={[styles.pokeTypeDmgTaken]}>{poketype.name}</Text>
-                                            </View>
-                                        </>
+                                        <Text key={j} style={[styles.pokeTypeDmgTaken]}>{poketype.name}</Text>
                                     )
                                 })
                             }

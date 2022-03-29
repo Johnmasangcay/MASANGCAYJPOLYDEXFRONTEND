@@ -3,6 +3,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
 import { GetSelectedPokemonData, GetDmgTaken } from './Context/apiFetch';
+import loading from '../assets/loading.json'
+import LottieView from 'lottie-react-native';
 
 export default function TeamBuilderScreen({ navigation }) {
   let hamburgerMenu = "☰"
@@ -48,13 +50,19 @@ export default function TeamBuilderScreen({ navigation }) {
     getPokeInfo()
     setTimeout(function () {
       setIsloaded(true)
-    }, 5000)
+    }, 6000)
   }, [])
 
   return (
     <>
       {!isloaded ?
-        <ActivityIndicator style={{ flex: 1, backgroundColor: "#FFFEEC" }} size={"large"} color={"blue"} />
+        <View style={styles.loadingScreen}>
+          {/* <LottieView
+            style={styles.loadingScreen}
+            source={loading}
+            autoPlay loop
+          /> */}
+        </View>
         :
         <SafeAreaView style={styles.container}>
           <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
@@ -157,11 +165,11 @@ export default function TeamBuilderScreen({ navigation }) {
                         navigation.navigate("TeamViewer")
                       }}>
                         {
-                          pokemon.map(poke => {
+                          pokemon.map((poke, n) => {
                             return (
-                              <>
-                                <SafeAreaView>
-                                  <SafeAreaView style={[styles.imgStyle]}>
+
+                                <SafeAreaView key={n}>
+                                  <SafeAreaView  style={[styles.imgStyle]}>
                                     <Image
                                       source={{ uri: poke.sprites.front_default }}
                                       style={{
@@ -172,7 +180,7 @@ export default function TeamBuilderScreen({ navigation }) {
                                   </SafeAreaView>
                                   <Text style={[styles.pokeName]}>{poke.name}</Text>
                                 </SafeAreaView>
-                              </>
+
                             )
                           })
                         }
@@ -273,4 +281,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "gainsboro"
   },
+  loadingScreen: {
+    flex: 1
+  }
 });

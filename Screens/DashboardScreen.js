@@ -3,7 +3,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
 import { GetSelectedPokemonData, GetDmgTaken, EditedTeamByUser, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetTeamByTeamID } from './Context/apiFetch';
-import PikaGif from '../assets/Pika.gif'
+import loading from '../assets/loading.json'
+import LottieView from 'lottie-react-native';
 
 export default function DashboardScreen({ navigation }) {
     let star = "★"
@@ -57,13 +58,19 @@ export default function DashboardScreen({ navigation }) {
         setGetUserId(currentUser[0].id)
         setTimeout(function () {
             setIsloaded(true)
-        }, 5000)
+        }, 6000)
     }, [])
 
     return (
         <>
             {!isloaded ?
-                <ActivityIndicator style={{ flex: 1, backgroundColor: "#FFFEEC" }} size={"large"} color={"blue"} />
+                <View style={styles.loadingScreen}>
+                    {/* <LottieView
+                        style={styles.loadingScreen}
+                        source={loading}
+                        autoPlay loop
+                    /> */}
+                </View>
                 :
                 <View style={styles.container}>
                     {
@@ -138,7 +145,7 @@ export default function DashboardScreen({ navigation }) {
                                         </View>
                                     </Pressable>
 
-                                    <Pressable onPress={async() => {
+                                    <Pressable onPress={async () => {
                                         setUsersTeam(await GetUserTeam(getUserId))
                                         navigation.navigate("TeambuilderScreen")
                                         setModalVisible(!modalVisible)
@@ -167,75 +174,76 @@ export default function DashboardScreen({ navigation }) {
                             onChangeText={setPokeSearch}
                         />
                     </View>
+                    <View>
+
+                    </View>
 
                     <ScrollView style={{ paddingBottom: 20 }}>
                         {
                             filterPokemon.map((pokemonData, keyx) => {
                                 return (
-                                  
-                                        <Pressable key={keyx} style={({ pressed }) => [styles.btn, {
-                                            backgroundColor: pressed ? "blue" : "#EDF6E5",
-                                            opacity: pressed ? .5 : 1
-                                        }]} onPress={async () => {
-                                            if (condPokemon == "poke1") {
-                                                setSelectedPokemon(await GetSelectedPokemonData(pokemonData.id))
-                                            } else if (condPokemon == "poke2") {
-                                                setSelectedPokemon2(await GetSelectedPokemonData(pokemonData.id))
-                                            } else if (condPokemon == "poke3") {
-                                                setSelectedPokemon3(await GetSelectedPokemonData(pokemonData.id))
-                                            } else if (condPokemon == "poke4") {
-                                                setSelectedPokemon4(await GetSelectedPokemonData(pokemonData.id))
-                                            } else if (condPokemon == "poke5") {
-                                                setSelectedPokemon5(await GetSelectedPokemonData(pokemonData.id))
-                                            } else if (condPokemon == "poke6") {
-                                                setSelectedPokemon6(await GetSelectedPokemonData(pokemonData.id))
-                                            }
-                                            setSelectedPokemonType(await GetDmgTaken(pokemonData.types[0].type.name))
-                                            setSelectedPokemonAbility1(await GetSelectedAbility1(pokemonData.abilities[0].ability.name))
-                                            setSelectedPokemonAbility2(await GetSelectedAbility2(pokemonData.abilities[1].ability.name))
-                                            setCreateTeamToDash(false)
-                                            console.log(pokemonData.name)
-                                            navigation.navigate(route)
-                                        }}>
-                                            <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-                                                <Text style={styles.txtstyleID}>#{pokemonData.id}</Text>
-                                                <Text style={[styles.txtstyleNAME]}>{pokemonData.name}</Text>
-                                                <Pressable style={({ pressed }) => [{
-                                                    backgroundColor: pressed ? "blue" : "#EDF6E5",
-                                                    opacity: pressed ? .5 : 1
-                                                }]} onPress={async () => {
-                                                    setIsFavPokemon(true)
-                                                    setUsersFavData(await GetFavPokemonByUser(getUserId, pokemonData.name))
-                                                    Alert.alert("You've added " + pokemonData.name + " to favorite")
-                                                }}>
-                                                    <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-                                                        <Text style={{ fontSize: 40, paddingLeft: 10 }}>{starThin}</Text>
-                                                    </View>
-                                                </Pressable>
-                                            </View>
-                                            <View style={styles.txtstyleIMAGE}>
-                                                <Image
-                                                    source={{ uri: pokemonData.sprites.front_default }}
-                                                    style={{
-                                                        height: 100,
-                                                        width: 100,
-                                                    }}
-                                                />
-                                            </View>
-                                            <View style={{ flexDirection: "row", padding: 5 }}>
-                                                {
-                                                    pokemonData.types.map((pokeType) => {
 
-                                                        return (
-                                                            <>
-                                                                <Text key={pokeType.type.name} style={[styles.txtstyleTYPE, { backgroundColor: "#D1D1D1" }]}>{pokeType.type.name}</Text>
-                                                            </>
-                                                        )
-                                                    })
-                                                }
-                                            </View>
-                                        </Pressable>
-                                 
+                                    <Pressable key={keyx} style={({ pressed }) => [styles.btn, {
+                                        backgroundColor: pressed ? "blue" : "#EDF6E5",
+                                        opacity: pressed ? .5 : 1
+                                    }]} onPress={async () => {
+                                        if (condPokemon == "poke1") {
+                                            setSelectedPokemon(await GetSelectedPokemonData(pokemonData.id))
+                                        } else if (condPokemon == "poke2") {
+                                            setSelectedPokemon2(await GetSelectedPokemonData(pokemonData.id))
+                                        } else if (condPokemon == "poke3") {
+                                            setSelectedPokemon3(await GetSelectedPokemonData(pokemonData.id))
+                                        } else if (condPokemon == "poke4") {
+                                            setSelectedPokemon4(await GetSelectedPokemonData(pokemonData.id))
+                                        } else if (condPokemon == "poke5") {
+                                            setSelectedPokemon5(await GetSelectedPokemonData(pokemonData.id))
+                                        } else if (condPokemon == "poke6") {
+                                            setSelectedPokemon6(await GetSelectedPokemonData(pokemonData.id))
+                                        }
+                                        setSelectedPokemonType(await GetDmgTaken(pokemonData.types[0].type.name))
+                                        setSelectedPokemonAbility1(await GetSelectedAbility1(pokemonData.abilities[0].ability.name))
+                                        setSelectedPokemonAbility2(await GetSelectedAbility2(pokemonData.abilities[1].ability.name))
+                                        setCreateTeamToDash(false)
+                                        console.log(pokemonData.name)
+                                        navigation.navigate(route)
+                                    }}>
+                                        <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+                                            <Text style={styles.txtstyleID}>#{pokemonData.id}</Text>
+                                            <Text style={[styles.txtstyleNAME]}>{pokemonData.name}</Text>
+                                            <Pressable style={({ pressed }) => [{
+                                                backgroundColor: pressed ? "blue" : "#EDF6E5",
+                                                opacity: pressed ? .5 : 1
+                                            }]} onPress={async () => {
+                                                setIsFavPokemon(true)
+                                                setUsersFavData(await GetFavPokemonByUser(getUserId, pokemonData.name))
+                                                Alert.alert("You've added " + pokemonData.name + " to favorite")
+                                            }}>
+                                                <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+                                                    <Text style={{ fontSize: 40, paddingLeft: 10 }}>{starThin}</Text>
+                                                </View>
+                                            </Pressable>
+                                        </View>
+                                        <View style={styles.txtstyleIMAGE}>
+                                            <Image
+                                                source={{ uri: pokemonData.sprites.front_default }}
+                                                style={{
+                                                    height: 100,
+                                                    width: 100,
+                                                }}
+                                            />
+                                        </View>
+                                        <View style={{ flexDirection: "row", padding: 5 }}>
+                                            {
+                                                pokemonData.types.map((pokeType, i) => {
+
+                                                    return (
+                                                        <Text key={i} style={[styles.txtstyleTYPE, { backgroundColor: "#D1D1D1" }]}>{pokeType.type.name}</Text>
+                                                    )
+                                                })
+                                            }
+                                        </View>
+                                    </Pressable>
+
                                 )
                             })
                         }
@@ -349,5 +357,12 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         borderRadius: 20,
         backgroundColor: '#EEEEEE',
+    },
+    tinyLogo: {
+        width: 200,
+        height: 500,
+    },
+    loadingScreen: {
+        flex: 1
     }
 });

@@ -2,7 +2,9 @@ import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image, FlatList } from 'react-native';
 import UserContext from './Context/UserContext';
-
+import loading from '../assets/loading.json'
+import LottieView from 'lottie-react-native';
+import { GetSelectedPokemonData, GetDmgTaken, EditedTeamByUser, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetTeamByTeamID } from './Context/apiFetch';
 
 export default function DashboardScreen({ navigation }) {
   let star = "★"
@@ -25,7 +27,10 @@ export default function DashboardScreen({ navigation }) {
   const { selectedMove4, setSelectedMove4 } = useContext(UserContext)
   const { forSelectedTV, setForSelectedTV } = useContext(UserContext)
   const { selectedPokemonTeamViewer } = useContext(UserContext)
-  const {arr, setArr} = useContext(UserContext)
+  const { arr, setArr } = useContext(UserContext)
+  const [getUserId, setGetUserId] = useState(0)
+  const { currentUser } = useContext(UserContext)
+  const { usersTeam, setUsersTeam } = useContext(UserContext);
 
 
   const getPokemons = async () => {
@@ -51,6 +56,7 @@ export default function DashboardScreen({ navigation }) {
 
   useEffect(() => {
     getPokemons()
+    setGetUserId(currentUser[0].id)
     setTimeout(function () {
       setIsloaded(true)
     }, 5000)
@@ -58,7 +64,13 @@ export default function DashboardScreen({ navigation }) {
   return (
     <>
       {!isloaded ?
-        <ActivityIndicator style={{ flex: 1, backgroundColor: "#FFFEEC" }} size={"large"} color={"blue"} />
+        <View style={styles.loadingScreen}>
+          {/* <LottieView
+            style={styles.loadingScreen}
+            source={loading}
+            autoPlay loop
+          /> */}
+        </View>
         :
         <View style={styles.container}>
           <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
@@ -76,16 +88,6 @@ export default function DashboardScreen({ navigation }) {
             >
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <Pressable onPress={() => {
-                    navigation.navigate("DashboardScreen")
-                    setModalVisible(!modalVisible)
-                  }
-                  }>
-                    <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 100 }} name='mobile' size={25} color="white" />
-                      <Text style={styles.modalText}>POKEDEX</Text>
-                    </View>
-                  </Pressable>
 
                   <Pressable onPress={() => {
                     navigation.navigate("DashboardScreen")
@@ -131,7 +133,8 @@ export default function DashboardScreen({ navigation }) {
                     </View>
                   </Pressable>
 
-                  <Pressable onPress={() => {
+                  <Pressable onPress={async() => {
+                    setUsersTeam(await GetUserTeam(getUserId))
                     navigation.navigate("TeambuilderScreen")
                     setModalVisible(!modalVisible)
                   }
@@ -171,74 +174,74 @@ export default function DashboardScreen({ navigation }) {
               forSelectedTV ?
                 <FlatList
                   data={filterMove}
-                  renderItem={({ item }) => {
+                  renderItem={({ item, i }) => {
                     return (
-                      <>
-                        <Pressable style={({ pressed }) => [styles.btn, {
-                          backgroundColor: pressed ? "blue" : "#EDF6E5",
-                          opacity: pressed ? .5 : 1
-                        }]} onPress={async () => {
-                          if (condMove == "move1") {
-                            console.log(item)
-                            setSelectedMove1(await item)
-                            navigation.navigate("SelectedPokemonTV")
-                          } else if (condMove == "move2") {
-                            setSelectedMove2(await item)
-                            navigation.navigate("SelectedPokemonTV")
-                          } else if (condMove == "move3") {
-                            setSelectedMove3(await item)
-                            navigation.navigate("SelectedPokemonTV")
-                          } else if (condMove == "move4") {
-                            setSelectedMove4(await item)
-                            navigation.navigate("SelectedPokemonTV")
-                          }
-                        }}>
-                          <View style={{ flexDirection: "column", alignSelf: "flex-start" }}>
-                            <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-                              <Text style={[styles.txtstyleNAMEMove]}>{item.name}</Text>
-                              <Text style={[styles.txtstylePower]}>{item.power}</Text>
-                              <Text style={[styles.txtstylePP]}>{item.pp}</Text>
-                              <Text style={[styles.txtstylePP]}>{item.accuracy}</Text>
-                            </View>
-                            <View style={{ flexDirection: "row" }}>
-                              <Text style={[styles.txtstyleTYPE, { width: 250 }]}>{item.type.name}</Text>
-                              <Text style={[styles.txtstyleStatus, { width: 120 }]}>{item.damage_class.name}</Text>
-                            </View>
+
+                      <Pressable key={i} style={({ pressed }) => [styles.btn, {
+                        backgroundColor: pressed ? "blue" : "#EDF6E5",
+                        opacity: pressed ? .5 : 1
+                      }]} onPress={async () => {
+                        if (condMove == "move1") {
+                          console.log(item)
+                          setSelectedMove1(await item)
+                          navigation.navigate("SelectedPokemonTV")
+                        } else if (condMove == "move2") {
+                          setSelectedMove2(await item)
+                          navigation.navigate("SelectedPokemonTV")
+                        } else if (condMove == "move3") {
+                          setSelectedMove3(await item)
+                          navigation.navigate("SelectedPokemonTV")
+                        } else if (condMove == "move4") {
+                          setSelectedMove4(await item)
+                          navigation.navigate("SelectedPokemonTV")
+                        }
+                      }}>
+                        <View style={{ flexDirection: "column", alignSelf: "flex-start" }}>
+                          <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+                            <Text style={[styles.txtstyleNAMEMove]}>{item.name}</Text>
+                            <Text style={[styles.txtstylePower]}>{item.power}</Text>
+                            <Text style={[styles.txtstylePP]}>{item.pp}</Text>
+                            <Text style={[styles.txtstylePP]}>{item.accuracy}</Text>
                           </View>
-                        </Pressable>
-                      </>
+                          <View style={{ flexDirection: "row" }}>
+                            <Text style={[styles.txtstyleTYPE, { width: 250 }]}>{item.type.name}</Text>
+                            <Text style={[styles.txtstyleStatus, { width: 120 }]}>{item.damage_class.name}</Text>
+                          </View>
+                        </View>
+                      </Pressable>
+
                     )
                   }}
                 />
                 :
                 <FlatList
                   data={filterMove}
-                  renderItem={({ item }) => {
+                  renderItem={({ item, n }) => {
                     return (
-                      <>
-                        <Pressable style={({ pressed }) => [styles.btn, {
-                          backgroundColor: pressed ? "blue" : "#EDF6E5",
-                          opacity: pressed ? .5 : 1
-                        }]} onPress={async () => {
-                          setDefaultMove(item.name)
-                          setDefaultMoveDescription(item.effect_entries[0].effect)
-                          setModalVisibleMove(true)
-                          console.log(item)
-                        }}>
-                          <View style={{ flexDirection: "column", alignSelf: "flex-start" }}>
-                            <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-                              <Text style={[styles.txtstyleNAMEMove]}>{item.name}</Text>
-                              <Text style={[styles.txtstylePower]}>{item.power}</Text>
-                              <Text style={[styles.txtstylePP]}>{item.pp}</Text>
-                              <Text style={[styles.txtstylePP]}>{item.accuracy}</Text>
-                            </View>
-                            <View style={{ flexDirection: "row" }}>
-                              <Text style={[styles.txtstyleTYPE, { width: 250 }]}>{item.type.name}</Text>
-                              <Text style={[styles.txtstyleStatus, { width: 120 }]}>{item.damage_class.name}</Text>
-                            </View>
+
+                      <Pressable key={n} style={({ pressed }) => [styles.btn, {
+                        backgroundColor: pressed ? "blue" : "#EDF6E5",
+                        opacity: pressed ? .5 : 1
+                      }]} onPress={async () => {
+                        setDefaultMove(item.name)
+                        setDefaultMoveDescription(item.effect_entries[0].effect)
+                        setModalVisibleMove(true)
+                        console.log(item)
+                      }}>
+                        <View style={{ flexDirection: "column", alignSelf: "flex-start" }}>
+                          <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+                            <Text style={[styles.txtstyleNAMEMove]}>{item.name}</Text>
+                            <Text style={[styles.txtstylePower]}>{item.power}</Text>
+                            <Text style={[styles.txtstylePP]}>{item.pp}</Text>
+                            <Text style={[styles.txtstylePP]}>{item.accuracy}</Text>
                           </View>
-                        </Pressable>
-                      </>
+                          <View style={{ flexDirection: "row" }}>
+                            <Text style={[styles.txtstyleTYPE, { width: 250 }]}>{item.type.name}</Text>
+                            <Text style={[styles.txtstyleStatus, { width: 120 }]}>{item.damage_class.name}</Text>
+                          </View>
+                        </View>
+                      </Pressable>
+
                     )
                   }}
                 />
@@ -398,5 +401,8 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 20,
     backgroundColor: '#EEEEEE',
+  },
+  loadingScreen: {
+    flex: 1
   }
 });
