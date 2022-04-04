@@ -161,7 +161,7 @@ export default function TeamViewer({ navigation }) {
                     </View>
 
                     <View>
-                        <Text style={[styles.dmgTitle, { marginTop: 30 }]}>Type Relations</Text>
+                        <Text style={[styles.dmgTitle, { marginTop: 30 }]}>Tips and Tricks</Text>
                     </View>
                     <View style={[styles.dmgTakenContainer, { backgroundColor: "#D1D1D1", marginTop: 10 }]}>
                         <View>

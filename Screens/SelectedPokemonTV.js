@@ -83,7 +83,7 @@ export default function SelectedPokemonTV({ navigation }) {
                                                         <Text style={[styles.plusIcon]}>+</Text>
                                                     </View>
                                                     :
-                                                    <Text style={[styles.pokeName]}>{selectedPokemonTeamViewer.move1}</Text>
+                                                    <Text style={[styles.pokeName]}>{selectedMove1.name}</Text>
                                             }
                                         </View>
                                     </Pressable>
