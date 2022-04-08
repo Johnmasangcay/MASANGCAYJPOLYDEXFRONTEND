@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
 import ProgressBar from 'react-native-progress/Bar';
-import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, DeleteUsersTeam } from './Context/apiFetch';
+import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, DeleteUsersTeam, GetPokemonUsersData } from './Context/apiFetch';
 
 
 export default function TeamViewer({ navigation }) {
@@ -22,6 +22,7 @@ export default function TeamViewer({ navigation }) {
     const { selectedPokemon4, setSelectedPokemon4 } = useContext(UserContext);
     const { selectedPokemon5, setSelectedPokemon5 } = useContext(UserContext);
     const { selectedPokemon6, setSelectedPokemon6 } = useContext(UserContext);
+    const { getPokeData, setGetPokeData } = useContext(UserContext);
 
     useEffect(async () => {
         console.log(selectedTeam)
@@ -107,6 +108,7 @@ export default function TeamViewer({ navigation }) {
 
                                         <Pressable key={i} onPress={async () => {
                                             setSelectedPokemonTeamViewer(poke)
+                                            setGetPokeData(await GetPokemonUsersData(poke.userId, poke.teamId, poke.name))
                                             navigation.navigate("SelectedPokemonTV")
                                         }}>
                                             <View style={[styles.imgStyle]}>
@@ -122,7 +124,6 @@ export default function TeamViewer({ navigation }) {
                                                 <Text style={[styles.pokeName]}>{poke.name}</Text>
                                             </View>
                                         </Pressable>
-
                                     )
                                 })
                             }

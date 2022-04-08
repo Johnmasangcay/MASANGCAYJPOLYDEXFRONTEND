@@ -70,6 +70,7 @@ export const UserProvider = ({ children }) => {
     const [teamPokemon6Type, setTeamPokemon6Type] = useState({teamPokemon6Type: null})
     const [forSelectedTV, setForSelectedTV] = useState(false)
     const [arr, setArr] = useState([])
+    const [getPokeData, setGetPokeData] = useState({selectedPoke: null})
     return (
         <>
             <UserContext.Provider value={{
@@ -82,7 +83,7 @@ export const UserProvider = ({ children }) => {
                 teamPokemon3Type, setTeamPokemon3Type, teamPokemon4Type, setTeamPokemon4Type, teamPokemon5Type, setTeamPokemon5Type,
                 teamPokemon6Type, setTeamPokemon6Type, condMove, setCondMove, routeForSelectedPokeToMove, setRouteForSelectedPokeToMove,
                 selectedPokeToMove, setSelectedPokeToMove, selectedMove1, setSelectedMove1, selectedMove2, setSelectedMove2, selectedMove3, setSelectedMove3,
-                selectedMove4, setSelectedMove4, forSelectedTV, setForSelectedTV, arr, setArr
+                selectedMove4, setSelectedMove4, forSelectedTV, setForSelectedTV, arr, setArr, getPokeData, setGetPokeData
                             }}>
                 {children}
             </UserContext.Provider>

@@ -82,6 +82,7 @@ export default function App() {
           <Stack.Screen
             name='SelectedPokemonTV'
             component={SelectedPokemonTV}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name='EditTeamScreen'

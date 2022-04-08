@@ -900,7 +900,6 @@ let pokeData = {
     "spectrier": false,
     "calyrex": false
 }
-
 const LogInFetch = async (logInUsername, logInPassword) => {
     let userToken;
     await fetch("https://masangcayjpolydex.azurewebsites.net/User/Login", {
@@ -1106,6 +1105,32 @@ const UsersNewAddedTeam = async (getUserId, teamName, selectedPokemon, selectedP
     return usersNewAddedTeam;
 }
 
+// Adding a default pokemon data.
+const AddPokemonDataIntoApi = async (userId, teamId) => {
+    let addPokemonData = [];
+    await fetch("http://192.168.12.253:5263/SelectedPoke/AddPokemonData", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "Id": 0,
+            "UserId":,
+            "TeamId":,
+            "Levels":,
+            "PokemonName":,
+            "HeldItems":,
+            "Ability1":,
+            "Ability2":,
+            "Move1":,
+            "Move2":,
+            "Move3":,
+            "Move4":
+        })
+    })
+}
+
+// Deleting Users Team
 const DeleteUsersTeam = async (teamId) => {
     let deleteTeam;
     let resp = await fetch(`https://masangcayjpolydex.azurewebsites.net/TeamBuilder/RemoveTeams/${teamId}`)
@@ -1147,6 +1172,14 @@ const EditedTeamByUser = async (teamId, userId, poke1, poke2, poke3, poke4, poke
     return editedTeam;
 }
 
+// getSelectedPokeData\
+const GetPokemonUsersData = async (userId, teamId, pokemonName) => {
+    let poke;
+    let resp = await fetch(`http://192.168.12.253:5263/SelectedPoke/GetPokemonByUniqueId/${userId}/${teamId}/${pokemonName}`)
+    let data = await resp.json();
+    poke = data[0]
+    return poke;
+} 
 
 // get the users a default favorite pokemon
 const GetUserIntoFav = async (newuserData) => {
@@ -2067,5 +2100,5 @@ const GetUserIntoFav = async (newuserData) => {
 
 export {
     LogInFetch, GetUserFetch, GetSelectedPokemonData, GetSelectedAbility1, GetSelectedAbility2, GetDmgTaken, signingUpNewUser, GetUserIntoFav, GetNewUserData, GetFavPokemonByUser,
-    GetUserIntoTeamBuilder, GetUserTeam, UsersNewAddedTeam, DeleteUsersTeam, EditedTeamByUser, GetTeamByTeamID
+    GetUserIntoTeamBuilder, GetUserTeam, UsersNewAddedTeam, DeleteUsersTeam, EditedTeamByUser, GetTeamByTeamID, GetPokemonUsersData
 }
