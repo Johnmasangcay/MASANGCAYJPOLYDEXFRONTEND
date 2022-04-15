@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
-import { UsersNewAddedTeam } from '../Screens/Context/apiFetch'
+import { UsersNewAddedTeam, GetUserTeam, GetUserLastAddedTeam } from '../Screens/Context/apiFetch'
 
 export default function CreateTeamScreen({ navigation }) {
 
@@ -23,6 +23,7 @@ export default function CreateTeamScreen({ navigation }) {
     const [isFilled5, setIsFilled5] = useState();
     const [isFilled6, setIsFilled6] = useState();
     const { condPokemon, setCondPokemon } = useContext(UserContext);
+    const { getNewAddedData, setGetNewAddedData } = useContext(UserContext);
 
     const firstPokeCond = async () => {
         let firstPoke;
@@ -327,6 +328,7 @@ export default function CreateTeamScreen({ navigation }) {
                         style={[styles.button, styles.buttonClose]}
                         onPress={async () => {
                             await UsersNewAddedTeam(getUserId, teamName, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
+                            setGetNewAddedData(await GetUserLastAddedTeam(getUserId))
                             setRoute("PokemonInfoScreen")
                             navigation.navigate("DashboardScreen")
                             setCreateTeamToDash(false)

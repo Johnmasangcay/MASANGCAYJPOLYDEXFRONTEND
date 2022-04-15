@@ -900,6 +900,14 @@ let pokeData = {
     "spectrier": false,
     "calyrex": false
 }
+let levels = 0;
+let heldItems = "";
+let ability1 = "";
+let ability2 = "";
+let move1 = "";
+let move2 = "";
+let move3 = "";
+let move4 = "";
 const LogInFetch = async (logInUsername, logInPassword) => {
     let userToken;
     await fetch("https://masangcayjpolydex.azurewebsites.net/User/Login", {
@@ -1068,7 +1076,7 @@ const GetUserIntoTeamBuilder = async (getUserId) => {
     return GetUserIntoTeam;
 }
 
-// get users team info
+// get users team info use in the modal to access all pokemon teams.
 const GetUserTeam = async (getUserId) => {
     let userTeam;
     let resp = await fetch(`https://masangcayjpolydex.azurewebsites.net/TeamBuilder/GetTeamByUser/${getUserId}`)
@@ -1076,6 +1084,46 @@ const GetUserTeam = async (getUserId) => {
     userTeam = data;
     console.log(userTeam);
     return userTeam;
+}
+
+// get user team to add a default data in each pokemon in the team.
+const GetUserLastAddedTeam = async (getUserId) => {
+    let lastAddedTeam;
+    let resp = await fetch(`https://masangcayjpolydex.azurewebsites.net/TeamBuilder/GetTeamByUser/${getUserId}`)
+    let data = await resp.json();
+    let getLastNumber = data.length - 1;
+    lastAddedTeam = data[getLastNumber];
+    if (lastAddedTeam.pokemon1 != null) {
+        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon1, heldItems, ability1, ability2, move1, move2, move3, move4)
+    }
+    if (lastAddedTeam.pokemon2 != null) {
+        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon2, heldItems, ability1, ability2, move1, move2, move3, move4)
+    }
+    if (lastAddedTeam.pokemon3 != null) {
+        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon3, heldItems, ability1, ability2, move1, move2, move3, move4)
+    }
+    if (lastAddedTeam.pokemon4 != null) {
+        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon4, heldItems, ability1, ability2, move1, move2, move3, move4)
+    }
+    if (lastAddedTeam.pokemon5 != null) {
+        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon5, heldItems, ability1, ability2, move1, move2, move3, move4)
+    }
+    if (lastAddedTeam.pokemon6 != null) {
+        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon6, heldItems, ability1, ability2, move1, move2, move3, move4)
+    }
+    console.log(lastAddedTeam)
+    return lastAddedTeam;
+}
+
+
+// Get all pokemn data
+const GetAllPokemonDataFromBackEnd = async () => {
+    let allData;
+    let resp = await fetch("http://192.168.152.42:5263/SelectedPoke/GetAllPokemonData")
+    let data = await resp.json();
+    allData = data;
+    console.log(allData)
+    return allData;
 }
 
 // users can add new teams.
@@ -1106,26 +1154,55 @@ const UsersNewAddedTeam = async (getUserId, teamName, selectedPokemon, selectedP
 }
 
 // Adding a default pokemon data.
-const AddPokemonDataIntoApi = async (userId, teamId) => {
+const AddPokemonDataIntoApi = async (userId, teamId, levels, pokemonName, heldItems, ability1, ability2, move1, move2, move3, move4) => {
     let addPokemonData = [];
-    await fetch("http://192.168.12.253:5263/SelectedPoke/AddPokemonData", {
+    await fetch("http://192.168.152.42:5263/SelectedPoke/AddPokemonData", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
             "Id": 0,
-            "UserId":,
-            "TeamId":,
-            "Levels":,
-            "PokemonName":,
-            "HeldItems":,
-            "Ability1":,
-            "Ability2":,
-            "Move1":,
-            "Move2":,
-            "Move3":,
-            "Move4":
+            "UserId": userId,
+            "TeamId": teamId,
+            "Levels": levels,
+            "PokemonName": pokemonName,
+            "HeldItems": heldItems,
+            "Ability1": ability1,
+            "Ability2": ability2,
+            "Move1": move1,
+            "Move2": move2,
+            "Move3": move3,
+            "Move4": move4
+        })
+    })
+        .then(resp => resp.json())
+        .then(data => addPokemonData = data)
+        .catch(console.error)
+    console.log(addPokemonData)
+    return addPokemonData;
+}
+
+//  Update Selected pokemon data in selectedPokemonTeamViewer
+const UpdateSelectedPokemon = async (pokeId, userId, teamId, levels, pokemonName, heldItems, ability1, ability2, move1, move2, move3, move4) => {
+    await fetch("http://192.168.152.42:5263/SelectedPoke/UpdatePokemonData", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "Id": pokeId,
+            "UserId": userId,
+            "TeamId": teamId,
+            "Levels": levels,
+            "PokemonName": pokemonName,
+            "HeldItems": heldItems,
+            "Ability1": ability1,
+            "Ability2": ability2,
+            "Move1": move1,
+            "Move2": move2,
+            "Move3": move3,
+            "Move4": move4
         })
     })
 }
@@ -1142,7 +1219,7 @@ const DeleteUsersTeam = async (teamId) => {
 
 const GetTeamByTeamID = async (teamId) => {
     let Team;
-    let resp = await fetch(`http://192.168.12.253:5263/TeamBuilder/GetTeamByTeamId/${teamId}`)
+    let resp = await fetch(`http://192.168.152.42:5263/TeamBuilder/GetTeamByTeamId/${teamId}`)
     let data = await resp.json();
     Team = data;
     return Team;
@@ -1166,8 +1243,8 @@ const EditedTeamByUser = async (teamId, userId, poke1, poke2, poke3, poke4, poke
             "Pokemon6": poke6
         })
     })
-    .then(resp => resp.json())
-    .then(data => editedTeam = data)
+        .then(resp => resp.json())
+        .then(data => editedTeam = data)
     console.log(editedTeam)
     return editedTeam;
 }
@@ -1175,11 +1252,12 @@ const EditedTeamByUser = async (teamId, userId, poke1, poke2, poke3, poke4, poke
 // getSelectedPokeData\
 const GetPokemonUsersData = async (userId, teamId, pokemonName) => {
     let poke;
-    let resp = await fetch(`http://192.168.12.253:5263/SelectedPoke/GetPokemonByUniqueId/${userId}/${teamId}/${pokemonName}`)
+    let resp = await fetch(`http://192.168.152.42:5263/SelectedPoke/GetPokemonByUniqueId/${userId}/${teamId}/${pokemonName}`)
     let data = await resp.json();
-    poke = data[0]
+    poke = data;
+    console.log(poke)
     return poke;
-} 
+}
 
 // get the users a default favorite pokemon
 const GetUserIntoFav = async (newuserData) => {
@@ -2100,5 +2178,6 @@ const GetUserIntoFav = async (newuserData) => {
 
 export {
     LogInFetch, GetUserFetch, GetSelectedPokemonData, GetSelectedAbility1, GetSelectedAbility2, GetDmgTaken, signingUpNewUser, GetUserIntoFav, GetNewUserData, GetFavPokemonByUser,
-    GetUserIntoTeamBuilder, GetUserTeam, UsersNewAddedTeam, DeleteUsersTeam, EditedTeamByUser, GetTeamByTeamID, GetPokemonUsersData
+    GetUserIntoTeamBuilder, GetUserTeam, UsersNewAddedTeam, DeleteUsersTeam, EditedTeamByUser, GetTeamByTeamID, GetPokemonUsersData, GetAllPokemonDataFromBackEnd, GetUserLastAddedTeam,
+    UpdateSelectedPokemon
 }

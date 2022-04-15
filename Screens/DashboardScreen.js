@@ -33,8 +33,10 @@ export default function DashboardScreen({ navigation }) {
     const { createTeamToDash, setCreateTeamToDash } = useContext(UserContext);
     const { condPokemon, setCondPokemon } = useContext(UserContext);
     const { selectedTeam, setSelectedTeam } = useContext(UserContext);
+    const { getNewAddedData, setGetNewAddedData } = useContext(UserContext);
 
 
+    // getting all pokemon to access all the data.
     const getPokemons = async () => {
         let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=10");
         let data = await resp.json();
@@ -48,6 +50,7 @@ export default function DashboardScreen({ navigation }) {
         getPokemonObjects(data.results)
     }
 
+    // filter base on the user.
     const filterPokemon = pokemons.filter(poke => {
         return poke.name.toLowerCase().includes(pokeSearch.toLowerCase())
     })
@@ -55,7 +58,10 @@ export default function DashboardScreen({ navigation }) {
 
     useEffect(async () => {
         getPokemons()
+        console.log(getNewAddedData)
+        // setting the ID of logged in user.
         setGetUserId(currentUser[0].id)
+        // setTimeout for dashboard onload.
         setTimeout(function () {
             setIsloaded(true)
         }, 6000)
@@ -74,6 +80,7 @@ export default function DashboardScreen({ navigation }) {
                 :
                 <View style={styles.container}>
                     {
+                        // ternary operator if the user just logged in it will load the pokedex, if the user went from teamBuilder to dashboard it will load Select a pokemon
                         createTeamToDash ?
                             <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
                                 <Text style={{ color: "black", paddingLeft: 5, fontSize: 20, fontWeight: "bold" }}>Select A Pokemon</Text>
@@ -89,7 +96,7 @@ export default function DashboardScreen({ navigation }) {
                                 }} style={{ fontSize: 30, paddingLeft: 210 }}>{star}</Text>
                             </View>
                     }
-
+                    {/* Modal for selecting screens */}
                     <View>
                         <Modal
                             animationType="slide"
@@ -167,6 +174,7 @@ export default function DashboardScreen({ navigation }) {
                             </View>
                         </Modal>
                     </View>
+                    {/* Search input  */}
                     <View>
                         <TextInput
                             placeholder="🔍 What Pokemon Are You Looking For?"
@@ -180,6 +188,7 @@ export default function DashboardScreen({ navigation }) {
 
                     <ScrollView style={{ paddingBottom: 20 }}>
                         {
+                            // Map Filter Pokemon to pull all pokemon as well as 
                             filterPokemon.map((pokemonData, keyx) => {
                                 return (
 

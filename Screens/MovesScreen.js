@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, Imag
 import UserContext from './Context/UserContext';
 import loading from '../assets/loading.json'
 import LottieView from 'lottie-react-native';
-import { GetSelectedPokemonData, GetDmgTaken, EditedTeamByUser, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetTeamByTeamID } from './Context/apiFetch';
+import { GetSelectedPokemonData, GetDmgTaken, EditedTeamByUser, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetTeamByTeamID, UpdateSelectedPokemon } from './Context/apiFetch';
 
 export default function DashboardScreen({ navigation }) {
   let star = "★"
@@ -31,6 +31,7 @@ export default function DashboardScreen({ navigation }) {
   const [getUserId, setGetUserId] = useState(0)
   const { currentUser } = useContext(UserContext)
   const { usersTeam, setUsersTeam } = useContext(UserContext);
+  const { getPokeData, setGetPokeData } = useContext(UserContext);
 
 
   const getPokemons = async () => {
@@ -133,7 +134,7 @@ export default function DashboardScreen({ navigation }) {
                     </View>
                   </Pressable>
 
-                  <Pressable onPress={async() => {
+                  <Pressable onPress={async () => {
                     setUsersTeam(await GetUserTeam(getUserId))
                     navigation.navigate("TeambuilderScreen")
                     setModalVisible(!modalVisible)
@@ -183,16 +184,16 @@ export default function DashboardScreen({ navigation }) {
                       }]} onPress={async () => {
                         if (condMove == "move1") {
                           console.log(item)
-                          setSelectedMove1(await item)
+                          await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].ability1, getPokeData[0].ability2, item.name, getPokeData[0].move2, getPokeData[0].move3, getPokeData[0].move4)
                           navigation.navigate("SelectedPokemonTV")
                         } else if (condMove == "move2") {
-                          setSelectedMove2(await item)
+                          await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, item.name, getPokeData[0].move3, getPokeData[0].move4)
                           navigation.navigate("SelectedPokemonTV")
                         } else if (condMove == "move3") {
-                          setSelectedMove3(await item)
+                          await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, item.name, getPokeData[0].move4)
                           navigation.navigate("SelectedPokemonTV")
                         } else if (condMove == "move4") {
-                          setSelectedMove4(await item)
+                          await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, getPokeData[0].move3, item.name)
                           navigation.navigate("SelectedPokemonTV")
                         }
                       }}>

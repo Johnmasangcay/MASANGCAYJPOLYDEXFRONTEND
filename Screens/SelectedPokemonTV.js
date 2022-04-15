@@ -51,11 +51,9 @@ export default function SelectedPokemonTV({ navigation }) {
                             </View>
                             <View style={{ flexDirection: "row", padding: 5 }}>
                                 {
-                                    selectedPokemonTeamViewer.types.map((pokeType) => {
-                                        return (
-                                            <>
-                                                <Text style={[styles.txtstyleSelectedTYPE, { backgroundColor: "#EEEEEE", marginLeft: 40 }]}>{pokeType.type.name}</Text>
-                                            </>
+                                    selectedPokemonTeamViewer.types.map((pokeType, i) => {
+                                        return (                                 
+                                                <Text key={i} style={[styles.txtstyleSelectedTYPE, { backgroundColor: "#EEEEEE", marginLeft: 40 }]}>{pokeType.type.name}</Text>                                   
                                         )
                                     })
                                 }
@@ -80,12 +78,12 @@ export default function SelectedPokemonTV({ navigation }) {
                                         }>
                                             <View>
                                                 {
-                                                    selectedMove1.moveName === null ?
+                                                    getPokeData[0].move1 === "" || getPokeData[0].move1 === null?
                                                         <View>
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
                                                         :
-                                                        <Text style={[styles.pokeName]}>{selectedMove1.name}</Text>
+                                                        <Text style={[styles.pokeName]}>{getPokeData[0].move1}</Text>
                                                 }
                                             </View>
                                         </Pressable>
@@ -97,17 +95,18 @@ export default function SelectedPokemonTV({ navigation }) {
                                         }]} onPress={() => {
                                             setCondMove("move2")
                                             setSelectedPokeToMove(true)
+                                            setForSelectedTV(true)
                                             navigation.navigate("MovesScreen")
                                         }
                                         }>
                                             <View>
                                                 {
-                                                    selectedMove2.moveName === null ?
+                                                    getPokeData[0].move2 === null || getPokeData[0].move2 === "" ?
                                                         <View>
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
                                                         :
-                                                        <Text style={[styles.pokeName]}>{selectedMove2.name}</Text>
+                                                        <Text style={[styles.pokeName]}>{getPokeData[0].move2}</Text>
                                                 }
                                             </View>
                                         </Pressable>
@@ -121,17 +120,18 @@ export default function SelectedPokemonTV({ navigation }) {
                                         }]} onPress={() => {
                                             setCondMove("move3")
                                             setSelectedPokeToMove(true)
+                                            setForSelectedTV(true)
                                             navigation.navigate("MovesScreen")
                                         }
                                         }>
                                             <View>
                                                 {
-                                                    selectedMove3.moveName === null ?
+                                                    getPokeData[0].move3 === "" || getPokeData[0].move3 === null?
                                                         <View>
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
                                                         :
-                                                        <Text style={[styles.pokeName]}>{selectedMove3.name}</Text>
+                                                        <Text style={[styles.pokeName]}>{getPokeData[0].move3}</Text>
                                                 }
                                             </View>
                                         </Pressable>
@@ -143,17 +143,18 @@ export default function SelectedPokemonTV({ navigation }) {
                                         }]} onPress={() => {
                                             setCondMove("move4")
                                             setSelectedPokeToMove(true)
+                                            setSelectedTV(true)
                                             navigation.navigate("MovesScreen")
                                         }
                                         }>
                                             <View>
                                                 {
-                                                    selectedMove4.moveName === null ?
+                                                    getPokeData[0].move4 === "" || getPokemon[0].move4 === null ?
                                                         <View>
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
                                                         :
-                                                        <Text style={[styles.pokeName]}>{selectedMove4.name}</Text>
+                                                        <Text style={[styles.pokeName]}>{getPokeData[0].move4}</Text>
                                                 }
                                             </View>
                                         </Pressable>

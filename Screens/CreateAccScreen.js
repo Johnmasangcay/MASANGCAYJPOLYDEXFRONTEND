@@ -50,6 +50,9 @@ export default function CreateAccScreen({ navigation }) {
                         placeholder='Enter Password'
                         onChangeText={setCreatePassword}
                         value={createPassword}
+                        secureTextEntry
+                        autoCapitalize='none'
+                        autoCorrect={false}
                     />
 
                     <Pressable style={({ pressed }) => [styles.btn, {
@@ -60,7 +63,7 @@ export default function CreateAccScreen({ navigation }) {
                     </Pressable>
                     <Pressable style={styles.txtStyleAlreadyHaveAcc} onPress={() => navigation.navigate("LogInScreen")}>
                         <Text>
-                            Already have an account? Sign In
+                            Already have an account? <Text style={styles.btnToSignUpPage}>Sign In</Text>
                         </Text>
                     </Pressable>
                 </View>
@@ -102,4 +105,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         margin: 20,
     },
+    btnToSignUpPage: {
+        color: "#1C6DD0"
+    }
 });

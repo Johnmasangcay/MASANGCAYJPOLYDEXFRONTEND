@@ -44,7 +44,7 @@ export default function LogInScreen({ navigation }) {
         <>
             <View style={styles.container}>
                 <View style={{ paddingTop: 180, alignItems: "center" }}>
-                    <Text style={styles.titleStyle}>Sign In To PolyDex</Text>
+                    <Text style={styles.titleStyle}>Welcome To PolyDex</Text>
                 </View>
                 <View style={{ paddingTop: 10 }}>
                     <Text style={styles.txtStyle}>Username</Text>
@@ -61,6 +61,9 @@ export default function LogInScreen({ navigation }) {
                         placeholder='Enter Password'
                         onChangeText={setLogInPassword}
                         value={logInPassword}
+                        secureTextEntry
+                        autoCapitalize='none'
+                        autoCorrect={false}
                     />
                     <Text style={styles.error}>{passwordError}</Text>
                     <Pressable style={({ pressed }) => [styles.btn, {
@@ -72,7 +75,7 @@ export default function LogInScreen({ navigation }) {
                     <Text style={styles.error}>{userFoundError}</Text>
                     <Pressable style={styles.txtStyleAlreadyHaveAcc} onPress={() => navigation.navigate("CreateAccScreen")}>
                         <Text>
-                            Doesn't have an account? Sign Up
+                            Doesn't have an account? <Text style={styles.btnToSignUpPage}>Sign Up</Text>
                         </Text>
                     </Pressable>
                 </View>
@@ -117,6 +120,8 @@ const styles = StyleSheet.create({
     error: {
         color: "#FC4F4F",
         alignSelf: "center",
-
+    },
+    btnToSignUpPage: {
+        color: "#1C6DD0"
     }
 });

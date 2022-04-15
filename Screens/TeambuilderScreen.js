@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
-import { GetSelectedPokemonData, GetDmgTaken } from './Context/apiFetch';
+import { GetSelectedPokemonData, GetDmgTaken, GetAllPokemonDataFromBackEnd } from './Context/apiFetch';
 import loading from '../assets/loading.json'
 import LottieView from 'lottie-react-native';
 
@@ -21,6 +21,7 @@ export default function TeamBuilderScreen({ navigation }) {
   const { teamPokemon4Type, setTeamPokemon4Type } = useState(UserContext);
   const { teamPokemon5Type, setTeamPokemon5Type } = useState(UserContext);
   const { teamPokemon6Type, setTeamPokemon6Type } = useState(UserContext);
+
 
   const getPokeInfo = async () => {
     let test = []
