@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
 import ProgressBar from 'react-native-progress/Bar';
-import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon } from './Context/apiFetch';
+import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetPokemonUsersData } from './Context/apiFetch';
 
 export default function SelectedPokemonTV({ navigation }) {
 
-    const [isloaded, setIsloaded] = useState(false);
+    const { isloaded, setIsloaded } = useContext(UserContext)
+    const { isloadedForSecCond, setIsloadedForSecCond } = useContext(UserContext)
+    const { num1, setNum1 } = useContext(UserContext)
     const { selectedPokemonTeamViewer, setSelectedPokemonTeamViewer } = useContext(UserContext)
     const { condMove, setCondMove } = useContext(UserContext)
     const { routeForSelectedPokeToMove, setRouteForSelectedPokeToMove } = useContext(UserContext)
@@ -18,14 +20,15 @@ export default function SelectedPokemonTV({ navigation }) {
     const { forSelectedTV, setForSelectedTV } = useContext(UserContext)
     const { arr, setArr } = useContext(UserContext)
     const { getPokeData, setGetPokeData } = useContext(UserContext);
+    const { getPokeDataForCond, setGetPokeDataForCond } = useContext(UserContext);
     const [usersNotes, setUsersNotes] = useState("")
 
     useEffect(async () => {
+        // window.location.reload(false); 
         console.log(selectedPokemonTeamViewer)
-        console.log(getPokeData)
         setTimeout(function () {
             setIsloaded(true)
-        }, 6000)
+        }, 1000)
     }, [])
 
     return (
@@ -52,8 +55,8 @@ export default function SelectedPokemonTV({ navigation }) {
                             <View style={{ flexDirection: "row", padding: 5 }}>
                                 {
                                     selectedPokemonTeamViewer.types.map((pokeType, i) => {
-                                        return (                                 
-                                                <Text key={i} style={[styles.txtstyleSelectedTYPE, { backgroundColor: "#EEEEEE", marginLeft: 40 }]}>{pokeType.type.name}</Text>                                   
+                                        return (
+                                            <Text key={i} style={[styles.txtstyleSelectedTYPE, { backgroundColor: "#EEEEEE", marginLeft: 40 }]}>{pokeType.type.name}</Text>
                                         )
                                     })
                                 }
@@ -62,7 +65,7 @@ export default function SelectedPokemonTV({ navigation }) {
                         <View style={[styles.containerBtn]}>
                             <View style={[styles.btn]}>
                                 <View>
-                                    <Text style={{ color: "white", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>MOVES</Text>
+                                    <Text style={{ color: "black", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>MOVES</Text>
                                 </View>
                                 <View style={{ flexDirection: "row" }}>
                                     <View>
@@ -78,7 +81,7 @@ export default function SelectedPokemonTV({ navigation }) {
                                         }>
                                             <View>
                                                 {
-                                                    getPokeData[0].move1 === "" || getPokeData[0].move1 === null?
+                                                    getPokeData[0].move1 === "" || getPokeData[0].move1 === null ?
                                                         <View>
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
@@ -126,7 +129,7 @@ export default function SelectedPokemonTV({ navigation }) {
                                         }>
                                             <View>
                                                 {
-                                                    getPokeData[0].move3 === "" || getPokeData[0].move3 === null?
+                                                    getPokeData[0].move3 === "" || getPokeData[0].move3 === null ?
                                                         <View>
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
@@ -143,13 +146,13 @@ export default function SelectedPokemonTV({ navigation }) {
                                         }]} onPress={() => {
                                             setCondMove("move4")
                                             setSelectedPokeToMove(true)
-                                            setSelectedTV(true)
+                                            setForSelectedTV(true)
                                             navigation.navigate("MovesScreen")
                                         }
                                         }>
                                             <View>
                                                 {
-                                                    getPokeData[0].move4 === "" || getPokemon[0].move4 === null ?
+                                                    getPokeData[0].move4 === "" || getPokeData[0].move4 === null ?
                                                         <View>
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
@@ -161,21 +164,23 @@ export default function SelectedPokemonTV({ navigation }) {
                                     </View>
                                 </View>
                                 <View>
-                                    <Text style={{ color: "white", fontSize: 10, alignSelf: "center", marginTop: 5 }}>Tap plus icon to Select</Text>
+                                    <Text style={{ color: "black", fontSize: 10, alignSelf: "center", marginTop: 5 }}>Tap plus icon to Select</Text>
                                 </View>
                             </View>
                         </View>
 
-                        <View style={[styles.btnAbilities, { backgroundColor: "#2C272E" }]}>
+                        <View style={[styles.btnAbilities, { backgroundColor: "#D1D1D1", }]}>
                             <View>
-                                <Text style={{ color: "white", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>ABILITIES</Text>
+                                <Text style={{ color: "black", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>ABILITIES</Text>
                             </View>
                             <View>
                                 {
                                     selectedPokemonTeamViewer.abilities.map((pokeAbility, i) => {
                                         return (
                                             <Pressable key={i} style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
-                                                onPress={async () => {
+                                                onPress={() => {
+                                                    setCondMove("itemCond")
+                                                    navigation.navigate("ItemScreen")
                                                 }}>
                                                 <Text style={styles.pokemonAbilitiesTxtHidden}>{pokeAbility.ability.name}</Text>
                                             </Pressable>
@@ -185,9 +190,9 @@ export default function SelectedPokemonTV({ navigation }) {
                             </View>
                         </View>
 
-                        <View style={[styles.btnHeldItem, { backgroundColor: "#2C272E" }]}>
+                        <View style={[styles.btnHeldItem, { backgroundColor: "#D1D1D1", }]}>
                             <View>
-                                <Text style={{ color: "white", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>Held Item</Text>
+                                <Text style={{ color: "black", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>Held Item</Text>
                             </View>
                             <View>
                                 <Pressable style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
@@ -198,21 +203,21 @@ export default function SelectedPokemonTV({ navigation }) {
                             </View>
                         </View>
 
-                        <View style={[styles.btnNotes, { backgroundColor: "#2C272E" }]}>
+                        {/* <View style={[styles.btnHeldItem, { backgroundColor: "#D1D1D1", }]}>
                             <View>
-                                <Text style={{ color: "white", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>Notes</Text>
+                                <Text style={{ color: "black", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>Enter Level</Text>
                             </View>
                             <View>
-                                <TextInput 
-                                    style={styles.input}
-                                    onChangeText={setUsersNotes}
+                                <TextInput
+                                    placeholder="Enter Mobile No."
+                                    onChangeText={setMobileNumber}
+                                    value={mobileNumber}
+                                    keyboardType="number-pad"
+                                    maxLength={12}
                                 />
                             </View>
-                        </View>
+                        </View> */}
                     </ScrollView>
-                    {/* <View style={[styles.btnSaveChanges, { backgroundColor: "#628395" }]}>
-                        <Text style={styles.saveTxt}>Save</Text>
-                    </View> */}
                 </SafeAreaView>
             }
         </>
@@ -285,7 +290,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.5,
         shadowRadius: 3,
-        backgroundColor: "#2C272E",
+        backgroundColor: "#D1D1D1",
         flexDirection: "row",
         height: 160,
         marginTop: 30

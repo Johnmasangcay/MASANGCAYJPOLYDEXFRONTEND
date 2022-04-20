@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
 import ProgressBar from 'react-native-progress/Bar';
-import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, DeleteUsersTeam, EditedTeamByUser } from './Context/apiFetch';
+import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, DeleteUsersTeam, EditedTeamByUser, GetUserLastAddedTeam } from './Context/apiFetch';
 
 export default function EditTeamScreen({ navigation }) {
 
@@ -18,7 +18,9 @@ export default function EditTeamScreen({ navigation }) {
     const { selectedPokemon6, setSelectedPokemon6 } = useContext(UserContext);
 
     useEffect(async () => {
+        console.log(selectedPokemon6)
     }, [])
+
     return (
         <SafeAreaView style={styles.container}>
             <View>
@@ -36,16 +38,24 @@ export default function EditTeamScreen({ navigation }) {
                             }
                             }>
                                 <View>
-                                    <View style={[styles.imgStyle]}>
-                                        <Image
-                                            source={{ uri: selectedPokemon.sprites.front_default }}
-                                            style={{
-                                                height: 100,
-                                                width: 100,
-                                            }}
-                                        />
-                                    </View>
-                                    <Text style={[styles.pokeName]}>{selectedPokemon.name}</Text>
+                                    {
+                                        selectedPokemon.sprites.front_default === undefined ?
+                                            <Text style={[styles.plusIcon]}>+</Text>
+                                            :
+                                            <>
+                                                <View style={[styles.imgStyle]}>
+                                                    <Image
+                                                        source={{ uri: selectedPokemon.sprites.front_default }}
+                                                        style={{
+                                                            height: 100,
+                                                            width: 100,
+                                                        }}
+                                                    />
+                                                </View>
+                                                <Text style={[styles.pokeName]}>{selectedPokemon.name}</Text>
+                                            </>
+
+                                    }
                                 </View>
                             </Pressable>
                         </View>
@@ -170,16 +180,24 @@ export default function EditTeamScreen({ navigation }) {
                             }
                             }>
                                 <View>
-                                    <View style={[styles.imgStyle]}>
-                                        <Image
-                                            source={{ uri: selectedPokemon6.sprites.front_default }}
-                                            style={{
-                                                height: 100,
-                                                width: 100,
-                                            }}
-                                        />
-                                    </View>
-                                    <Text style={[styles.pokeName]}>{selectedPokemon6.name}</Text>
+                                    {
+                                        selectedPokemon6 === undefined ?
+                                            <Text style={[styles.plusIcon]}>+</Text>
+                                            :
+                                            <>
+                                                <View style={[styles.imgStyle]}>
+                                                    <Image
+                                                        source={{ uri: selectedPokemon6.sprites.front_default }}
+                                                        style={{
+                                                            height: 100,
+                                                            width: 100,
+                                                        }}
+                                                    />
+                                                </View>
+                                                <Text style={[styles.pokeName]}>{selectedPokemon6.name}</Text>
+                                            </>
+
+                                    }
                                 </View>
                             </Pressable>
                         </View>
@@ -192,6 +210,7 @@ export default function EditTeamScreen({ navigation }) {
                     opacity: pressed ? .5 : 1
                 }]} onPress={async () => {
                     await EditedTeamByUser(selectedPokemon.teamId, selectedPokemon.userId, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
+                    await GetUserLastAddedTeam(selectedPokemon.userId)
                     setRoute("PokemonInfoScreen")
                     navigation.navigate("DashboardScreen")
                 }
@@ -271,5 +290,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         alignSelf: "center",
         paddingTop: 10
-    }
+    },
+    plusIcon: {
+        fontSize: 50,
+        color: "#fff",
+        alignSelf: "center",
+        paddingTop: 60
+    },
 })

@@ -51,18 +51,18 @@ export default function TeamBuilderScreen({ navigation }) {
     getPokeInfo()
     setTimeout(function () {
       setIsloaded(true)
-    }, 6000)
+    }, 3000)
   }, [])
 
   return (
     <>
       {!isloaded ?
         <View style={styles.loadingScreen}>
-          {/* <LottieView
+          <LottieView
             style={styles.loadingScreen}
             source={loading}
             autoPlay loop
-          /> */}
+          />
         </View>
         :
         <SafeAreaView style={styles.container}>

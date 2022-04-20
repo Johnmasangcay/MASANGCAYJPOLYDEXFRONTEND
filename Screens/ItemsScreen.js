@@ -3,6 +3,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import loading from '../assets/loading.json'
 import LottieView from 'lottie-react-native';
+import UserContext from './Context/UserContext';
+import { GetSelectedPokemonData, GetDmgTaken, EditedTeamByUser, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetTeamByTeamID, UpdateSelectedPokemon, GetPokemonUsersData } from './Context/apiFetch';
 
 export default function ItemScreen({ navigation }) {
   let star = "★"
@@ -15,6 +17,8 @@ export default function ItemScreen({ navigation }) {
   const [pokeSearch, setPokeSearch] = useState("");
   const [defaultItem, setDeafaultItem] = useState();
   const [defaultItemDescription, setDeafaultItemDescription] = useState();
+  const { condMove, setCondMove } = useContext(UserContext)
+  const { getPokeData, setGetPokeData } = useContext(UserContext);
 
 
   const getItems = async () => {
@@ -30,7 +34,6 @@ export default function ItemScreen({ navigation }) {
         setPokeItems(currentArr => [...currentArr, data]);
       })
     }
-
     getItemObjects(data.items)
   }
 
@@ -42,17 +45,17 @@ export default function ItemScreen({ navigation }) {
     getItems()
     setTimeout(function () {
       setIsloaded(true)
-    }, 5000)
+    }, 3000)
   }, [])
   return (
     <>
       {!isloaded ?
         <View style={styles.loadingScreen}>
-          {/* <LottieView
+          <LottieView
             style={styles.loadingScreen}
             source={loading}
             autoPlay loop
-          /> */}
+          />
         </View>
         :
         <View style={styles.container}>
@@ -148,28 +151,32 @@ export default function ItemScreen({ navigation }) {
               filterItem.map((itemData, keyx) => {
                 return (
 
-                    <Pressable key={keyx} style={({ pressed }) => [styles.btn, {
-                      backgroundColor: pressed ? "blue" : "#EDF6E5",
-                      opacity: pressed ? .5 : 1
-                    }]} onPress={async () => {
+                  <Pressable key={keyx} style={({ pressed }) => [styles.btn, {
+                    backgroundColor: pressed ? "blue" : "#EDF6E5",
+                    opacity: pressed ? .5 : 1
+                  }]} onPress={async () => {
+                    if (condMove == "itemCond") {
+                      await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, itemData.name, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, getPokeData[0].move3, getPokeData[0].move4)
+                      navigation.navigate("SelectedPokemonTV")
+                    } else {
                       setDeafaultItem(itemData.name)
                       setDeafaultItemDescription(itemData.effect_entries[0].effect)
                       setModalVisibleItem(true)
-                    }}>
-                      <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-                        <Text style={[styles.txtstyleNAME]}>{itemData.name}</Text>
-                        <View style={styles.txtstyleIMAGE}>
-                          <Image
-                            source={{ uri: itemData.sprites.default }}
-                            style={{
-                              height: 100,
-                              width: 100,
-                            }}
-                          />
-                        </View>
+                    }
+                  }}>
+                    <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+                      <Text style={[styles.txtstyleNAME]}>{itemData.name}</Text>
+                      <View style={styles.txtstyleIMAGE}>
+                        <Image
+                          source={{ uri: itemData.sprites.default }}
+                          style={{
+                            height: 100,
+                            width: 100,
+                          }}
+                        />
                       </View>
-                    </Pressable>
-
+                    </View>
+                  </Pressable>
                 )
               })
             }
@@ -309,5 +316,5 @@ const styles = StyleSheet.create({
   },
   loadingScreen: {
     flex: 1
-}
+  }
 });

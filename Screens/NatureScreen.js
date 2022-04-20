@@ -38,17 +38,17 @@ export default function DashboardScreen({ navigation }) {
         getNature()
         setTimeout(function () {
             setIsloaded(true)
-        }, 5000)
+        }, 3000)
     }, [])
     return (
         <>
             {!isloaded ?
                 <View style={styles.loadingScreen}>
-                    {/* <LottieView
+                    <LottieView
                         style={styles.loadingScreen}
                         source={loading}
                         autoPlay loop
-                    /> */}
+                    />
                 </View>
                 :
                 <View style={styles.container}>

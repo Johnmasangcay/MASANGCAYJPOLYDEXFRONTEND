@@ -71,7 +71,11 @@ export const UserProvider = ({ children }) => {
     const [forSelectedTV, setForSelectedTV] = useState(false)
     const [arr, setArr] = useState([])
     const [getPokeData, setGetPokeData] = useState({selectedPoke: null})
+    const [getPokeDataForCond, setGetPokeDataForCond] = useState({selectedPoke: null})
     const [getNewAddedData, setGetNewAddedData] = useState({selectedPoke: null})
+    const [isloaded, setIsloaded] = useState(false);
+    const [isloadedForSecCond, setIsloadedForSecCond] = useState(false);
+    const [num1, setNum1] = useState(0);
     return (
         <>
             <UserContext.Provider value={{
@@ -84,7 +88,8 @@ export const UserProvider = ({ children }) => {
                 teamPokemon3Type, setTeamPokemon3Type, teamPokemon4Type, setTeamPokemon4Type, teamPokemon5Type, setTeamPokemon5Type,
                 teamPokemon6Type, setTeamPokemon6Type, condMove, setCondMove, routeForSelectedPokeToMove, setRouteForSelectedPokeToMove,
                 selectedPokeToMove, setSelectedPokeToMove, selectedMove1, setSelectedMove1, selectedMove2, setSelectedMove2, selectedMove3, setSelectedMove3,
-                selectedMove4, setSelectedMove4, forSelectedTV, setForSelectedTV, arr, setArr, getPokeData, setGetPokeData, getNewAddedData, setGetNewAddedData
+                selectedMove4, setSelectedMove4, forSelectedTV, setForSelectedTV, arr, setArr, getPokeData, setGetPokeData, getNewAddedData, setGetNewAddedData,
+                isloaded, setIsloaded, num1, setNum1, getPokeDataForCond, setGetPokeDataForCond, isloadedForSecCond, setIsloadedForSecCond
                             }}>
                 {children}
             </UserContext.Provider>

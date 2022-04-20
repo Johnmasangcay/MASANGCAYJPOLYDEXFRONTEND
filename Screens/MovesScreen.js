@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, Imag
 import UserContext from './Context/UserContext';
 import loading from '../assets/loading.json'
 import LottieView from 'lottie-react-native';
-import { GetSelectedPokemonData, GetDmgTaken, EditedTeamByUser, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetTeamByTeamID, UpdateSelectedPokemon } from './Context/apiFetch';
+import { GetSelectedPokemonData, GetDmgTaken, EditedTeamByUser, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetTeamByTeamID, UpdateSelectedPokemon, GetPokemonUsersData } from './Context/apiFetch';
 
 export default function DashboardScreen({ navigation }) {
   let star = "★"
@@ -32,6 +32,8 @@ export default function DashboardScreen({ navigation }) {
   const { currentUser } = useContext(UserContext)
   const { usersTeam, setUsersTeam } = useContext(UserContext);
   const { getPokeData, setGetPokeData } = useContext(UserContext);
+  const { getPokeDataForCond, setGetPokeDataForCond } = useContext(UserContext);
+  const { isloadedForSecCond, setIsloadedForSecCond } = useContext(UserContext)
 
 
   const getPokemons = async () => {
@@ -60,17 +62,17 @@ export default function DashboardScreen({ navigation }) {
     setGetUserId(currentUser[0].id)
     setTimeout(function () {
       setIsloaded(true)
-    }, 5000)
+    }, 3000)
   }, [])
   return (
     <>
       {!isloaded ?
         <View style={styles.loadingScreen}>
-          {/* <LottieView
+          <LottieView
             style={styles.loadingScreen}
             source={loading}
             autoPlay loop
-          /> */}
+          />
         </View>
         :
         <View style={styles.container}>
@@ -183,8 +185,9 @@ export default function DashboardScreen({ navigation }) {
                         opacity: pressed ? .5 : 1
                       }]} onPress={async () => {
                         if (condMove == "move1") {
-                          console.log(item)
                           await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].ability1, getPokeData[0].ability2, item.name, getPokeData[0].move2, getPokeData[0].move3, getPokeData[0].move4)
+                          // setIsloadedForSecCond(true)
+                          setGetPokeDataForCond(item)
                           navigation.navigate("SelectedPokemonTV")
                         } else if (condMove == "move2") {
                           await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, item.name, getPokeData[0].move3, getPokeData[0].move4)

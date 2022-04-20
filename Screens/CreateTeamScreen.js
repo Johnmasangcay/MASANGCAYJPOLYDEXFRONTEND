@@ -330,8 +330,9 @@ export default function CreateTeamScreen({ navigation }) {
                             await UsersNewAddedTeam(getUserId, teamName, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
                             setGetNewAddedData(await GetUserLastAddedTeam(getUserId))
                             setRoute("PokemonInfoScreen")
-                            navigation.navigate("DashboardScreen")
                             setCreateTeamToDash(false)
+                            navigation.navigate("DashboardScreen")
+                            
                         }}
                     >
                         <Text style={styles.textStyle}>Add Team</Text>

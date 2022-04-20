@@ -23,6 +23,7 @@ export default function TeamViewer({ navigation }) {
     const { selectedPokemon5, setSelectedPokemon5 } = useContext(UserContext);
     const { selectedPokemon6, setSelectedPokemon6 } = useContext(UserContext);
     const { getPokeData, setGetPokeData } = useContext(UserContext);
+    const { getPokeDataForCond, setGetPokeDataForCond } = useContext(UserContext);
     
 
     useEffect(async () => {
@@ -65,7 +66,6 @@ export default function TeamViewer({ navigation }) {
                                             <Text style={styles.textStyle}>Continue</Text>
                                         </Pressable>
                                     </View>
-
                                 </View>
                             </View>
                         </Modal>
