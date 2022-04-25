@@ -1119,7 +1119,7 @@ const GetUserLastAddedTeam = async (getUserId) => {
 // Get all pokemn data
 const GetAllPokemonDataFromBackEnd = async () => {
     let allData;
-    let resp = await fetch("http://192.168.12.253:5263/SelectedPoke/GetAllPokemonData")
+    let resp = await fetch("https://masangcayjpolydex.azurewebsites.net/SelectedPoke/GetAllPokemonData")
     let data = await resp.json();
     allData = data;
     console.log(allData)
@@ -1156,7 +1156,7 @@ const UsersNewAddedTeam = async (getUserId, teamName, selectedPokemon, selectedP
 // Adding a default pokemon data.
 const AddPokemonDataIntoApi = async (userId, teamId, levels, pokemonName, heldItems, ability1, ability2, move1, move2, move3, move4) => {
     let addPokemonData = [];
-    await fetch("http://192.168.12.253:5263/SelectedPoke/AddPokemonData", {
+    await fetch("https://masangcayjpolydex.azurewebsites.net/SelectedPoke/AddPokemonData", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -1186,7 +1186,7 @@ const AddPokemonDataIntoApi = async (userId, teamId, levels, pokemonName, heldIt
 //  Update Selected pokemon data in selectedPokemonTeamViewer
 const UpdateSelectedPokemon = async (pokeId, userId, teamId, levels, pokemonName, heldItems, ability1, ability2, move1, move2, move3, move4) => {
     let updatedPokeData = [];
-    await fetch("http://192.168.12.253:5263/SelectedPoke/UpdatePokemonData", {
+    await fetch("https://masangcayjpolydex.azurewebsites.net/SelectedPoke/UpdatePokemonData", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -1225,7 +1225,7 @@ const DeleteUsersTeam = async (teamId) => {
 
 const GetTeamByTeamID = async (teamId) => {
     let Team;
-    let resp = await fetch(`http://192.168.12.253:5263/TeamBuilder/GetTeamByTeamId/${teamId}`)
+    let resp = await fetch(`https://masangcayjpolydex.azurewebsites.net/TeamBuilder/GetTeamByTeamId/${teamId}`)
     let data = await resp.json();
     Team = data;
     return Team;
@@ -1258,7 +1258,7 @@ const EditedTeamByUser = async (teamId, userId, poke1, poke2, poke3, poke4, poke
 // getSelectedPokeData\
 const GetPokemonUsersData = async (userId, teamId, pokemonName) => {
     let poke;
-    let resp = await fetch(`http://192.168.12.253:5263/SelectedPoke/GetPokemonByUniqueId/${userId}/${teamId}/${pokemonName}`)
+    let resp = await fetch(`https://masangcayjpolydex.azurewebsites.net//SelectedPoke/GetPokemonByUniqueId/${userId}/${teamId}/${pokemonName}`)
     let data = await resp.json();
     poke = data;
     console.log(poke)

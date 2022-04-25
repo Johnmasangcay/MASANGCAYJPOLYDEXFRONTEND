@@ -8,7 +8,10 @@ export default function SelectedPokemonTV({ navigation }) {
 
     const { isloaded, setIsloaded } = useContext(UserContext)
     const { isloadedForSecCond, setIsloadedForSecCond } = useContext(UserContext)
-    const { num1, setNum1 } = useContext(UserContext)
+    const { cond, setCond } = useContext(UserContext)
+    const { cond2, setCond2 } = useContext(UserContext)
+    const { cond3, setCond3 } = useContext(UserContext)
+    const { cond4, setCond4 } = useContext(UserContext)
     const { selectedPokemonTeamViewer, setSelectedPokemonTeamViewer } = useContext(UserContext)
     const { condMove, setCondMove } = useContext(UserContext)
     const { routeForSelectedPokeToMove, setRouteForSelectedPokeToMove } = useContext(UserContext)
@@ -20,7 +23,7 @@ export default function SelectedPokemonTV({ navigation }) {
     const { forSelectedTV, setForSelectedTV } = useContext(UserContext)
     const { arr, setArr } = useContext(UserContext)
     const { getPokeData, setGetPokeData } = useContext(UserContext);
-    const { getPokeDataForCond, setGetPokeDataForCond } = useContext(UserContext);
+    const { selectedMoveFromMoves, setSelectedMoveFromMoves } = useContext(UserContext);
     const [usersNotes, setUsersNotes] = useState("")
 
     useEffect(async () => {
@@ -86,7 +89,10 @@ export default function SelectedPokemonTV({ navigation }) {
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
                                                         :
+                                                        cond == "teamBToSelectedTV" ?
                                                         <Text style={[styles.pokeName]}>{getPokeData[0].move1}</Text>
+                                                        :
+                                                        <Text style={[styles.pokeName]}>{selectedMove1}</Text>
                                                 }
                                             </View>
                                         </Pressable>
@@ -109,7 +115,10 @@ export default function SelectedPokemonTV({ navigation }) {
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
                                                         :
+                                                        cond2 == "teamBToSelectedTV2" ? 
                                                         <Text style={[styles.pokeName]}>{getPokeData[0].move2}</Text>
+                                                        :
+                                                        <Text style={[styles.pokeName]}>{selectedMove2}</Text>
                                                 }
                                             </View>
                                         </Pressable>
@@ -134,7 +143,10 @@ export default function SelectedPokemonTV({ navigation }) {
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
                                                         :
+                                                        cond3 == "teamBToSelectedTV3" ?
                                                         <Text style={[styles.pokeName]}>{getPokeData[0].move3}</Text>
+                                                        :
+                                                        <Text style={[styles.pokeName]}>{selectedMove3}</Text>
                                                 }
                                             </View>
                                         </Pressable>
@@ -157,7 +169,10 @@ export default function SelectedPokemonTV({ navigation }) {
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
                                                         :
+                                                        cond4 == "teamBToSelectedTV4" ?
                                                         <Text style={[styles.pokeName]}>{getPokeData[0].move4}</Text>
+                                                        :
+                                                        <Text style={[styles.pokeName]}>{selectedMove4}</Text>
                                                 }
                                             </View>
                                         </Pressable>

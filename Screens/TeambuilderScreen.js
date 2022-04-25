@@ -21,6 +21,7 @@ export default function TeamBuilderScreen({ navigation }) {
   const { teamPokemon4Type, setTeamPokemon4Type } = useState(UserContext);
   const { teamPokemon5Type, setTeamPokemon5Type } = useState(UserContext);
   const { teamPokemon6Type, setTeamPokemon6Type } = useState(UserContext);
+  
 
 
   const getPokeInfo = async () => {
@@ -58,11 +59,11 @@ export default function TeamBuilderScreen({ navigation }) {
     <>
       {!isloaded ?
         <View style={styles.loadingScreen}>
-          <LottieView
+          {/* <LottieView
             style={styles.loadingScreen}
             source={loading}
             autoPlay loop
-          />
+          /> */}
         </View>
         :
         <SafeAreaView style={styles.container}>

@@ -71,11 +71,11 @@ export default function DashboardScreen({ navigation }) {
         <>
             {!isloaded ?
                 <View style={styles.loadingScreen}>
-                    <LottieView
+                    {/* <LottieView
                         style={styles.loadingScreen}
                         source={loading}
                         autoPlay loop
-                    />
+                    /> */}
                 </View>
                 :
                 <View style={styles.container}>

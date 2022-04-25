@@ -23,7 +23,10 @@ export default function TeamViewer({ navigation }) {
     const { selectedPokemon5, setSelectedPokemon5 } = useContext(UserContext);
     const { selectedPokemon6, setSelectedPokemon6 } = useContext(UserContext);
     const { getPokeData, setGetPokeData } = useContext(UserContext);
-    const { getPokeDataForCond, setGetPokeDataForCond } = useContext(UserContext);
+    const { cond, setCond } = useContext(UserContext)
+    const { cond2, setCond2 } = useContext(UserContext)
+    const { cond3, setCond3 } = useContext(UserContext)
+    const { cond4, setCond4 } = useContext(UserContext)
     
 
     useEffect(async () => {
@@ -111,6 +114,10 @@ export default function TeamViewer({ navigation }) {
                                         <Pressable key={i} onPress={async () => {
                                             setGetPokeData(await GetPokemonUsersData(poke.userId, poke.teamId, poke.name))
                                             setSelectedPokemonTeamViewer(poke)
+                                            setCond("teamBToSelectedTV")
+                                            setCond2("teamBToSelectedTV2")
+                                            setCond3("teamBToSelectedTV3")
+                                            setCond4("teamBToSelectedTV4")
                                             navigation.navigate("SelectedPokemonTV")
                                         }}>
                                             <View style={[styles.imgStyle]}>

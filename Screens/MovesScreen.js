@@ -34,6 +34,12 @@ export default function DashboardScreen({ navigation }) {
   const { getPokeData, setGetPokeData } = useContext(UserContext);
   const { getPokeDataForCond, setGetPokeDataForCond } = useContext(UserContext);
   const { isloadedForSecCond, setIsloadedForSecCond } = useContext(UserContext)
+  const { counter, setCounter } = useContext(UserContext)
+  const { cond, setCond } = useContext(UserContext)
+  const { cond2, setCond2 } = useContext(UserContext)
+  const { cond3, setCond3 } = useContext(UserContext)
+  const { cond4, setCond4 } = useContext(UserContext)
+  const { selectedMoveFromMoves, setSelectedMoveFromMoves } = useContext(UserContext);
 
 
   const getPokemons = async () => {
@@ -68,11 +74,11 @@ export default function DashboardScreen({ navigation }) {
     <>
       {!isloaded ?
         <View style={styles.loadingScreen}>
-          <LottieView
+          {/* <LottieView
             style={styles.loadingScreen}
             source={loading}
             autoPlay loop
-          />
+          /> */}
         </View>
         :
         <View style={styles.container}>
@@ -186,17 +192,23 @@ export default function DashboardScreen({ navigation }) {
                       }]} onPress={async () => {
                         if (condMove == "move1") {
                           await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].ability1, getPokeData[0].ability2, item.name, getPokeData[0].move2, getPokeData[0].move3, getPokeData[0].move4)
-                          // setIsloadedForSecCond(true)
-                          setGetPokeDataForCond(item)
+                          setSelectedMove1(item.name)
+                          setCond("MovesToSelectedTV")
                           navigation.navigate("SelectedPokemonTV")
                         } else if (condMove == "move2") {
                           await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, item.name, getPokeData[0].move3, getPokeData[0].move4)
+                          setSelectedMove2(item.name)
+                          setCond2("MovesToSelectedTV")
                           navigation.navigate("SelectedPokemonTV")
                         } else if (condMove == "move3") {
                           await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, item.name, getPokeData[0].move4)
+                          setSelectedMove3(item.name)
+                          setCond3("MovesToSelectedTV")
                           navigation.navigate("SelectedPokemonTV")
                         } else if (condMove == "move4") {
                           await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, getPokeData[0].move3, item.name)
+                          setSelectedMove4(item.name)
+                          setCond4("MovesToSelectedTV")
                           navigation.navigate("SelectedPokemonTV")
                         }
                       }}>
