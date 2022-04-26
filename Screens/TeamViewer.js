@@ -27,6 +27,7 @@ export default function TeamViewer({ navigation }) {
     const { cond2, setCond2 } = useContext(UserContext)
     const { cond3, setCond3 } = useContext(UserContext)
     const { cond4, setCond4 } = useContext(UserContext)
+    const { condForHeldItems, setCondForHeldItems } = useContext(UserContext)
     
 
     useEffect(async () => {
@@ -118,6 +119,7 @@ export default function TeamViewer({ navigation }) {
                                             setCond2("teamBToSelectedTV2")
                                             setCond3("teamBToSelectedTV3")
                                             setCond4("teamBToSelectedTV4")
+                                            setCondForHeldItems("teamBToSelectedTVHeldItems")
                                             navigation.navigate("SelectedPokemonTV")
                                         }}>
                                             <View style={[styles.imgStyle]}>

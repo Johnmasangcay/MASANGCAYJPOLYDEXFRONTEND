@@ -12,6 +12,7 @@ export default function SelectedPokemonTV({ navigation }) {
     const { cond2, setCond2 } = useContext(UserContext)
     const { cond3, setCond3 } = useContext(UserContext)
     const { cond4, setCond4 } = useContext(UserContext)
+    const { condForHeldItems, setCondForHeldItems } = useContext(UserContext)
     const { selectedPokemonTeamViewer, setSelectedPokemonTeamViewer } = useContext(UserContext)
     const { condMove, setCondMove } = useContext(UserContext)
     const { routeForSelectedPokeToMove, setRouteForSelectedPokeToMove } = useContext(UserContext)
@@ -21,14 +22,12 @@ export default function SelectedPokemonTV({ navigation }) {
     const { selectedMove3, setSelectedMove3 } = useContext(UserContext)
     const { selectedMove4, setSelectedMove4 } = useContext(UserContext)
     const { forSelectedTV, setForSelectedTV } = useContext(UserContext)
-    const { arr, setArr } = useContext(UserContext)
     const { getPokeData, setGetPokeData } = useContext(UserContext);
-    const { selectedMoveFromMoves, setSelectedMoveFromMoves } = useContext(UserContext);
-    const [usersNotes, setUsersNotes] = useState("")
+    const { selectedHeldItems, setSelectedHeldItems } = useContext(UserContext);
 
     useEffect(async () => {
         // window.location.reload(false); 
-        console.log(selectedPokemonTeamViewer)
+        console.log(getPokeData[0])
         setTimeout(function () {
             setIsloaded(true)
         }, 1000)
@@ -90,9 +89,9 @@ export default function SelectedPokemonTV({ navigation }) {
                                                         </View>
                                                         :
                                                         cond == "teamBToSelectedTV" ?
-                                                        <Text style={[styles.pokeName]}>{getPokeData[0].move1}</Text>
-                                                        :
-                                                        <Text style={[styles.pokeName]}>{selectedMove1}</Text>
+                                                            <Text style={[styles.pokeName]}>{getPokeData[0].move1}</Text>
+                                                            :
+                                                            <Text style={[styles.pokeName]}>{selectedMove1}</Text>
                                                 }
                                             </View>
                                         </Pressable>
@@ -115,10 +114,10 @@ export default function SelectedPokemonTV({ navigation }) {
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
                                                         :
-                                                        cond2 == "teamBToSelectedTV2" ? 
-                                                        <Text style={[styles.pokeName]}>{getPokeData[0].move2}</Text>
-                                                        :
-                                                        <Text style={[styles.pokeName]}>{selectedMove2}</Text>
+                                                        cond2 == "teamBToSelectedTV2" ?
+                                                            <Text style={[styles.pokeName]}>{getPokeData[0].move2}</Text>
+                                                            :
+                                                            <Text style={[styles.pokeName]}>{selectedMove2}</Text>
                                                 }
                                             </View>
                                         </Pressable>
@@ -131,7 +130,6 @@ export default function SelectedPokemonTV({ navigation }) {
                                             opacity: pressed ? .5 : 1
                                         }]} onPress={() => {
                                             setCondMove("move3")
-                                            setSelectedPokeToMove(true)
                                             setForSelectedTV(true)
                                             navigation.navigate("MovesScreen")
                                         }
@@ -144,9 +142,9 @@ export default function SelectedPokemonTV({ navigation }) {
                                                         </View>
                                                         :
                                                         cond3 == "teamBToSelectedTV3" ?
-                                                        <Text style={[styles.pokeName]}>{getPokeData[0].move3}</Text>
-                                                        :
-                                                        <Text style={[styles.pokeName]}>{selectedMove3}</Text>
+                                                            <Text style={[styles.pokeName]}>{getPokeData[0].move3}</Text>
+                                                            :
+                                                            <Text style={[styles.pokeName]}>{selectedMove3}</Text>
                                                 }
                                             </View>
                                         </Pressable>
@@ -157,7 +155,6 @@ export default function SelectedPokemonTV({ navigation }) {
                                             opacity: pressed ? .5 : 1
                                         }]} onPress={() => {
                                             setCondMove("move4")
-                                            setSelectedPokeToMove(true)
                                             setForSelectedTV(true)
                                             navigation.navigate("MovesScreen")
                                         }
@@ -170,9 +167,9 @@ export default function SelectedPokemonTV({ navigation }) {
                                                         </View>
                                                         :
                                                         cond4 == "teamBToSelectedTV4" ?
-                                                        <Text style={[styles.pokeName]}>{getPokeData[0].move4}</Text>
-                                                        :
-                                                        <Text style={[styles.pokeName]}>{selectedMove4}</Text>
+                                                            <Text style={[styles.pokeName]}>{getPokeData[0].move4}</Text> 
+                                                            :
+                                                            <Text style={[styles.pokeName]}>{selectedMove4}</Text>
                                                 }
                                             </View>
                                         </Pressable>
@@ -195,6 +192,7 @@ export default function SelectedPokemonTV({ navigation }) {
                                             <Pressable key={i} style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
                                                 onPress={() => {
                                                     setCondMove("itemCond")
+                                                    setForSelectedTV(true)
                                                     navigation.navigate("ItemScreen")
                                                 }}>
                                                 <Text style={styles.pokemonAbilitiesTxtHidden}>{pokeAbility.ability.name}</Text>
@@ -213,10 +211,24 @@ export default function SelectedPokemonTV({ navigation }) {
                                 <Pressable style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
                                     onPress={async () => {
                                     }}>
-                                    <Text style={styles.pokemonHeldItemTxtHidden}>+</Text>
+                                    <View>
+                                        {
+                                            getPokeData[0].heldItems === "" || getPokeData[0].heldItems === null ?
+                                                <View>
+                                                    <Text style={styles.pokemonHeldItemTxtHidden}>+</Text>
+                                                </View>
+                                                :
+                                                condForHeldItems == "teamBToSelectedTVHeldItems" ?
+                                                    <Text style={[styles.pokeName]}>{getPokeData[0].heldItems}</Text>
+                                                    :
+                                                    <Text style={[styles.pokeName]}>{selectedHeldItems}</Text>
+                                            }
+                                    </View>
                                 </Pressable>
                             </View>
                         </View>
+
+                        
 
                         {/* <View style={[styles.btnHeldItem, { backgroundColor: "#D1D1D1", }]}>
                             <View>

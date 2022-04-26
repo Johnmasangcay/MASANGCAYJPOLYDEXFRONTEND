@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, Imag
 import loading from '../assets/loading.json'
 import LottieView from 'lottie-react-native';
 import UserContext from './Context/UserContext';
-import { GetSelectedPokemonData, GetDmgTaken, EditedTeamByUser, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetTeamByTeamID, UpdateSelectedPokemon, GetPokemonUsersData } from './Context/apiFetch';
+import { GetSelectedPokemonData, UpdateSelectedPokemon, GetDmgTaken, EditedTeamByUser, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetTeamByTeamID, GetPokemonUsersData } from './Context/apiFetch';
 
 export default function ItemScreen({ navigation }) {
   let star = "★"
@@ -19,7 +19,8 @@ export default function ItemScreen({ navigation }) {
   const [defaultItemDescription, setDeafaultItemDescription] = useState();
   const { condMove, setCondMove } = useContext(UserContext)
   const { getPokeData, setGetPokeData } = useContext(UserContext);
-
+  const { selectedHeldItems, setSelectedHeldItems } = useContext(UserContext);
+  const { forSelectedTV, setForSelectedTV } = useContext(UserContext)
 
   const getItems = async () => {
     let resp = await fetch("https://pokeapi.co/api/v2/item-category/12");
@@ -51,11 +52,11 @@ export default function ItemScreen({ navigation }) {
     <>
       {!isloaded ?
         <View style={styles.loadingScreen}>
-          <LottieView
+          {/* <LottieView
             style={styles.loadingScreen}
             source={loading}
             autoPlay loop
-          />
+          /> */}
         </View>
         :
         <View style={styles.container}>
@@ -156,7 +157,8 @@ export default function ItemScreen({ navigation }) {
                     opacity: pressed ? .5 : 1
                   }]} onPress={async () => {
                     if (condMove == "itemCond") {
-                      await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, itemData.name, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, getPokeData[0].move3, getPokeData[0].move4)
+                      await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, itemData.name, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, getPokeData[0].move3, getPokeData[0].move4)           
+                      setSelectedHeldItems(itemData.name)
                       navigation.navigate("SelectedPokemonTV")
                     } else {
                       setDeafaultItem(itemData.name)

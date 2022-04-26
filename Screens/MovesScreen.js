@@ -20,7 +20,7 @@ export default function DashboardScreen({ navigation }) {
   const [defaultMoveDescription, setDefaultMoveDescription] = useState()
   const { condMove, setCondMove } = useContext(UserContext)
   const { routeForSelectedPokeToMove, setRouteForSelectedPokeToMove } = useContext(UserContext)
-  const { selectedPokeToMove, setSelectedPokeToMove } = useContext(UserContext)
+
   const { selectedMove1, setSelectedMove1 } = useContext(UserContext)
   const { selectedMove2, setSelectedMove2 } = useContext(UserContext)
   const { selectedMove3, setSelectedMove3 } = useContext(UserContext)
@@ -185,7 +185,6 @@ export default function DashboardScreen({ navigation }) {
                   data={filterMove}
                   renderItem={({ item, i }) => {
                     return (
-
                       <Pressable key={i} style={({ pressed }) => [styles.btn, {
                         backgroundColor: pressed ? "blue" : "#EDF6E5",
                         opacity: pressed ? .5 : 1
