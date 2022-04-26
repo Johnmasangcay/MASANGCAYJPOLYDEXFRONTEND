@@ -167,7 +167,7 @@ export default function SelectedPokemonTV({ navigation }) {
                                                         </View>
                                                         :
                                                         cond4 == "teamBToSelectedTV4" ?
-                                                            <Text style={[styles.pokeName]}>{getPokeData[0].move4}</Text> 
+                                                            <Text style={[styles.pokeName]}>{getPokeData[0].move4}</Text>
                                                             :
                                                             <Text style={[styles.pokeName]}>{selectedMove4}</Text>
                                                 }
@@ -191,9 +191,6 @@ export default function SelectedPokemonTV({ navigation }) {
                                         return (
                                             <Pressable key={i} style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
                                                 onPress={() => {
-                                                    setCondMove("itemCond")
-                                                    setForSelectedTV(true)
-                                                    navigation.navigate("ItemScreen")
                                                 }}>
                                                 <Text style={styles.pokemonAbilitiesTxtHidden}>{pokeAbility.ability.name}</Text>
                                             </Pressable>
@@ -210,6 +207,37 @@ export default function SelectedPokemonTV({ navigation }) {
                             <View>
                                 <Pressable style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
                                     onPress={async () => {
+                                        setCondMove("itemCond")
+                                        setForSelectedTV(true)
+                                        navigation.navigate("ItemScreen")
+                                    }}>
+                                    <View>
+                                        {
+                                            getPokeData[0].heldItems === "" || getPokeData[0].heldItems === null ?
+                                                <View>
+                                                    <Text style={styles.pokemonHeldItemTxtHidden}>+</Text>
+                                                </View>
+                                                :
+                                                condForHeldItems == "teamBToSelectedTVHeldItems" ?
+                                                    <Text style={[styles.pokeName]}>{getPokeData[0].heldItems}</Text>
+                                                    :
+                                                    <Text style={[styles.pokeName]}>{selectedHeldItems}</Text>
+                                        }
+                                    </View>
+                                </Pressable>
+                            </View>
+                        </View>
+
+                        {/* <View style={[styles.btnHeldItem, { backgroundColor: "#D1D1D1", }]}>
+                            <View>
+                                <Text style={{ color: "black", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>Nature</Text>
+                            </View>
+                            <View>
+                                <Pressable style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
+                                    onPress={async () => {
+                                        setCondMove("natureCond")
+                                        setForSelectedTV(true)
+                                        navigation.navigate("NatureScreen")
                                     }}>
                                     <View>
                                         {
@@ -226,24 +254,9 @@ export default function SelectedPokemonTV({ navigation }) {
                                     </View>
                                 </Pressable>
                             </View>
-                        </View>
-
-                        
-
-                        {/* <View style={[styles.btnHeldItem, { backgroundColor: "#D1D1D1", }]}>
-                            <View>
-                                <Text style={{ color: "black", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>Enter Level</Text>
-                            </View>
-                            <View>
-                                <TextInput
-                                    placeholder="Enter Mobile No."
-                                    onChangeText={setMobileNumber}
-                                    value={mobileNumber}
-                                    keyboardType="number-pad"
-                                    maxLength={12}
-                                />
-                            </View>
                         </View> */}
+
+
                     </ScrollView>
                 </SafeAreaView>
             }

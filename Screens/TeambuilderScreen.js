@@ -134,7 +134,7 @@ export default function TeamBuilderScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 50 }} name='user' size={25} color="white" />
+                      <Icon style={{ color: "gainsboro", paddingRight: 65 }} name='user' size={25} color="white" />
                       <Text style={styles.modalText}>TEAM BUILDER</Text>
                     </View>
                   </Pressable>
@@ -143,7 +143,7 @@ export default function TeamBuilderScreen({ navigation }) {
                     style={[styles.button, styles.buttonClose]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
-                    <Text style={styles.textStyle}>Hide Modal</Text>
+                    <Text style={styles.textStyle}>Close</Text>
                   </Pressable>
                 </View>
               </View>
@@ -214,12 +214,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     marginHorizontal: 10,
     marginVertical: 10,
-    shadowColor: '#171717',
+    shadowColor: '#E78EA9',
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.5,
     shadowRadius: 3,
     height: 360,
-    backgroundColor: "#D1D1D1",
+    backgroundColor: "#EFDAD7",
     flexDirection: "row",
     maxWidth: 460
   },
@@ -281,7 +281,8 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     textAlign: "left",
     fontSize: 20,
-    color: "gainsboro"
+    color: "gainsboro", 
+    fontWeight: "bold",
   },
   loadingScreen: {
     flex: 1

@@ -296,7 +296,8 @@ const styles = StyleSheet.create({
         marginBottom: 25,
         textAlign: "left",
         fontSize: 20,
-        color: "gainsboro"
+        color: "gainsboro",
+        fontWeight: "bold",
     },
     buttonClose: {
         backgroundColor: "#2196F3",

@@ -157,7 +157,7 @@ export default function ItemScreen({ navigation }) {
                     opacity: pressed ? .5 : 1
                   }]} onPress={async () => {
                     if (condMove == "itemCond") {
-                      await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, itemData.name, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, getPokeData[0].move3, getPokeData[0].move4)           
+                      await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, itemData.name, getPokeData[0].natures, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, getPokeData[0].move3, getPokeData[0].move4, getPokeData[0].notes, getPokeData[0].slotnumber)           
                       setSelectedHeldItems(itemData.name)
                       navigation.navigate("SelectedPokemonTV")
                     } else {

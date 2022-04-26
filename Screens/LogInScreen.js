@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button } from 'react-native';
 import polydexBg from '../assets/polydexbg.jpg'
+import loginBg from '../assets/114998.webp';
 import { LogInFetch } from './Context/apiFetch';
 import { GetUserFetch } from './Context/apiFetch';
 import UserContext from './Context/UserContext';
@@ -42,44 +43,48 @@ export default function LogInScreen({ navigation }) {
 
     return (
         <>
+
             <View style={styles.container}>
-                <View style={{ paddingTop: 180, alignItems: "center" }}>
-                    <Text style={styles.titleStyle}>Welcome To PolyDex</Text>
-                </View>
-                <View style={{ paddingTop: 10 }}>
-                    <Text style={styles.txtStyle}>Username</Text>
-                    <TextInput
-                        style={styles.inputs}
-                        placeholder='Enter UserName'
-                        onChangeText={setLogInUsername}
-                        value={logInUsername}
-                    />
-                    <Text style={styles.error}>{usernameError}</Text>
-                    <Text style={styles.txtStyle}>Password</Text>
-                    <TextInput
-                        style={styles.inputs}
-                        placeholder='Enter Password'
-                        onChangeText={setLogInPassword}
-                        value={logInPassword}
-                        secureTextEntry
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                    />
-                    <Text style={styles.error}>{passwordError}</Text>
-                    <Pressable style={({ pressed }) => [styles.btn, {
-                        backgroundColor: pressed ? "blue" : "skyblue",
-                        opacity: pressed ? .5 : 1
-                    }]} onPress={handleLogIn}>
-                        <Text style={{ color: "white", fontWeight: "bold" }}>Log In</Text>
-                    </Pressable>
-                    <Text style={styles.error}>{userFoundError}</Text>
-                    <Pressable style={styles.txtStyleAlreadyHaveAcc} onPress={() => navigation.navigate("CreateAccScreen")}>
-                        <Text>
-                            Doesn't have an account? <Text style={styles.btnToSignUpPage}>Sign Up</Text>
-                        </Text>
-                    </Pressable>
-                </View>
+                <ImageBackground source={loginBg} style={{ flex: 1}}>
+                    <View style={{ paddingTop: 140, alignItems: "center" }}>
+                        <Text style={styles.titleStyle}>POLYDEX</Text>
+                    </View>
+                    <View style={{ paddingTop: 10 }}>
+                        <Text style={styles.txtStyle}>Username</Text>
+                        <TextInput
+                            style={styles.inputs}
+                            placeholder='Enter UserName'
+                            onChangeText={setLogInUsername}
+                            value={logInUsername}
+                        />
+                        <Text style={styles.error}>{usernameError}</Text>
+                        <Text style={styles.txtStyle}>Password</Text>
+                        <TextInput
+                            style={styles.inputs}
+                            placeholder='Enter Password'
+                            onChangeText={setLogInPassword}
+                            value={logInPassword}
+                            secureTextEntry
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                        />
+                        <Text style={styles.error}>{passwordError}</Text>
+                        <Pressable style={({ pressed }) => [styles.btn, {
+                            backgroundColor: pressed ? "blue" : "skyblue",
+                            opacity: pressed ? .5 : 1
+                        }]} onPress={handleLogIn}>
+                            <Text style={{ color: "white", fontWeight: "bold" }}>Log In</Text>
+                        </Pressable>
+                        <Text style={styles.error}>{userFoundError}</Text>
+                        <Pressable style={styles.txtStyleAlreadyHaveAcc} onPress={() => navigation.navigate("CreateAccScreen")}>
+                            <Text>
+                                Doesn't have an account? <Text style={styles.btnToSignUpPage}>Sign Up</Text>
+                            </Text>
+                        </Pressable>
+                    </View>
+                </ImageBackground>
             </View>
+
         </>
     )
 }
@@ -109,7 +114,8 @@ const styles = StyleSheet.create({
     titleStyle: {
         fontSize: 40,
         fontWeight: "bold",
-        color: "skyblue"
+        color: "#FF7878",
+
     },
     btn: {
         alignItems: "center",

@@ -54,7 +54,6 @@ export default function EditTeamScreen({ navigation }) {
                                                 </View>
                                                 <Text style={[styles.pokeName]}>{selectedPokemon.name}</Text>
                                             </>
-
                                     }
                                 </View>
                             </Pressable>
@@ -196,7 +195,6 @@ export default function EditTeamScreen({ navigation }) {
                                                 </View>
                                                 <Text style={[styles.pokeName]}>{selectedPokemon6.name}</Text>
                                             </>
-
                                     }
                                 </View>
                             </Pressable>
@@ -210,7 +208,8 @@ export default function EditTeamScreen({ navigation }) {
                     opacity: pressed ? .5 : 1
                 }]} onPress={async () => {
                     await EditedTeamByUser(selectedPokemon.teamId, selectedPokemon.userId, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
-                    await GetUserLastAddedTeam(selectedPokemon.userId)
+                    //use update endpoint if user change the pokemon line up
+                    
                     setRoute("PokemonInfoScreen")
                     navigation.navigate("DashboardScreen")
                 }

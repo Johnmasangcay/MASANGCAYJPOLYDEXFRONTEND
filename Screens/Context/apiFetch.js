@@ -902,12 +902,20 @@ let pokeData = {
 }
 let levels = 0;
 let heldItems = "";
+let natures = "";
 let ability1 = "";
 let ability2 = "";
 let move1 = "";
 let move2 = "";
 let move3 = "";
 let move4 = "";
+let notes = "";
+let poke1 = 1;
+let poke2 = 2;
+let poke3 = 3;
+let poke4 = 4;
+let poke5 = 5;
+let poke6 = 6;
 const LogInFetch = async (logInUsername, logInPassword) => {
     let userToken;
     await fetch("https://masangcayjpolydex.azurewebsites.net/User/Login", {
@@ -1094,28 +1102,27 @@ const GetUserLastAddedTeam = async (getUserId) => {
     let getLastNumber = data.length - 1;
     lastAddedTeam = data[getLastNumber];
     if (lastAddedTeam.pokemon1 != null) {
-        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon1, heldItems, ability1, ability2, move1, move2, move3, move4)
+        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon1, heldItems, natures, ability1, ability2, move1, move2, move3, move4, notes, poke1)
     }
     if (lastAddedTeam.pokemon2 != null) {
-        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon2, heldItems, ability1, ability2, move1, move2, move3, move4)
+        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon2, heldItems, natures, ability1, ability2, move1, move2, move3, move4, notes, poke2)
     }
     if (lastAddedTeam.pokemon3 != null) {
-        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon3, heldItems, ability1, ability2, move1, move2, move3, move4)
+        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon3, heldItems, natures, ability1, ability2, move1, move2, move3, move4, notes, poke3)
     }
     if (lastAddedTeam.pokemon4 != null) {
-        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon4, heldItems, ability1, ability2, move1, move2, move3, move4)
+        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon4, heldItems, natures, ability1, ability2, move1, move2, move3, move4, notes, poke4)
     }
     if (lastAddedTeam.pokemon5 != null) {
-        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon5, heldItems, ability1, ability2, move1, move2, move3, move4)
+        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon5, heldItems, natures, ability1, ability2, move1, move2, move3, move4, notes, poke5)
     }
     if (lastAddedTeam.pokemon6 != null) {
-        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon6, heldItems, ability1, ability2, move1, move2, move3, move4)
+        await AddPokemonDataIntoApi(lastAddedTeam.userId, lastAddedTeam.id, levels, lastAddedTeam.pokemon6, heldItems, natures, ability1, ability2, move1, move2, move3, move4, notes, poke6)
     }
     console.log(lastAddedTeam)
     return lastAddedTeam;
 }
-
-
+// add a field to tb call it slot 
 // Get all pokemn data
 const GetAllPokemonDataFromBackEnd = async () => {
     let allData;
@@ -1154,7 +1161,7 @@ const UsersNewAddedTeam = async (getUserId, teamName, selectedPokemon, selectedP
 }
 
 // Adding a default pokemon data.
-const AddPokemonDataIntoApi = async (userId, teamId, levels, pokemonName, heldItems, ability1, ability2, move1, move2, move3, move4) => {
+const AddPokemonDataIntoApi = async (userId, teamId, levels, pokemonName, heldItems, natures, ability1, ability2, move1, move2, move3, move4, notes, pokeSlotNumber) => {
     let addPokemonData = [];
     await fetch("https://masangcayjpolydex.azurewebsites.net/SelectedPoke/AddPokemonData", {
         method: "POST",
@@ -1168,12 +1175,15 @@ const AddPokemonDataIntoApi = async (userId, teamId, levels, pokemonName, heldIt
             "Levels": levels,
             "PokemonName": pokemonName,
             "HeldItems": heldItems,
+            "Nature": natures,
             "Ability1": ability1,
             "Ability2": ability2,
             "Move1": move1,
             "Move2": move2,
             "Move3": move3,
-            "Move4": move4
+            "Move4": move4,
+            "Notes": notes,
+            "slotnumber": pokeSlotNumber
         })
     })
         .then(resp => resp.json())
@@ -1184,7 +1194,7 @@ const AddPokemonDataIntoApi = async (userId, teamId, levels, pokemonName, heldIt
 }
 
 //  Update Selected pokemon data in selectedPokemonTeamViewer
-const UpdateSelectedPokemon = async (pokeId, userId, teamId, levels, pokemonName, heldItems, ability1, ability2, move1, move2, move3, move4) => {
+const UpdateSelectedPokemon = async (pokeId, userId, teamId, levels, pokemonName, heldItems, natures, ability1, ability2, move1, move2, move3, move4, notes, pokeSlotNumber) => {
     let updatedPokeData = [];
     await fetch("https://masangcayjpolydex.azurewebsites.net/SelectedPoke/UpdatePokemonData", {
         method: "POST",
@@ -1198,12 +1208,15 @@ const UpdateSelectedPokemon = async (pokeId, userId, teamId, levels, pokemonName
             "Levels": levels,
             "PokemonName": pokemonName,
             "HeldItems": heldItems,
+            "Nature": natures,
             "Ability1": ability1,
             "Ability2": ability2,
             "Move1": move1,
             "Move2": move2,
             "Move3": move3,
-            "Move4": move4
+            "Move4": move4,
+            "Notes": notes,
+            "slotnumber": pokeSlotNumber
         })
     })
         .then(resp => resp.json())

@@ -143,7 +143,6 @@ export default function DashboardScreen({ navigation }) {
                         {
                             filterPokemon.map((natureData, keyx) => {
                                 return (
-     
                                         <Pressable key={keyx} style={({ pressed }) => [styles.btn, {
                                             backgroundColor: pressed ? "blue" : "#EDF6E5",
                                             opacity: pressed ? .5 : 1
