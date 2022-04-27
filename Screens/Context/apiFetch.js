@@ -900,7 +900,7 @@ let pokeData = {
     "spectrier": false,
     "calyrex": false
 }
-let levels = 0;
+let levels = 1;
 let heldItems = "";
 let natures = "";
 let ability1 = "";
@@ -1160,10 +1160,18 @@ const UsersNewAddedTeam = async (getUserId, teamName, selectedPokemon, selectedP
     return usersNewAddedTeam;
 }
 
+const GetUserPokeData = async (teamId) => {
+let pokeTeam;
+let resp = await fetch(`http://192.168.12.253:5263/SelectedPoke/GetSelectedPokemonData/${teamId}`)
+let data = await resp.json();
+pokeTeam = data;
+return pokeTeam;
+}
+
 // Adding a default pokemon data.
 const AddPokemonDataIntoApi = async (userId, teamId, levels, pokemonName, heldItems, natures, ability1, ability2, move1, move2, move3, move4, notes, pokeSlotNumber) => {
     let addPokemonData = [];
-    await fetch("https://masangcayjpolydex.azurewebsites.net/SelectedPoke/AddPokemonData", {
+    await fetch("http://192.168.12.253:5263/SelectedPoke/AddPokemonData", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -1269,9 +1277,9 @@ const EditedTeamByUser = async (teamId, userId, poke1, poke2, poke3, poke4, poke
 }
 
 // getSelectedPokeData\
-const GetPokemonUsersData = async (userId, teamId, pokemonName) => {
+const GetPokemonUsersData = async (userId, teamId, pokeSlotNumber) => {
     let poke;
-    let resp = await fetch(`https://masangcayjpolydex.azurewebsites.net//SelectedPoke/GetPokemonByUniqueId/${userId}/${teamId}/${pokemonName}`)
+    let resp = await fetch(`http://192.168.12.253:5263/SelectedPoke/GetPokemonByUniqueId/${userId}/${teamId}/${pokeSlotNumber}`)
     let data = await resp.json();
     poke = data;
     console.log(poke)
@@ -2198,5 +2206,5 @@ const GetUserIntoFav = async (newuserData) => {
 export {
     LogInFetch, GetUserFetch, GetSelectedPokemonData, GetSelectedAbility1, GetSelectedAbility2, GetDmgTaken, signingUpNewUser, GetUserIntoFav, GetNewUserData, GetFavPokemonByUser,
     GetUserIntoTeamBuilder, GetUserTeam, UsersNewAddedTeam, DeleteUsersTeam, EditedTeamByUser, GetTeamByTeamID, GetPokemonUsersData, GetAllPokemonDataFromBackEnd, GetUserLastAddedTeam,
-    UpdateSelectedPokemon
+    UpdateSelectedPokemon, GetUserPokeData
 }

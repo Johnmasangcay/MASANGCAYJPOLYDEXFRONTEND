@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
-import { GetSelectedPokemonData, GetDmgTaken, GetAllPokemonDataFromBackEnd } from './Context/apiFetch';
+import { GetSelectedPokemonData, GetDmgTaken, GetAllPokemonDataFromBackEnd, GetUserPokeData } from './Context/apiFetch';
 import loading from '../assets/loading.json'
 import LottieView from 'lottie-react-native';
 
@@ -21,13 +21,13 @@ export default function TeamBuilderScreen({ navigation }) {
   const { teamPokemon4Type, setTeamPokemon4Type } = useState(UserContext);
   const { teamPokemon5Type, setTeamPokemon5Type } = useState(UserContext);
   const { teamPokemon6Type, setTeamPokemon6Type } = useState(UserContext);
-  
+  const { teamData, setTeamData } = useContext(UserContext);
 
 
   const getPokeInfo = async () => {
     let test = []
     usersTeam.map(async (poke, i) => {
-      console.log(poke)
+      console.log(poke.id)
       let pokemon = Object.entries(poke).map(x => {
         return x[1]
       }).filter((y, i) => {
@@ -35,7 +35,7 @@ export default function TeamBuilderScreen({ navigation }) {
           return y;
         }
       })
-
+      
       let pokemonDataArr = [];
       pokemon.map(async (n, i) => {
         const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon[i]}`)
@@ -153,9 +153,8 @@ export default function TeamBuilderScreen({ navigation }) {
 
           <ScrollView>
             {
-              pokemons.map((pokemon, i) => {
-                return (
-
+              pokemons.map((pokemon, i) => {                
+                return (               
                   <View key={i} style={[styles.btn]}>
                     <SafeAreaView>
                       <Pressable style={({ pressed }) => [styles.btnSelection, {
@@ -163,7 +162,7 @@ export default function TeamBuilderScreen({ navigation }) {
                       }]} onPress={async () => {
                         setSelectedTeam(pokemon)
                         setSelectedPokemonType(await GetDmgTaken(pokemon[0].types[0].type.name))
-                        pokemon.map(type => { console.log(type) })
+                        setTeamData(await GetUserPokeData(pokemon[0].teamId))
                         navigation.navigate("TeamViewer")
                       }}>
                         {

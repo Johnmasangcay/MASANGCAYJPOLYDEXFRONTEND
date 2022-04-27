@@ -5,6 +5,7 @@ import loginBg from '../assets/114998.webp';
 import { LogInFetch } from './Context/apiFetch';
 import { GetUserFetch } from './Context/apiFetch';
 import UserContext from './Context/UserContext';
+import { useFonts } from 'expo-font';
 
 export default function LogInScreen({ navigation }) {
 
@@ -14,6 +15,9 @@ export default function LogInScreen({ navigation }) {
     const [passwordError, setPasswordError] = useState("");
     const [userFoundError, setUserFoundError] = useState("");
     const { currentUser, setCurrentUser } = useContext(UserContext);
+    let [fontsLoaded] = useFonts({
+        'Whisper-Regular':require('../assets/Whisper-Regular.ttf') 
+    });
 
     const handleLogIn = async () => {
         if (logInUsername != "") {

@@ -58,7 +58,6 @@ export default function DashboardScreen({ navigation }) {
 
     useEffect(async () => {
         getPokemons()
-        console.log(getNewAddedData)
         // setting the ID of logged in user.
         setGetUserId(currentUser[0].id)
         // setTimeout for dashboard onload.

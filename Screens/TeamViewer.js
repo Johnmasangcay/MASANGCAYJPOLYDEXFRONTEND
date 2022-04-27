@@ -28,11 +28,11 @@ export default function TeamViewer({ navigation }) {
     const { cond3, setCond3 } = useContext(UserContext)
     const { cond4, setCond4 } = useContext(UserContext)
     const { condForHeldItems, setCondForHeldItems } = useContext(UserContext)
-    
+    const { teamData, setTeamData } = useContext(UserContext);
 
     useEffect(async () => {
         console.log(selectedTeam)
-        console.log( GetAllPokemonDataFromBackEnd)
+        console.log(teamData)
     }, [])
 
     return (
@@ -107,14 +107,54 @@ export default function TeamViewer({ navigation }) {
                         <Text style={[styles.pokeTeamTitle]}>Pokemon Party</Text>
                     </View>
                     <View style={[styles.containerBtnForTeam]}>
-                        <View style={{ flex: 1, flexWrap: "wrap", paddingLeft: 30 }}>
-                            {
-                                selectedTeam.map((poke, i) => {
-                                    return (
+                        <View style={{ flexDirection: "row" }}>
+                            {/* -----------------------------------------------------1st pokemon */}
+                            <View>
+                                <Pressable onPress={async () => {
+                                    setGetPokeData(await GetPokemonUsersData(selectedTeam[0].userId, selectedTeam[0].teamId, teamData[0].slotnumber))
+                                    setSelectedPokemonTeamViewer(selectedTeam[0])
+                                    setCond("teamBToSelectedTV")
+                                    setCond2("teamBToSelectedTV2")
+                                    setCond3("teamBToSelectedTV3")
+                                    setCond4("teamBToSelectedTV4")
+                                    setCondForHeldItems("teamBToSelectedTVHeldItems")
+                                    navigation.navigate("SelectedPokemonTV")
+                                }}>
+                                    <View>
+                                        {
+                                            selectedTeam[0].name === "" || selectedTeam[0].name === null ?
+                                                <View>
+                                                    <Text style={styles.pokemonHeldItemTxtHidden}>+</Text>
+                                                </View>
+                                                :
+                                                <>
+                                                    <View style={[styles.imgStyle]}>
+                                                        <Image
+                                                            source={{ uri: selectedTeam[0].sprites.front_default }}
+                                                            style={{
+                                                                height: 100,
+                                                                width: 100,
+                                                            }}
+                                                        />
+                                                    </View>
+                                                    <View>
+                                                        <Text style={[styles.pokeName]}>{selectedTeam[0].name}</Text>
+                                                    </View>
+                                                </>
 
-                                        <Pressable key={i} onPress={async () => {
-                                            setGetPokeData(await GetPokemonUsersData(poke.userId, poke.teamId, poke.name))
-                                            setSelectedPokemonTeamViewer(poke)
+                                        }
+                                    </View>
+                                </Pressable>
+                            </View>
+                            {/* ----------------------------------------------------2nd pokemon */}
+                            {
+                                selectedTeam.length < 2 ?
+                                    null
+                                    :
+                                    <View>
+                                        <Pressable onPress={async () => {
+                                            setGetPokeData(await GetPokemonUsersData(selectedTeam[1].userId, selectedTeam[1].teamId, teamData[1].slotnumber))
+                                            setSelectedPokemonTeamViewer(selectedTeam[1])
                                             setCond("teamBToSelectedTV")
                                             setCond2("teamBToSelectedTV2")
                                             setCond3("teamBToSelectedTV3")
@@ -122,23 +162,173 @@ export default function TeamViewer({ navigation }) {
                                             setCondForHeldItems("teamBToSelectedTVHeldItems")
                                             navigation.navigate("SelectedPokemonTV")
                                         }}>
-                                            <View style={[styles.imgStyle]}>
-                                                <Image
-                                                    source={{ uri: poke.sprites.front_default }}
-                                                    style={{
-                                                        height: 100,
-                                                        width: 100,
-                                                    }}
-                                                />
-                                            </View>
                                             <View>
-                                                <Text style={[styles.pokeName]}>{poke.name}</Text>
+                                                <View style={[styles.imgStyle]}>
+                                                    <Image
+                                                        source={{ uri: selectedTeam[1].sprites.front_default }}
+                                                        style={{
+                                                            height: 100,
+                                                            width: 100,
+                                                        }}
+                                                    />
+                                                </View>
+                                                <View>
+                                                    <Text style={[styles.pokeName]}>{selectedTeam[1].name}</Text>
+                                                </View>
                                             </View>
                                         </Pressable>
-                                    )
-                                })
+                                    </View>
+                            }
+
+                            {/* -----------------------------------------------------3rd pokemon */}
+                            {
+                                selectedTeam.length < 3 ?
+                                    null
+                                    :
+                                    <View>
+                                        <Pressable onPress={async () => {
+                                            setGetPokeData(await GetPokemonUsersData(selectedTeam[2].userId, selectedTeam[2].teamId, teamData[2].slotnumber))
+                                            setSelectedPokemonTeamViewer(selectedTeam[2])
+                                            setCond("teamBToSelectedTV")
+                                            setCond2("teamBToSelectedTV2")
+                                            setCond3("teamBToSelectedTV3")
+                                            setCond4("teamBToSelectedTV4")
+                                            setCondForHeldItems("teamBToSelectedTVHeldItems")
+                                            navigation.navigate("SelectedPokemonTV")
+                                        }}>
+                                            <View>
+                                                <View style={[styles.imgStyle]}>
+                                                    <Image
+                                                        source={{ uri: selectedTeam[2].sprites.front_default }}
+                                                        style={{
+                                                            height: 100,
+                                                            width: 100,
+                                                        }}
+                                                    />
+                                                </View>
+                                                <View>
+                                                    <Text style={[styles.pokeName]}>{selectedTeam[2].name}</Text>
+                                                </View>
+                                            </View>
+                                        </Pressable>
+                                    </View>
                             }
                         </View>
+                        <View style={{ flexDirection: "row" }}>
+                            {/* -----------------------------------------------------4th pokemon */}
+                            <View>
+                                {
+                                    selectedTeam.length < 4 ?
+                                        null
+                                        :
+                                        <View>
+                                            <Pressable onPress={async () => {
+                                                setGetPokeData(await GetPokemonUsersData(selectedTeam[3].userId, selectedTeam[3].teamId, teamData[3].slotnumber))
+                                                setSelectedPokemonTeamViewer(selectedTeam[3])
+                                                setCond("teamBToSelectedTV")
+                                                setCond2("teamBToSelectedTV2")
+                                                setCond3("teamBToSelectedTV3")
+                                                setCond4("teamBToSelectedTV4")
+                                                setCondForHeldItems("teamBToSelectedTVHeldItems")
+                                                navigation.navigate("SelectedPokemonTV")
+                                            }}>
+                                                <View>
+
+                                                    <View style={[styles.imgStyle]}>
+                                                        <Image
+                                                            source={{ uri: selectedTeam[3].sprites.front_default }}
+                                                            style={{
+                                                                height: 100,
+                                                                width: 100,
+                                                            }}
+                                                        />
+                                                    </View>
+                                                    <View>
+                                                        <Text style={[styles.pokeName]}>{selectedTeam[3].name}</Text>
+                                                    </View>
+                                                </View>
+                                            </Pressable>
+                                        </View>
+                                }
+                            </View>
+
+
+
+                            {/* -----------------------------------------------------5th pokemon */}
+                            <View>
+                                {
+                                    selectedTeam.length < 5 ?
+                                        null
+                                        :
+                                        <View>
+                                            <Pressable onPress={async () => {
+                                                setGetPokeData(await GetPokemonUsersData(selectedTeam[4].userId, selectedTeam[4].teamId, teamData[4].slotnumber))
+                                                setSelectedPokemonTeamViewer(selectedTeam[4])
+                                                setCond("teamBToSelectedTV")
+                                                setCond2("teamBToSelectedTV2")
+                                                setCond3("teamBToSelectedTV3")
+                                                setCond4("teamBToSelectedTV4")
+                                                setCondForHeldItems("teamBToSelectedTVHeldItems")
+                                                navigation.navigate("SelectedPokemonTV")
+                                            }}>
+                                                <View>
+                                                    <View style={[styles.imgStyle]}>
+                                                        <Image
+                                                            source={{ uri: selectedTeam[4].sprites.front_default }}
+                                                            style={{
+                                                                height: 100,
+                                                                width: 100,
+                                                            }}
+                                                        />
+                                                    </View>
+                                                    <View>
+                                                        <Text style={[styles.pokeName]}>{selectedTeam[4].name}</Text>
+                                                    </View>
+                                                </View>
+                                            </Pressable>
+                                        </View>
+                                }
+                            </View>
+
+
+                            {/* -----------------------------------------------------6th pokemon */}
+                            <View>
+                                {
+                                    selectedTeam.length < 6 ?
+                                        null
+                                        :
+                                        <View>
+                                            <Pressable onPress={async () => {
+                                                setGetPokeData(await GetPokemonUsersData(selectedTeam[5].userId, selectedTeam[5].teamId, teamData[5].slotnumber))
+                                                setSelectedPokemonTeamViewer(selectedTeam[5])
+                                                setCond("teamBToSelectedTV")
+                                                setCond2("teamBToSelectedTV2")
+                                                setCond3("teamBToSelectedTV3")
+                                                setCond4("teamBToSelectedTV4")
+                                                setCondForHeldItems("teamBToSelectedTVHeldItems")
+                                                navigation.navigate("SelectedPokemonTV")
+                                            }}>
+                                                <View>
+                                                    <View style={[styles.imgStyle]}>
+                                                        <Image
+                                                            source={{ uri: selectedTeam[5].sprites.front_default }}
+                                                            style={{
+                                                                height: 100,
+                                                                width: 100,
+                                                            }}
+                                                        />
+                                                    </View>
+                                                    <View>
+                                                        <Text style={[styles.pokeName]}>{selectedTeam[5].name}</Text>
+                                                    </View>
+                                                </View>
+                                            </Pressable>
+                                        </View>
+                                }
+                            </View>
+
+                        </View>
+
                     </View>
 
                     <View>
@@ -267,7 +457,6 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         height: 320,
         backgroundColor: "#D1D1D1",
-        flexDirection: "row",
         maxWidth: 460
     },
     deleteBtn: {

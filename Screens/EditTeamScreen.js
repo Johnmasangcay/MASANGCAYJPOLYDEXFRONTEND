@@ -70,18 +70,24 @@ export default function EditTeamScreen({ navigation }) {
                                 navigation.navigate("DashboardScreen")
                             }
                             }>
-
                                 <View>
-                                    <View style={[styles.imgStyle]}>
-                                        <Image
-                                            source={{ uri: selectedPokemon2.sprites.front_default }}
-                                            style={{
-                                                height: 100,
-                                                width: 100,
-                                            }}
-                                        />
-                                    </View>
-                                    <Text style={[styles.pokeName]}>{selectedPokemon2.name}</Text>
+                                    {
+                                        selectedPokemon2 === undefined ?
+                                            <Text style={[styles.plusIcon]}>+</Text>
+                                            :
+                                            <View>
+                                                <View style={[styles.imgStyle]}>
+                                                    <Image
+                                                        source={{ uri: selectedPokemon2.sprites.front_default }}
+                                                        style={{
+                                                            height: 100,
+                                                            width: 100,
+                                                        }}
+                                                    />
+                                                </View>
+                                                <Text style={[styles.pokeName]}>{selectedPokemon2.name}</Text>
+                                            </View>
+                                    }
                                 </View>
                             </Pressable>
                         </View>
@@ -98,17 +104,25 @@ export default function EditTeamScreen({ navigation }) {
                             }
                             }>
                                 <View>
-                                    <View style={[styles.imgStyle]}>
-                                        <Image
-                                            source={{ uri: selectedPokemon3.sprites.front_default }}
-                                            style={{
-                                                height: 100,
-                                                width: 100,
-                                            }}
-                                        />
-                                    </View>
-                                    <Text style={[styles.pokeName]}>{selectedPokemon3.name}</Text>
+                                    {
+                                        selectedPokemon3 === undefined ?
+                                            <Text style={[styles.plusIcon]}>+</Text>
+                                            :
+                                            <View>
+                                                <View style={[styles.imgStyle]}>
+                                                    <Image
+                                                        source={{ uri: selectedPokemon3.sprites.front_default }}
+                                                        style={{
+                                                            height: 100,
+                                                            width: 100,
+                                                        }}
+                                                    />
+                                                </View>
+                                                <Text style={[styles.pokeName]}>{selectedPokemon3.name}</Text>
+                                            </View>
+                                    }
                                 </View>
+
                             </Pressable>
                         </View>
                     </View>
@@ -126,17 +140,25 @@ export default function EditTeamScreen({ navigation }) {
                             }
                             }>
                                 <View>
-                                    <View style={[styles.imgStyle]}>
-                                        <Image
-                                            source={{ uri: selectedPokemon4.sprites.front_default }}
-                                            style={{
-                                                height: 100,
-                                                width: 100,
-                                            }}
-                                        />
-                                    </View>
-                                    <Text style={[styles.pokeName]}>{selectedPokemon4.name}</Text>
+                                    {
+                                        selectedPokemon4 === undefined ?
+                                            <Text style={[styles.plusIcon]}>+</Text>
+                                            :
+                                            <View>
+                                                <View style={[styles.imgStyle]}>
+                                                    <Image
+                                                        source={{ uri: selectedPokemon4.sprites.front_default }}
+                                                        style={{
+                                                            height: 100,
+                                                            width: 100,
+                                                        }}
+                                                    />
+                                                </View>
+                                                <Text style={[styles.pokeName]}>{selectedPokemon4.name}</Text>
+                                            </View>
+                                    }
                                 </View>
+
                             </Pressable>
                         </View>
 
@@ -151,19 +173,26 @@ export default function EditTeamScreen({ navigation }) {
                                 navigation.navigate("DashboardScreen")
                             }
                             }>
-
                                 <View>
-                                    <View style={[styles.imgStyle]}>
-                                        <Image
-                                            source={{ uri: selectedPokemon5.sprites.front_default }}
-                                            style={{
-                                                height: 100,
-                                                width: 100,
-                                            }}
-                                        />
-                                    </View>
-                                    <Text style={[styles.pokeName]}>{selectedPokemon5.name}</Text>
+                                    {
+                                        selectedPokemon5 === undefined ?
+                                            <Text style={[styles.plusIcon]}>+</Text>
+                                            :
+                                            <View>
+                                                <View style={[styles.imgStyle]}>
+                                                    <Image
+                                                        source={{ uri: selectedPokemon5.sprites.front_default }}
+                                                        style={{
+                                                            height: 100,
+                                                            width: 100,
+                                                        }}
+                                                    />
+                                                </View>
+                                                <Text style={[styles.pokeName]}>{selectedPokemon5.name}</Text>
+                                            </View>
+                                    }
                                 </View>
+
                             </Pressable>
                         </View>
 
@@ -209,7 +238,7 @@ export default function EditTeamScreen({ navigation }) {
                 }]} onPress={async () => {
                     await EditedTeamByUser(selectedPokemon.teamId, selectedPokemon.userId, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
                     //use update endpoint if user change the pokemon line up
-                    
+
                     setRoute("PokemonInfoScreen")
                     navigation.navigate("DashboardScreen")
                 }
