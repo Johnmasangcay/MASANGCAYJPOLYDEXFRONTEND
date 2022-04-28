@@ -3,7 +3,17 @@ import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, Imag
 import UserContext from './Context/UserContext';
 import ProgressBar from 'react-native-progress/Bar';
 import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, DeleteUsersTeam, GetPokemonUsersData, AddPokemonDataIntoApi, GetAllPokemonDataFromBackEnd } from './Context/apiFetch';
-
+import { useFonts } from 'expo-font';
+import {
+    DancingScript_500Medium,
+    DancingScript_600SemiBold,
+    DancingScript_700Bold
+} from '@expo-google-fonts/dancing-script'
+import {
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_300Light_Italic,
+} from '@expo-google-fonts/montserrat'
 
 export default function TeamViewer({ navigation }) {
 
@@ -29,6 +39,14 @@ export default function TeamViewer({ navigation }) {
     const { cond4, setCond4 } = useContext(UserContext)
     const { condForHeldItems, setCondForHeldItems } = useContext(UserContext)
     const { teamData, setTeamData } = useContext(UserContext);
+    let [fontsLoaded] = useFonts({
+        DancingScript_500Medium,
+        DancingScript_600SemiBold,
+        DancingScript_700Bold,
+        Montserrat_500Medium,
+        Montserrat_600SemiBold,
+        Montserrat_300Light_Italic,
+    });
 
     useEffect(async () => {
         console.log(selectedTeam)

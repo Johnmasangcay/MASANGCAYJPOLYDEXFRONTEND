@@ -5,6 +5,17 @@ import UserContext from './Context/UserContext';
 import loading from '../assets/loading.json'
 import LottieView from 'lottie-react-native';
 import { GetSelectedPokemonData, GetDmgTaken, EditedTeamByUser, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetTeamByTeamID, UpdateSelectedPokemon, GetPokemonUsersData } from './Context/apiFetch';
+import { useFonts } from 'expo-font';
+import {
+    DancingScript_500Medium,
+    DancingScript_600SemiBold,
+    DancingScript_700Bold
+} from '@expo-google-fonts/dancing-script'
+import { 
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_300Light_Italic,
+  } from '@expo-google-fonts/montserrat'
 
 export default function DashboardScreen({ navigation }) {
   let star = "★"
@@ -39,7 +50,15 @@ export default function DashboardScreen({ navigation }) {
   const { cond2, setCond2 } = useContext(UserContext)
   const { cond3, setCond3 } = useContext(UserContext)
   const { cond4, setCond4 } = useContext(UserContext)
-  const { selectedMoveFromMoves, setSelectedMoveFromMoves } = useContext(UserContext);
+  const { newAddedMoveCond, setNewAddedMoveCond } = useContext(UserContext)
+  let [fontsLoaded] = useFonts({
+    DancingScript_500Medium,
+    DancingScript_600SemiBold,
+    DancingScript_700Bold, 
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_300Light_Italic,
+});
 
 
   const getPokemons = async () => {
@@ -84,7 +103,7 @@ export default function DashboardScreen({ navigation }) {
         <View style={styles.container}>
           <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
             <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
-            <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>MoveDex</Text>
+            <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontFamily: "DancingScript_600SemiBold"  }}>MoveDex</Text>
           </View>
           <View>
             <Modal
@@ -192,6 +211,7 @@ export default function DashboardScreen({ navigation }) {
                         if (condMove == "move1") {
                           await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].natures, getPokeData[0].ability1, getPokeData[0].ability2, item.name, getPokeData[0].move2, getPokeData[0].move3, getPokeData[0].move4, getPokeData[0].notes, getPokeData[0].slotnumber)
                           setSelectedMove1(item.name)
+                          setNewAddedMoveCond("slottedMoves")
                           setCond("MovesToSelectedTV")
                           navigation.navigate("SelectedPokemonTV")
                         } else if (condMove == "move2") {
@@ -213,14 +233,14 @@ export default function DashboardScreen({ navigation }) {
                       }}>
                         <View style={{ flexDirection: "column", alignSelf: "flex-start" }}>
                           <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-                            <Text style={[styles.txtstyleNAMEMove]}>{item.name}</Text>
-                            <Text style={[styles.txtstylePower]}>{item.power}</Text>
-                            <Text style={[styles.txtstylePP]}>{item.pp}</Text>
-                            <Text style={[styles.txtstylePP]}>{item.accuracy}</Text>
+                            <Text key={i} style={[styles.txtstyleNAMEMove]}>{item.name}</Text>
+                            <Text key={i} style={[styles.txtstylePower]}>{item.power}</Text>
+                            <Text key={i} style={[styles.txtstylePP]}>{item.pp}</Text>
+                            <Text key={i} style={[styles.txtstylePP]}>{item.accuracy}</Text>
                           </View>
                           <View style={{ flexDirection: "row" }}>
-                            <Text style={[styles.txtstyleTYPE, { width: 250 }]}>{item.type.name}</Text>
-                            <Text style={[styles.txtstyleStatus, { width: 120 }]}>{item.damage_class.name}</Text>
+                            <Text key={i} style={[styles.txtstyleTYPE, { width: 250 }]}>{item.type.name}</Text>
+                            <Text key={i} style={[styles.txtstyleStatus, { width: 120 }]}>{item.damage_class.name}</Text>
                           </View>
                         </View>
                       </Pressable>
@@ -394,17 +414,18 @@ const styles = StyleSheet.create({
   txtstyleTYPE: {
     fontSize: 20,
     color: "#FFFEEC",
-    backgroundColor: "#494953",
-    textTransform: 'capitalize',
+    backgroundColor: "#FFC996",
+    textTransform: '#393E46',
     marginBottom: 5,
     borderRadius: 20,
     paddingVertical: 5,
-    paddingLeft: 95
+    paddingLeft: 95,
+    fontFamily: "Montserrat_600SemiBold"
   },
   txtstyleStatus: {
     fontSize: 20,
     color: "#FFFEEC",
-    backgroundColor: "#494953",
+    backgroundColor: "#FF8474",
     textTransform: 'capitalize',
     marginBottom: 5,
     borderRadius: 20,

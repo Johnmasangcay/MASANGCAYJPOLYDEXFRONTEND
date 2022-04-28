@@ -82,6 +82,10 @@ export const UserProvider = ({ children }) => {
     const [condForHeldItems, setCondForHeldItems] = useState("teamBToSelectedTVHeldItems");
     const [selectedHeldItems, setSelectedHeldItems] = useState({selectedMove: null});
     const [teamData, setTeamData] = useState({selectedMove: null});
+    const [newAddedMoveCond, setNewAddedMoveCond] = useState("emptyMoves");
+    const [newAddedMoveCond2, setNewAddedMoveCond2] = useState("emptyMoves2");
+    const [newAddedMoveCond3, setNewAddedMoveCond3] = useState("emptyMoves3");
+    const [newAddedMoveCond4, setNewAddedMoveCond4] = useState("emptyMoves4");
     return (
         <>
             <UserContext.Provider value={{
@@ -96,7 +100,8 @@ export const UserProvider = ({ children }) => {
                 selectedPokeToMove, setSelectedPokeToMove, selectedMove1, setSelectedMove1, selectedMove2, setSelectedMove2, selectedMove3, setSelectedMove3,
                 selectedMove4, setSelectedMove4, forSelectedTV, setForSelectedTV, arr, setArr, getPokeData, setGetPokeData, getNewAddedData, setGetNewAddedData,
                 isloaded, setIsloaded, cond, setCond, cond2, setCond2, cond3, setCond3, cond4, setCond4, getPokeDataForCond, setGetPokeDataForCond, isloadedForSecCond, 
-                setIsloadedForSecCond, condForHeldItems, setCondForHeldItems, selectedHeldItems, setSelectedHeldItems, teamData, setTeamData
+                setIsloadedForSecCond, condForHeldItems, setCondForHeldItems, selectedHeldItems, setSelectedHeldItems, teamData, setTeamData, newAddedMoveCond, setNewAddedMoveCond, 
+                newAddedMoveCond2, setNewAddedMoveCond2, newAddedMoveCond3, setNewAddedMoveCond3, newAddedMoveCond4, setNewAddedMoveCond4
                             }}>
                 {children}
             </UserContext.Provider>

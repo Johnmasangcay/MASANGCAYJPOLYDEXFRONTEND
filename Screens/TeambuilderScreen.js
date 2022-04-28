@@ -5,6 +5,17 @@ import UserContext from './Context/UserContext';
 import { GetSelectedPokemonData, GetDmgTaken, GetAllPokemonDataFromBackEnd, GetUserPokeData } from './Context/apiFetch';
 import loading from '../assets/loading.json'
 import LottieView from 'lottie-react-native';
+import { useFonts } from 'expo-font';
+import {
+  DancingScript_500Medium,
+  DancingScript_600SemiBold,
+  DancingScript_700Bold
+} from '@expo-google-fonts/dancing-script'
+import {
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+  Montserrat_300Light_Italic,
+} from '@expo-google-fonts/montserrat'
 
 export default function TeamBuilderScreen({ navigation }) {
   let hamburgerMenu = "☰"
@@ -22,6 +33,14 @@ export default function TeamBuilderScreen({ navigation }) {
   const { teamPokemon5Type, setTeamPokemon5Type } = useState(UserContext);
   const { teamPokemon6Type, setTeamPokemon6Type } = useState(UserContext);
   const { teamData, setTeamData } = useContext(UserContext);
+  let [fontsLoaded] = useFonts({
+    DancingScript_500Medium,
+    DancingScript_600SemiBold,
+    DancingScript_700Bold,
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_300Light_Italic,
+  });
 
 
   const getPokeInfo = async () => {
@@ -35,7 +54,7 @@ export default function TeamBuilderScreen({ navigation }) {
           return y;
         }
       })
-      
+
       let pokemonDataArr = [];
       pokemon.map(async (n, i) => {
         const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon[i]}`)
@@ -69,7 +88,7 @@ export default function TeamBuilderScreen({ navigation }) {
         <SafeAreaView style={styles.container}>
           <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
             <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
-            <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>TeamBuilder</Text>
+            <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontFamily: "DancingScript_600SemiBold" }}>TeamBuilder</Text>
             <Text onPress={() => navigation.navigate("CreateTeamScreen")} style={{ color: "black", paddingLeft: 180, fontSize: 30 }}>+</Text>
           </View>
 
@@ -153,8 +172,8 @@ export default function TeamBuilderScreen({ navigation }) {
 
           <ScrollView>
             {
-              pokemons.map((pokemon, i) => {                
-                return (               
+              pokemons.map((pokemon, i) => {
+                return (
                   <View key={i} style={[styles.btn]}>
                     <SafeAreaView>
                       <Pressable style={({ pressed }) => [styles.btnSelection, {
@@ -169,18 +188,18 @@ export default function TeamBuilderScreen({ navigation }) {
                           pokemon.map((poke, n) => {
                             return (
 
-                                <SafeAreaView key={n}>
-                                  <SafeAreaView  style={[styles.imgStyle]}>
-                                    <Image
-                                      source={{ uri: poke.sprites.front_default }}
-                                      style={{
-                                        height: 100,
-                                        width: 100,
-                                      }}
-                                    />
-                                  </SafeAreaView>
-                                  <Text style={[styles.pokeName]}>{poke.name}</Text>
+                              <SafeAreaView key={n}>
+                                <SafeAreaView style={[styles.imgStyle]}>
+                                  <Image
+                                    source={{ uri: poke.sprites.front_default }}
+                                    style={{
+                                      height: 100,
+                                      width: 100,
+                                    }}
+                                  />
                                 </SafeAreaView>
+                                <Text style={[styles.pokeName]}>{poke.name}</Text>
+                              </SafeAreaView>
 
                             )
                           })
@@ -280,7 +299,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     textAlign: "left",
     fontSize: 20,
-    color: "gainsboro", 
+    color: "gainsboro",
     fontWeight: "bold",
   },
   loadingScreen: {

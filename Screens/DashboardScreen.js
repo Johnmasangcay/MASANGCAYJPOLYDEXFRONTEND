@@ -5,6 +5,17 @@ import UserContext from './Context/UserContext';
 import { GetSelectedPokemonData, GetDmgTaken, EditedTeamByUser, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetTeamByTeamID } from './Context/apiFetch';
 import loading from '../assets/loading.json'
 import LottieView from 'lottie-react-native';
+import { useFonts } from 'expo-font';
+import {
+    DancingScript_500Medium,
+    DancingScript_600SemiBold,
+    DancingScript_700Bold
+} from '@expo-google-fonts/dancing-script'
+import { 
+    Montserrat_500Medium,
+    Montserrat_600SemiBold,
+    Montserrat_300Light_Italic,
+  } from '@expo-google-fonts/montserrat'
 
 export default function DashboardScreen({ navigation }) {
     let star = "★"
@@ -34,7 +45,14 @@ export default function DashboardScreen({ navigation }) {
     const { condPokemon, setCondPokemon } = useContext(UserContext);
     const { selectedTeam, setSelectedTeam } = useContext(UserContext);
     const { getNewAddedData, setGetNewAddedData } = useContext(UserContext);
-
+    let [fontsLoaded] = useFonts({
+        DancingScript_500Medium,
+        DancingScript_600SemiBold,
+        DancingScript_700Bold, 
+        Montserrat_500Medium,
+        Montserrat_600SemiBold,
+        Montserrat_300Light_Italic,
+    });
 
     // getting all pokemon to access all the data.
     const getPokemons = async () => {
@@ -54,6 +72,7 @@ export default function DashboardScreen({ navigation }) {
     const filterPokemon = pokemons.filter(poke => {
         return poke.name.toLowerCase().includes(pokeSearch.toLowerCase())
     })
+
 
 
     useEffect(async () => {
@@ -82,13 +101,13 @@ export default function DashboardScreen({ navigation }) {
                         // ternary operator if the user just logged in it will load the pokedex, if the user went from teamBuilder to dashboard it will load Select a pokemon
                         createTeamToDash ?
                             <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
-                                <Text style={{ color: "black", paddingLeft: 5, fontSize: 20, fontWeight: "bold" }}>Select A Pokemon</Text>
-                                <Text onPress={() => setModalVisible(true)} style={{ fontSize: 20, paddingLeft: 200 }}>Back</Text>
+                                <Text style={{ color: "black", paddingLeft: 5, fontSize: 20, fontFamily: "DancingScript_600SemiBold" }}>Select A Pokemon</Text>
+                                <Text onPress={() => setModalVisible(true)} style={{ fontSize: 20, paddingLeft: 200, fontFamily: "DancingScript_600SemiBold" }}>Back</Text>
                             </View>
                             :
                             <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
                                 <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
-                                <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>PokeDex</Text>
+                                <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontFamily: "DancingScript_600SemiBold"}}>PokeDex</Text>
                                 <Text onPress={async () => {
                                     navigation.navigate("FavoritePokemonScreen")
                                     setUsersFavData(await GetFavPokemonByUser(getUserId))
@@ -245,7 +264,7 @@ export default function DashboardScreen({ navigation }) {
                                                 pokemonData.types.map((pokeType, i) => {
 
                                                     return (
-                                                        <Text key={i} style={[styles.txtstyleTYPE, { backgroundColor: "#D1D1D1" }]}>{pokeType.type.name}</Text>
+                                                        <Text key={i} style={[styles.txtstyleTYPE, {  }]}>{pokeType.type.name}</Text>
                                                     )
                                                 })
                                             }
@@ -341,16 +360,17 @@ const styles = StyleSheet.create({
         fontSize: 30,
         textTransform: 'capitalize',
         paddingLeft: 40,
-        fontWeight: "bold",
+        // fontWeight: "bold",
         color: "#233142",
+        fontFamily: "Montserrat_600SemiBold"
     },
     txtstyleIMAGE: {
         flex: 1,
         paddingLeft: 300,
     },
     txtstyleTYPE: {
-        fontSize: 25,
-        fontWeight: "bold",
+        fontSize: 30,
+        // fontWeight: "bold",
         textTransform: 'capitalize',
         marginVertical: 20,
         marginRight: 50,
@@ -359,7 +379,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3,
         borderRadius: 20,
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        borderWidth: .3,
+        color: "#393E46",
+        fontFamily: "Montserrat_300Light_Italic"
     },
     input: {
         padding: 10,

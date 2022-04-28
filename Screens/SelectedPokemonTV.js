@@ -7,7 +7,6 @@ import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAb
 export default function SelectedPokemonTV({ navigation }) {
 
     const { isloaded, setIsloaded } = useContext(UserContext)
-    const { isloadedForSecCond, setIsloadedForSecCond } = useContext(UserContext)
     const { cond, setCond } = useContext(UserContext)
     const { cond2, setCond2 } = useContext(UserContext)
     const { cond3, setCond3 } = useContext(UserContext)
@@ -24,6 +23,10 @@ export default function SelectedPokemonTV({ navigation }) {
     const { forSelectedTV, setForSelectedTV } = useContext(UserContext)
     const { getPokeData, setGetPokeData } = useContext(UserContext);
     const { selectedHeldItems, setSelectedHeldItems } = useContext(UserContext);
+    const { newAddedMoveCond, setNewAddedMoveCond } = useContext(UserContext)
+    const { newAddedMoveCond2, setNewAddedMoveCond2 } = useContext(UserContext)
+    const { newAddedMoveCond3, setNewAddedMoveCond3 } = useContext(UserContext)
+    const { newAddedMoveCond4, setNewAddedMoveCond4 } = useContext(UserContext)
 
     useEffect(async () => {
         // window.location.reload(false); 
@@ -84,9 +87,12 @@ export default function SelectedPokemonTV({ navigation }) {
                                             <View>
                                                 {
                                                     getPokeData[0].move1 === "" || getPokeData[0].move1 === null ?
-                                                        <View>
-                                                            <Text style={[styles.plusIcon]}>+</Text>
-                                                        </View>
+                                                        newAddedMoveCond === "emptyMoves" ?
+                                                            <View>
+                                                                <Text style={[styles.plusIcon]}>+</Text>
+                                                            </View>
+                                                            :
+                                                            <Text style={[styles.pokeName]}>{selectedMove1}</Text>
                                                         :
                                                         cond == "teamBToSelectedTV" ?
                                                             <Text style={[styles.pokeName]}>{getPokeData[0].move1}</Text>
@@ -110,6 +116,7 @@ export default function SelectedPokemonTV({ navigation }) {
                                             <View>
                                                 {
                                                     getPokeData[0].move2 === null || getPokeData[0].move2 === "" ?
+                                                    
                                                         <View>
                                                             <Text style={[styles.plusIcon]}>+</Text>
                                                         </View>
@@ -192,7 +199,7 @@ export default function SelectedPokemonTV({ navigation }) {
                                             <Pressable key={i} style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
                                                 onPress={() => {
                                                 }}>
-                                                <Text style={styles.pokemonAbilitiesTxtHidden}>{pokeAbility.ability.name}</Text>
+                                                <Text key={i} style={styles.pokemonAbilitiesTxtHidden}>{pokeAbility.ability.name}</Text>
                                             </Pressable>
                                         )
                                     })

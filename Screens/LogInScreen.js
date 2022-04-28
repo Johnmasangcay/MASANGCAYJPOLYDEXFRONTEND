@@ -6,6 +6,13 @@ import { LogInFetch } from './Context/apiFetch';
 import { GetUserFetch } from './Context/apiFetch';
 import UserContext from './Context/UserContext';
 import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading'
+import {
+    DancingScript_400Regular,
+    DancingScript_500Medium,
+    DancingScript_600SemiBold,
+    DancingScript_700Bold
+} from '@expo-google-fonts/dancing-script'
 
 export default function LogInScreen({ navigation }) {
 
@@ -16,8 +23,15 @@ export default function LogInScreen({ navigation }) {
     const [userFoundError, setUserFoundError] = useState("");
     const { currentUser, setCurrentUser } = useContext(UserContext);
     let [fontsLoaded] = useFonts({
-        'Whisper-Regular':require('../assets/Whisper-Regular.ttf') 
+        DancingScript_400Regular,
+        DancingScript_500Medium,
+        DancingScript_600SemiBold,
+        DancingScript_700Bold, 
     });
+
+    if (!fontsLoaded) {
+        return <AppLoading />
+    }
 
     const handleLogIn = async () => {
         if (logInUsername != "") {
@@ -49,9 +63,9 @@ export default function LogInScreen({ navigation }) {
         <>
 
             <View style={styles.container}>
-                <ImageBackground source={loginBg} style={{ flex: 1}}>
+                <ImageBackground source={loginBg} style={{ flex: 1 }}>
                     <View style={{ paddingTop: 140, alignItems: "center" }}>
-                        <Text style={styles.titleStyle}>POLYDEX</Text>
+                        <Text style={[styles.titleStyle, { fontFamily: "DancingScript_700Bold" }]}>POLYDEX</Text>
                     </View>
                     <View style={{ paddingTop: 10 }}>
                         <Text style={styles.txtStyle}>Username</Text>
@@ -74,7 +88,7 @@ export default function LogInScreen({ navigation }) {
                         />
                         <Text style={styles.error}>{passwordError}</Text>
                         <Pressable style={({ pressed }) => [styles.btn, {
-                            backgroundColor: pressed ? "blue" : "skyblue",
+                            backgroundColor: pressed ? "blue" : "#393E46",
                             opacity: pressed ? .5 : 1
                         }]} onPress={handleLogIn}>
                             <Text style={{ color: "white", fontWeight: "bold" }}>Log In</Text>
@@ -116,9 +130,8 @@ const styles = StyleSheet.create({
         fontSize: 13
     },
     titleStyle: {
-        fontSize: 40,
-        fontWeight: "bold",
-        color: "#FF7878",
+        fontSize: 65,
+        color: "#393E46",
 
     },
     btn: {
