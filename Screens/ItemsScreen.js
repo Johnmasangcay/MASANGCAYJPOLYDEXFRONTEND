@@ -21,6 +21,7 @@ export default function ItemScreen({ navigation }) {
   const { getPokeData, setGetPokeData } = useContext(UserContext);
   const { selectedHeldItems, setSelectedHeldItems } = useContext(UserContext);
   const { forSelectedTV, setForSelectedTV } = useContext(UserContext)
+  const { newAddedItems, setNewAddedItems } = useContext(UserContext)
 
   const getItems = async () => {
     let resp = await fetch("https://pokeapi.co/api/v2/item-category/12");
@@ -52,15 +53,15 @@ export default function ItemScreen({ navigation }) {
     <>
       {!isloaded ?
         <View style={styles.loadingScreen}>
-          {/* <LottieView
+          <LottieView
             style={styles.loadingScreen}
             source={loading}
             autoPlay loop
-          /> */}
+          />
         </View>
         :
         <View style={styles.container}>
-          <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
+          <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "black", padding: 9 }}>
             <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
             <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>ItemDex</Text>
           </View>
@@ -81,7 +82,7 @@ export default function ItemScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='mobile' size={25} color="white" />
+                      <Icon style={{ color: "black", paddingRight: 115 }} name='mobile' size={25} color="white" />
                       <Text style={styles.modalText}>POKEDEX</Text>
                     </View>
                   </Pressable>
@@ -92,7 +93,7 @@ export default function ItemScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 130 }} name='shield' size={25} color="white" />
+                      <Icon style={{ color: "black", paddingRight: 130 }} name='shield' size={25} color="white" />
                       <Text style={styles.modalText}>MOVES</Text>
                     </View>
                   </Pressable>
@@ -103,7 +104,7 @@ export default function ItemScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 135 }} name='book' size={25} color="white" />
+                      <Icon style={{ color: "black", paddingRight: 135 }} name='book' size={25} color="white" />
                       <Text style={styles.modalText}>ITEMS</Text>
                     </View>
                   </Pressable>
@@ -114,7 +115,7 @@ export default function ItemScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
+                      <Icon style={{ color: "black", paddingRight: 125 }} name='book' size={25} color="white" />
                       <Text style={styles.modalText}>NATURE</Text>
                     </View>
                   </Pressable>
@@ -125,7 +126,7 @@ export default function ItemScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 70 }} name='user' size={25} color="white" />
+                      <Icon style={{ color: "black", paddingRight: 70 }} name='user' size={25} color="white" />
                       <Text style={styles.modalText}>TEAM BUILDER</Text>
                     </View>
                   </Pressable>
@@ -133,7 +134,7 @@ export default function ItemScreen({ navigation }) {
                     style={[styles.button, styles.buttonClose]}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
-                    <Text style={styles.textStyle}>Hide Modal</Text>
+                    <Text style={styles.textStyle}>Close</Text>
                   </Pressable>
                 </View>
               </View>
@@ -159,6 +160,7 @@ export default function ItemScreen({ navigation }) {
                     if (condMove == "itemCond") {
                       await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, itemData.name, getPokeData[0].natures, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, getPokeData[0].move3, getPokeData[0].move4, getPokeData[0].notes, getPokeData[0].slotnumber)           
                       setSelectedHeldItems(itemData.name)
+                      setNewAddedItems("slottedItem")
                       navigation.navigate("SelectedPokemonTV")
                     } else {
                       setDeafaultItem(itemData.name)
@@ -228,7 +230,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "#9D9D9D",
+    backgroundColor: "#F1DDBF",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -245,7 +247,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     textAlign: "left",
     fontSize: 20,
-    color: "gainsboro"
+    color: "black"
   },
   modalTxtAbiltyTitle: {
     color: "#323232",

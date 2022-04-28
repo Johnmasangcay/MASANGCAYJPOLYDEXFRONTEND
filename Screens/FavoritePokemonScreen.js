@@ -70,12 +70,12 @@ export default function FavoritePokemonScreen({ navigation }) {
                   </View>
                   <View style={{ flexDirection: "row", padding: 5 }}>
                     {
-                      pokemon.types.map((pokeType) => {
+                      pokemon.types.map((pokeType, f) => {
 
                         return (
-                          <>
-                            <Text style={[styles.txtstyleTYPE, { backgroundColor: "#D1D1D1" }]}>{pokeType.type.name}</Text>
-                          </>
+                          
+                            <Text key={f} style={[styles.txtstyleTYPE, { backgroundColor: "#D1D1D1" }]}>{pokeType.type.name}</Text>
+                          
                         )
                       })
                     }

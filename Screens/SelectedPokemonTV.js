@@ -12,6 +12,7 @@ export default function SelectedPokemonTV({ navigation }) {
     const { cond3, setCond3 } = useContext(UserContext)
     const { cond4, setCond4 } = useContext(UserContext)
     const { condForHeldItems, setCondForHeldItems } = useContext(UserContext)
+    const { newAddedItems, setNewAddedItems } = useContext(UserContext)
     const { selectedPokemonTeamViewer, setSelectedPokemonTeamViewer } = useContext(UserContext)
     const { condMove, setCondMove } = useContext(UserContext)
     const { routeForSelectedPokeToMove, setRouteForSelectedPokeToMove } = useContext(UserContext)
@@ -32,6 +33,17 @@ export default function SelectedPokemonTV({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [level, setLevel] = useState(0);
 
+    const checkUsersLevel = (value) => {
+        const parsedLvl = Number.parseInt(value)
+        if (Number.isNaN(parsedLvl)) {
+            setLevel(0)
+        } else if (parsedLvl > 100) {
+            setLevel(100)
+        } else {
+            setLevel(parsedLvl)
+        }
+    }
+
 
     useEffect(async () => {
         // window.location.reload(false); 
@@ -48,7 +60,7 @@ export default function SelectedPokemonTV({ navigation }) {
                 :
                 <SafeAreaView style={styles.container}>
                     <ScrollView>
-                        <View style={[styles.btn, { backgroundColor: "#628395" }]}>
+                        <View style={[styles.btn, { backgroundColor: "#F1DDBF" }]}>
                             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
                                 <Text style={[styles.txtstyleSelectedNAME, { marginTop: 40, position: "absolute" }]}>{selectedPokemonTeamViewer.name}</Text>
                                 <Image
@@ -201,7 +213,7 @@ export default function SelectedPokemonTV({ navigation }) {
                             </View>
                         </View>
 
-                        <View style={[styles.btnAbilities, { backgroundColor: "#D1D1D1", }]}>
+                        <View style={[styles.btnAbilities, { backgroundColor: "#F1DDBF", }]}>
                             <View>
                                 <Text style={{ color: "black", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>ABILITIES</Text>
                             </View>
@@ -220,7 +232,7 @@ export default function SelectedPokemonTV({ navigation }) {
                             </View>
                         </View>
 
-                        <View style={[styles.btnHeldItem, { backgroundColor: "#D1D1D1", }]}>
+                        <View style={[styles.btnHeldItem, { backgroundColor: "#F1DDBF", }]}>
                             <View>
                                 <Text style={{ color: "black", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>Held Item</Text>
                             </View>
@@ -229,19 +241,22 @@ export default function SelectedPokemonTV({ navigation }) {
                                     onPress={async () => {
                                         setCondMove("itemCond")
                                         setForSelectedTV(true)
-                                        navigation.navigate("ItemScreen")
+                                        navigation.navigate("ItemsScreen")
                                     }}>
                                     <View>
                                         {
                                             getPokeData[0].heldItems === "" || getPokeData[0].heldItems === null ?
-                                                <View>
-                                                    <Text style={styles.pokemonHeldItemTxtHidden}>+</Text>
-                                                </View>
+                                                newAddedItems === "newAddedItems" ?
+                                                    <View>
+                                                        <Text style={styles.pokemonAbilitiesTxtHidden}>+</Text>
+                                                    </View>
+                                                    :
+                                                    <Text style={[styles.pokemonAbilitiesTxtHidden]}>{selectedHeldItems}</Text>
                                                 :
                                                 condForHeldItems == "teamBToSelectedTVHeldItems" ?
-                                                    <Text style={[styles.pokeName]}>{getPokeData[0].heldItems}</Text>
+                                                    <Text style={[styles.pokemonAbilitiesTxtHidden]}>{getPokeData[0].heldItems}</Text>
                                                     :
-                                                    <Text style={[styles.pokeName]}>{selectedHeldItems}</Text>
+                                                    <Text style={[styles.pokemonAbilitiesTxtHidden]}>{selectedHeldItems}</Text>
                                         }
                                     </View>
                                 </Pressable>
@@ -251,7 +266,7 @@ export default function SelectedPokemonTV({ navigation }) {
                             </View>
                         </View>
 
-                        <View style={[styles.btnHeldItem, { backgroundColor: "#D1D1D1", }]}>
+                        <View style={[styles.btnHeldItem, { backgroundColor: "#F1DDBF", }]}>
                             <View>
                                 <Text style={{ color: "black", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>Pokemon Level</Text>
                             </View>
@@ -298,7 +313,10 @@ export default function SelectedPokemonTV({ navigation }) {
                                                 style={styles.pokemonHeldItemTxtHidden}
                                                 placeholder="e.g. 99"
                                                 keyboardType="numeric"
-                                                onChangeText={setLevel}
+                                                onChangeText={checkUsersLevel}
+                                                value={level}
+                                                maxLength={3}
+                                                max={100}
                                             />
                                         </View>
                                         <Pressable
@@ -401,8 +419,8 @@ const styles = StyleSheet.create({
         marginLeft: 20
     },
     plusIcon: {
-        fontSize: 40,
-        color: "#AAAAAA",
+        fontSize: 30,
+        color: "black",
         alignSelf: "center",
     },
     pokeName: {
@@ -426,7 +444,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.5,
         shadowRadius: 3,
-        backgroundColor: "#D1D1D1",
+        backgroundColor: "#F1DDBF",
         flexDirection: "row",
         height: 160,
         marginTop: 30

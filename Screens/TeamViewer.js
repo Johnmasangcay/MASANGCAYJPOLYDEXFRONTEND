@@ -342,37 +342,37 @@ export default function TeamViewer({ navigation }) {
                     <View>
                         <Text style={[styles.pokeTeamTitle]}>Team Stats</Text>
                     </View>
-                    <View style={[styles.baseStatContainer, { backgroundColor: "#D1D1D1" }]}>
+                    <View style={[styles.baseStatContainer, { backgroundColor: "#F1DDBF" }]}>
                         <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
                             <Text style={[styles.baseStatNames]}>HP</Text>
-                            <ProgressBar progress={selectedTeam[0].stats[0].base_stat / 100} width={300} height={25} color={"#9D9D9D"} />
+                            <ProgressBar progress={selectedTeam[0].stats[0].base_stat / 100} width={300} height={25} color={"#FF6464"} />
                         </View>
                         <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
                             <Text style={[styles.baseStatNames]}>Attack</Text>
-                            <ProgressBar progress={selectedTeam[0].stats[1].base_stat / 100} width={300} height={25} color={"#9D9D9D"} />
+                            <ProgressBar progress={selectedTeam[0].stats[1].base_stat / 100} width={300} height={25} color={"#FF6464"} />
                         </View>
                         <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
                             <Text style={[styles.baseStatNames]}>Defense</Text>
-                            <ProgressBar progress={selectedTeam[0].stats[2].base_stat / 100} width={300} height={25} color={"#9D9D9D"} />
+                            <ProgressBar progress={selectedTeam[0].stats[2].base_stat / 100} width={300} height={25} color={"#FF6464"} />
                         </View>
                         <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
                             <Text style={[styles.baseStatNames]}>Sp. Atk</Text>
-                            <ProgressBar progress={selectedTeam[0].stats[3].base_stat / 100} width={300} height={25} color={"#9D9D9D"} />
+                            <ProgressBar progress={selectedTeam[0].stats[3].base_stat / 100} width={300} height={25} color={"#FF6464"} />
                         </View>
                         <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
                             <Text style={[styles.baseStatNames]}>Sp. Def</Text>
-                            <ProgressBar progress={selectedTeam[0].stats[4].base_stat / 100} width={300} height={25} color={"#9D9D9D"} />
+                            <ProgressBar progress={selectedTeam[0].stats[4].base_stat / 100} width={300} height={25} color={"#FF6464"} />
                         </View>
                         <View style={{ flexDirection: "row", marginTop: 25, marginLeft: 10 }}>
                             <Text style={[styles.baseStatNames]}>Speed</Text>
-                            <ProgressBar progress={selectedTeam[0].stats[5].base_stat / 100} width={300} height={25} color={"#9D9D9D"} />
+                            <ProgressBar progress={selectedTeam[0].stats[5].base_stat / 100} width={300} height={25} color={"#FF6464"} />
                         </View>
                     </View>
 
                     <View>
                         <Text style={[styles.dmgTitle, { marginTop: 30 }]}>Tips and Tricks</Text>
                     </View>
-                    <View style={[styles.dmgTakenContainer, { backgroundColor: "#D1D1D1", marginTop: 10 }]}>
+                    <View style={[styles.dmgTakenContainer, { backgroundColor: "#F1DDBF", marginTop: 10 }]}>
                         <View>
                             <Text style={[styles.descriptionTxt]}>Based on the types of the Pokemon in your party, you have super effective (x2) damage inflicting types of moves of your pokemon against the following types:</Text>
                         </View>
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "flex-start",
-        backgroundColor: "#9D9D9D"
+        backgroundColor: "#FFFEEC"
     },
     buttonCloseDelete: {
         backgroundColor: "#FF6464",
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.5,
         shadowRadius: 3,
-        backgroundColor: "#D1D1D1",
+        backgroundColor: "#F1DDBF",
         flexDirection: "row",
         height: 100
     },
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 3,
         height: 320,
-        backgroundColor: "#D1D1D1",
+        backgroundColor: "#F1DDBF",
         maxWidth: 460
     },
     deleteBtn: {
@@ -532,8 +532,8 @@ const styles = StyleSheet.create({
         height: 400,
     },
     baseStatNames: {
-        backgroundColor: "#9D9D9D",
         paddingHorizontal: 20,
+        paddingTop: 5,
         fontSize: 12,
         textAlign: "center",
         color: "#323232",
@@ -542,7 +542,7 @@ const styles = StyleSheet.create({
         width: 80,
     },
     pokeTypeDmgTaken: {
-        backgroundColor: "#EFEFEF",
+        backgroundColor: "#FF6464",
         paddingHorizontal: 40,
         paddingVertical: 10,
         fontSize: 12,
@@ -563,20 +563,5 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
     },
 })

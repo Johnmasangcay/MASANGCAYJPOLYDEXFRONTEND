@@ -78,15 +78,15 @@ export default function TeamBuilderScreen({ navigation }) {
     <>
       {!isloaded ?
         <View style={styles.loadingScreen}>
-          {/* <LottieView
+          <LottieView
             style={styles.loadingScreen}
             source={loading}
             autoPlay loop
-          /> */}
+          />
         </View>
         :
         <SafeAreaView style={styles.container}>
-          <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
+          <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "black", padding: 9 }}>
             <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
             <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontFamily: "DancingScript_600SemiBold" }}>TeamBuilder</Text>
             <Text onPress={() => navigation.navigate("CreateTeamScreen")} style={{ color: "black", paddingLeft: 180, fontSize: 30 }}>+</Text>
@@ -109,7 +109,7 @@ export default function TeamBuilderScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 100 }} name='mobile' size={25} color="white" />
+                      <Icon style={{ color: "black", paddingRight: 100 }} name='mobile' size={25} color="white" />
                       <Text style={styles.modalText}>POKEDEX</Text>
                     </View>
                   </Pressable>
@@ -120,7 +120,7 @@ export default function TeamBuilderScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='shield' size={25} color="white" />
+                      <Icon style={{ color: "black", paddingRight: 115 }} name='shield' size={25} color="white" />
                       <Text style={styles.modalText}>MOVES</Text>
                     </View>
                   </Pressable>
@@ -131,7 +131,7 @@ export default function TeamBuilderScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
+                      <Icon style={{ color: "black", paddingRight: 125 }} name='book' size={25} color="white" />
                       <Text style={styles.modalText}>ITEMS</Text>
                     </View>
                   </Pressable>
@@ -142,7 +142,7 @@ export default function TeamBuilderScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
+                      <Icon style={{ color: "black", paddingRight: 125 }} name='book' size={25} color="white" />
                       <Text style={styles.modalText}>NATURE</Text>
                     </View>
                   </Pressable>
@@ -153,7 +153,7 @@ export default function TeamBuilderScreen({ navigation }) {
                   }
                   }>
                     <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                      <Icon style={{ color: "gainsboro", paddingRight: 65 }} name='user' size={25} color="white" />
+                      <Icon style={{ color: "black", paddingRight: 65 }} name='user' size={25} color="white" />
                       <Text style={styles.modalText}>TEAM BUILDER</Text>
                     </View>
                   </Pressable>
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 3,
     height: 360,
-    backgroundColor: "#EFDAD7",
+    backgroundColor: "#F1DDBF",
     flexDirection: "row",
     maxWidth: 460
   },
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "dimgrey",
+    backgroundColor: "#F1DDBF",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     textAlign: "left",
     fontSize: 20,
-    color: "gainsboro",
+    color: "black",
     fontWeight: "bold",
   },
   loadingScreen: {

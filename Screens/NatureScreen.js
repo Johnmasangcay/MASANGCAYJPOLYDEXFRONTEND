@@ -52,7 +52,7 @@ export default function DashboardScreen({ navigation }) {
                 </View>
                 :
                 <View style={styles.container}>
-                    <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
+                    <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "black", padding: 9 }}>
                         <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
                         <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>PokeDex</Text>
                     </View>
@@ -73,7 +73,7 @@ export default function DashboardScreen({ navigation }) {
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 115 }} name='mobile' size={25} color="white" />
+                                            <Icon style={{ color: "black", paddingRight: 115 }} name='mobile' size={25} color="white" />
                                             <Text style={styles.modalText}>POKEDEX</Text>
                                         </View>
                                     </Pressable>
@@ -84,7 +84,7 @@ export default function DashboardScreen({ navigation }) {
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 130 }} name='shield' size={25} color="white" />
+                                            <Icon style={{ color: "black", paddingRight: 130 }} name='shield' size={25} color="white" />
                                             <Text style={styles.modalText}>MOVES</Text>
                                         </View>
                                     </Pressable>
@@ -95,7 +95,7 @@ export default function DashboardScreen({ navigation }) {
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 135 }} name='book' size={25} color="white" />
+                                            <Icon style={{ color: "black", paddingRight: 135 }} name='book' size={25} color="white" />
                                             <Text style={styles.modalText}>ITEMS</Text>
                                         </View>
                                     </Pressable>
@@ -106,7 +106,7 @@ export default function DashboardScreen({ navigation }) {
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 125 }} name='book' size={25} color="white" />
+                                            <Icon style={{ color: "black", paddingRight: 125 }} name='book' size={25} color="white" />
                                             <Text style={styles.modalText}>NATURE</Text>
                                         </View>
                                     </Pressable>
@@ -117,7 +117,7 @@ export default function DashboardScreen({ navigation }) {
                                     }
                                     }>
                                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                                            <Icon style={{ color: "gainsboro", paddingRight: 70 }} name='user' size={25} color="white" />
+                                            <Icon style={{ color: "black", paddingRight: 70 }} name='user' size={25} color="white" />
                                             <Text style={styles.modalText}>TEAM BUILDER</Text>
                                         </View>
                                     </Pressable>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         margin: 20,
-        backgroundColor: "#9D9D9D",
+        backgroundColor: "#F1DDBF",
         borderRadius: 20,
         padding: 35,
         alignItems: "center",
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
         marginBottom: 25,
         textAlign: "left",
         fontSize: 20,
-        color: "gainsboro"
+        color: "black"
     },
     buttonClose: {
         backgroundColor: "#2196F3",
