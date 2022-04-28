@@ -51,6 +51,9 @@ export default function DashboardScreen({ navigation }) {
   const { cond3, setCond3 } = useContext(UserContext)
   const { cond4, setCond4 } = useContext(UserContext)
   const { newAddedMoveCond, setNewAddedMoveCond } = useContext(UserContext)
+  const { newAddedMoveCond2, setNewAddedMoveCond2 } = useContext(UserContext)
+  const { newAddedMoveCond3, setNewAddedMoveCond3 } = useContext(UserContext)
+  const { newAddedMoveCond4, setNewAddedMoveCond4 } = useContext(UserContext)
   let [fontsLoaded] = useFonts({
     DancingScript_500Medium,
     DancingScript_600SemiBold,
@@ -217,16 +220,19 @@ export default function DashboardScreen({ navigation }) {
                         } else if (condMove == "move2") {
                           await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].natures, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, item.name, getPokeData[0].move3, getPokeData[0].move4, getPokeData[0].notes, getPokeData[0].slotnumber)
                           setSelectedMove2(item.name)
+                          setNewAddedMoveCond2("slottedMoves")
                           setCond2("MovesToSelectedTV")
                           navigation.navigate("SelectedPokemonTV")
                         } else if (condMove == "move3") {
                           await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].natures, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, item.name, getPokeData[0].move4, getPokeData[0].notes, getPokeData[0].slotnumber)
                           setSelectedMove3(item.name)
+                          setNewAddedMoveCond3("slottedMoves")
                           setCond3("MovesToSelectedTV")
                           navigation.navigate("SelectedPokemonTV")
                         } else if (condMove == "move4") {
                           await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, getPokeData[0].levels, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].natures, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, getPokeData[0].move3, item.name, getPokeData[0].notes, getPokeData[0].slotnumber)
                           setSelectedMove4(item.name)
+                          setNewAddedMoveCond4("slottedMoves")
                           setCond4("MovesToSelectedTV")
                           navigation.navigate("SelectedPokemonTV")
                         }
@@ -415,7 +421,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#FFFEEC",
     backgroundColor: "#FFC996",
-    textTransform: '#393E46',
+    textTransform: 'capitalize',
     marginBottom: 5,
     borderRadius: 20,
     paddingVertical: 5,

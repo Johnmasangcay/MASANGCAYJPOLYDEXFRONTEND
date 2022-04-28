@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react'
 import { View, Text, StyleSheet, TextInput, SafeAreaView, Pressable, Alert, ImageBackground, ActivityIndicator, Button, Modal, ScrollView, Image } from 'react-native';
 import UserContext from './Context/UserContext';
 import ProgressBar from 'react-native-progress/Bar';
-import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetPokemonUsersData } from './Context/apiFetch';
+import { GetSelectedPokemonData, GetDmgTaken, GetSelectedAbility1, GetSelectedAbility2, GetFavPokemonByUser, GetUserTeam, UpdateFavPokemon, GetPokemonUsersData, UpdateSelectedPokemon } from './Context/apiFetch';
 
 export default function SelectedPokemonTV({ navigation }) {
 
@@ -27,6 +27,11 @@ export default function SelectedPokemonTV({ navigation }) {
     const { newAddedMoveCond2, setNewAddedMoveCond2 } = useContext(UserContext)
     const { newAddedMoveCond3, setNewAddedMoveCond3 } = useContext(UserContext)
     const { newAddedMoveCond4, setNewAddedMoveCond4 } = useContext(UserContext)
+    const { lvlCond, setLvlCond } = useContext(UserContext)
+    const { newLvlCond, setNewLvlCond } = useContext(UserContext)
+    const [modalVisible, setModalVisible] = useState(false);
+    const [level, setLevel] = useState(0);
+
 
     useEffect(async () => {
         // window.location.reload(false); 
@@ -116,10 +121,12 @@ export default function SelectedPokemonTV({ navigation }) {
                                             <View>
                                                 {
                                                     getPokeData[0].move2 === null || getPokeData[0].move2 === "" ?
-                                                    
-                                                        <View>
-                                                            <Text style={[styles.plusIcon]}>+</Text>
-                                                        </View>
+                                                        newAddedMoveCond2 === "emptyMoves2" ?
+                                                            <View>
+                                                                <Text style={[styles.plusIcon]}>+</Text>
+                                                            </View>
+                                                            :
+                                                            <Text style={[styles.pokeName]}>{selectedMove2}</Text>
                                                         :
                                                         cond2 == "teamBToSelectedTV2" ?
                                                             <Text style={[styles.pokeName]}>{getPokeData[0].move2}</Text>
@@ -144,9 +151,12 @@ export default function SelectedPokemonTV({ navigation }) {
                                             <View>
                                                 {
                                                     getPokeData[0].move3 === "" || getPokeData[0].move3 === null ?
-                                                        <View>
-                                                            <Text style={[styles.plusIcon]}>+</Text>
-                                                        </View>
+                                                        newAddedMoveCond3 === "emptyMoves3" ?
+                                                            <View>
+                                                                <Text style={[styles.plusIcon]}>+</Text>
+                                                            </View>
+                                                            :
+                                                            <Text style={[styles.pokeName]}>{selectedMove3}</Text>
                                                         :
                                                         cond3 == "teamBToSelectedTV3" ?
                                                             <Text style={[styles.pokeName]}>{getPokeData[0].move3}</Text>
@@ -169,9 +179,12 @@ export default function SelectedPokemonTV({ navigation }) {
                                             <View>
                                                 {
                                                     getPokeData[0].move4 === "" || getPokeData[0].move4 === null ?
-                                                        <View>
-                                                            <Text style={[styles.plusIcon]}>+</Text>
-                                                        </View>
+                                                        newAddedMoveCond4 === "emptyMoves4" ?
+                                                            <View>
+                                                                <Text style={[styles.plusIcon]}>+</Text>
+                                                            </View>
+                                                            :
+                                                            <Text style={[styles.pokeName]}>{selectedMove4}</Text>
                                                         :
                                                         cond4 == "teamBToSelectedTV4" ?
                                                             <Text style={[styles.pokeName]}>{getPokeData[0].move4}</Text>
@@ -233,7 +246,78 @@ export default function SelectedPokemonTV({ navigation }) {
                                     </View>
                                 </Pressable>
                             </View>
+                            <View>
+                                <Text style={{ color: "black", fontSize: 10, alignSelf: "center", marginTop: 5 }}>Tap plus icon to Select</Text>
+                            </View>
                         </View>
+
+                        <View style={[styles.btnHeldItem, { backgroundColor: "#D1D1D1", }]}>
+                            <View>
+                                <Text style={{ color: "black", fontSize: 20, alignSelf: "center", marginTop: 5, fontWeight: "bold" }}>Pokemon Level</Text>
+                            </View>
+                            <View>
+                                <Pressable style={({ pressed }) => { opacity: pressed ? .5 : 1 }}
+                                    onPress={async () => {
+                                        setModalVisible(true)
+                                    }}>
+                                    <View>
+                                        {
+                                            getPokeData[0].levels <= 0 ?
+                                                newLvlCond === "newLvlCond" ?
+                                                    <Text style={styles.pokemonHeldItemTxtHidden}>0</Text>
+                                                    :
+                                                    <Text style={[styles.pokeLvl]}>{level}</Text>
+                                                :
+                                                lvlCond == "lvlCond" ?
+                                                    <Text style={[styles.pokeLvl]}>{getPokeData[0].levels}</Text>
+                                                    :
+                                                    <Text style={[styles.pokeLvl]}>{level}</Text>
+                                        }
+                                    </View>
+                                </Pressable>
+                            </View>
+                            <View>
+                                <Text style={{ color: "black", fontSize: 10, alignSelf: "center", marginTop: 5 }}>Tap Pokemon Level to Select Level</Text>
+                            </View>
+                        </View>
+
+                        {/* modal for selecting Level */}
+                        <View>
+                            <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={modalVisible}
+                                onRequestClose={() => {
+                                    setModalVisible(!modalVisible);
+                                }}
+                            >
+                                <View style={styles.centeredView}>
+                                    <View style={styles.modalView}>
+                                        <View>
+                                            <TextInput
+                                                style={styles.pokemonHeldItemTxtHidden}
+                                                placeholder="e.g. 99"
+                                                keyboardType="numeric"
+                                                onChangeText={setLevel}
+                                            />
+                                        </View>
+                                        <Pressable
+                                            style={[styles.button, styles.buttonClose]}
+                                            onPress={async () => {
+                                                await UpdateSelectedPokemon(getPokeData[0].id, getPokeData[0].userId, getPokeData[0].teamId, level, getPokeData[0].pokemonName, getPokeData[0].heldItems, getPokeData[0].natures, getPokeData[0].ability1, getPokeData[0].ability2, getPokeData[0].move1, getPokeData[0].move2, getPokeData[0].move3, getPokeData[0].heldItems, getPokeData[0].notes, getPokeData[0].slotnumber)
+                                                setLvlCond("lvlChanged")
+                                                setNewLvlCond("newLvl")
+                                                setModalVisible(!modalVisible)
+                                            }}
+                                        >
+                                            <Text style={styles.textStyle}>Done</Text>
+                                        </Pressable>
+                                    </View>
+                                </View>
+                            </Modal>
+                        </View>
+
+
 
                         {/* <View style={[styles.btnHeldItem, { backgroundColor: "#D1D1D1", }]}>
                             <View>
@@ -327,6 +411,11 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         alignSelf: "center",
     },
+    pokeLvl: {
+        fontSize: 30,
+        textTransform: 'capitalize',
+        alignSelf: "center",
+    },
     containerBtn: {
         borderRadius: 20,
         paddingVertical: 5,
@@ -356,7 +445,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         marginHorizontal: 10,
         marginTop: 20,
-        height: 100,
+        height: 105,
     },
     btnNotes: {
         borderRadius: 20,
@@ -407,4 +496,29 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#EEEEEE',
     },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22,
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "#FFFBE9",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    button: {
+        fontSize: 20,
+        marginTop: 15
+    }
 })
