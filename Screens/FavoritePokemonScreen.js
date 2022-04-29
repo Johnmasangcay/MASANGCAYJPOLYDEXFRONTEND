@@ -30,7 +30,7 @@ export default function FavoritePokemonScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
         <Text style={{ color: "black", paddingLeft: 5, fontSize: 20, fontWeight: "bold" }}>Favorite Pokemon</Text>
-        <Text onPress={() => navigation.navigate("DashboardScreen")} style={{ fontSize: 20, paddingLeft: 200, color: "#494953" }}>Back</Text>
+        <Text onPress={() => navigation.navigate("DashboardScreen")} style={{ fontSize: 20, paddingLeft: 150, color: "#494953" }}>Back</Text>
       </View>
 
       <ScrollView>

@@ -22,7 +22,7 @@ export default function PokemonInfoScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
         <Text style={{ color: "black", paddingLeft: 5, fontSize: 20, fontWeight: "bold" }}>Pokemon Info</Text>
-        <Text onPress={() => navigation.navigate("DashboardScreen")} style={{ fontSize: 20, paddingLeft: 240, color: "#494953" }}>Back</Text>
+        <Text onPress={() => navigation.navigate("DashboardScreen")} style={{ fontSize: 20, paddingLeft: 210, color: "#494953" }}>Back</Text>
       </View>
       {/* //-------------------------------PokemonInfo------------------------------------------------------- */}
       <View style={[styles.btn, { backgroundColor: "#BCE0DA" }]}>

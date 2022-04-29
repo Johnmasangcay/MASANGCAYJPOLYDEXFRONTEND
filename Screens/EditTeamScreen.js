@@ -18,7 +18,7 @@ export default function EditTeamScreen({ navigation }) {
     const { selectedPokemon6, setSelectedPokemon6 } = useContext(UserContext);
 
     useEffect(async () => {
-        console.log(selectedPokemon6)
+        console.log(selectedPokemon)
     }, [])
 
     return (
@@ -236,15 +236,14 @@ export default function EditTeamScreen({ navigation }) {
                     backgroundColor: pressed ? "blue" : "#9D9D9D",
                     opacity: pressed ? .5 : 1
                 }]} onPress={async () => {
-                    await EditedTeamByUser(selectedPokemon.teamId, selectedPokemon.userId, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
+                    await EditedTeamByUser(selectedPokemon.teamId, selectedPokemon.userId, selectedPokemon.teamName, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
                     //use update endpoint if user change the pokemon line up
-
                     setRoute("PokemonInfoScreen")
                     navigation.navigate("DashboardScreen")
                 }
                 }>
                     <View>
-                        <Text>Edit Party</Text>
+                        <Text>Save Party</Text>
                     </View>
                 </Pressable>
             </View>

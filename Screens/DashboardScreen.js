@@ -56,7 +56,7 @@ export default function DashboardScreen({ navigation }) {
 
     // getting all pokemon to access all the data.
     const getPokemons = async () => {
-        let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=10");
+        let resp = await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=300");
         let data = await resp.json();
         function getPokemonObjects(pokeObject) {
             pokeObject.forEach(async (pokemon) => {
@@ -72,8 +72,6 @@ export default function DashboardScreen({ navigation }) {
     const filterPokemon = pokemons.filter(poke => {
         return poke.name.toLowerCase().includes(pokeSearch.toLowerCase())
     })
-
-
 
     useEffect(async () => {
         getPokemons()
@@ -96,7 +94,7 @@ export default function DashboardScreen({ navigation }) {
                     />
                 </View>
                 :
-                <View style={styles.container}>
+                <SafeAreaView style={styles.container}>
                     {
                         // ternary operator if the user just logged in it will load the pokedex, if the user went from teamBuilder to dashboard it will load Select a pokemon
                         createTeamToDash ?
@@ -124,7 +122,7 @@ export default function DashboardScreen({ navigation }) {
                                 setModalVisible(!modalVisible);
                             }}
                         >
-                            <View style={styles.centeredView}>
+                            <SafeAreaView style={styles.centeredView}>
                                 <View style={styles.modalView}>
                                     <Pressable onPress={() => {
                                         navigation.navigate("DashboardScreen")
@@ -189,7 +187,7 @@ export default function DashboardScreen({ navigation }) {
                                         <Text style={styles.textStyle}>Close</Text>
                                     </Pressable>
                                 </View>
-                            </View>
+                            </SafeAreaView>
                         </Modal>
                     </View>
                     {/* Search input  */}
@@ -275,7 +273,7 @@ export default function DashboardScreen({ navigation }) {
                             })
                         }
                     </ScrollView>
-                </View>
+                </SafeAreaView>
             }
         </>
     )
@@ -286,7 +284,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "flex-start",
-        marginTop: 30,
+        marginTop: 20,
         backgroundColor: "#FFFEEC"
     },
     centeredView: {
@@ -357,7 +355,7 @@ const styles = StyleSheet.create({
     },
     txtstyleNAME: {
         flex: 1,
-        fontSize: 30,
+        fontSize: 25,
         textTransform: 'capitalize',
         paddingLeft: 40,
         // fontWeight: "bold",
@@ -369,7 +367,7 @@ const styles = StyleSheet.create({
         paddingLeft: 300,
     },
     txtstyleTYPE: {
-        fontSize: 30,
+        fontSize: 20,
         // fontWeight: "bold",
         textTransform: 'capitalize',
         marginVertical: 20,
@@ -379,7 +377,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3,
         borderRadius: 20,
-        paddingHorizontal: 10,
+        paddingHorizontal: 5,
         borderWidth: .3,
         color: "#393E46",
         fontFamily: "Montserrat_300Light_Italic"

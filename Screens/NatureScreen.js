@@ -54,7 +54,7 @@ export default function DashboardScreen({ navigation }) {
                 <View style={styles.container}>
                     <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "black", padding: 9 }}>
                         <Text onPress={() => setModalVisible(true)} style={{ fontSize: 30 }}>{hamburgerMenu}</Text>
-                        <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>PokeDex</Text>
+                        <Text style={{ color: "black", paddingLeft: 20, fontSize: 30, fontWeight: "bold" }}>Nature</Text>
                     </View>
                     <View>
                         <Modal
@@ -125,7 +125,7 @@ export default function DashboardScreen({ navigation }) {
                                         style={[styles.button, styles.buttonClose]}
                                         onPress={() => setModalVisible(!modalVisible)}
                                     >
-                                        <Text style={styles.textStyle}>Hide Modal</Text>
+                                        <Text style={styles.textStyle}>Close</Text>
                                     </Pressable>
                                 </View>
                             </View>
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.5,
         shadowRadius: 3,
-        height: 100
+        height: 120
     },
     btnSearch: {
         borderRadius: 20,
@@ -275,12 +275,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#EEEEEE',
     },
     natureIncreaseTextStyle: {
-        fontSize: 20,
+        fontSize: 17,
         backgroundColor: "#9DDCDC",
         height: 40,
         borderRadius: 20,
         textTransform: 'capitalize',
-        paddingLeft: 50
+        paddingTop: 5,
+        textAlign: 'center'
     },
     increasedStatText: {
         marginRight: 130,

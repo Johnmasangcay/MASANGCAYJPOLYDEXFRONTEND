@@ -62,9 +62,9 @@ export default function LogInScreen({ navigation }) {
     return (
         <>
 
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <ImageBackground source={loginBg} style={{ flex: 1 }}>
-                    <View style={{ paddingTop: 140, alignItems: "center" }}>
+                    <View style={{ paddingTop: 50, alignItems: "center" }}>
                         <Text style={[styles.titleStyle, { fontFamily: "DancingScript_700Bold" }]}>POLYDEX</Text>
                     </View>
                     <View style={{ paddingTop: 10 }}>
@@ -101,7 +101,7 @@ export default function LogInScreen({ navigation }) {
                         </Pressable>
                     </View>
                 </ImageBackground>
-            </View>
+            </SafeAreaView>
 
         </>
     )
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "flex-start",
-        marginTop: 30,
         backgroundColor: "azure"
     },
     inputs: {
@@ -132,7 +131,6 @@ const styles = StyleSheet.create({
     titleStyle: {
         fontSize: 65,
         color: "#393E46",
-
     },
     btn: {
         alignItems: "center",

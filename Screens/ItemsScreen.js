@@ -174,8 +174,8 @@ export default function ItemScreen({ navigation }) {
                         <Image
                           source={{ uri: itemData.sprites.default }}
                           style={{
-                            height: 100,
-                            width: 100,
+                            height: 80,
+                            width: 80,
                           }}
                         />
                       </View>
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   },
   txtstyleNAME: {
     flex: 1,
-    fontSize: 40,
+    fontSize: 30,
     textTransform: 'capitalize',
     paddingLeft: 40,
     paddingTop: 10,

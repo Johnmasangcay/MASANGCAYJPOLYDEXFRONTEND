@@ -73,7 +73,7 @@ export default function App() {
           <Stack.Screen
             name='CreateTeamScreen'
             component={CreateTeamScreen}
-            options={{ headerShown: false }}
+
           />
           <Stack.Screen
             name='TeamViewer'

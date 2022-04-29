@@ -96,248 +96,250 @@ export default function CreateTeamScreen({ navigation }) {
     return (
         <>
             <SafeAreaView style={styles.container}>
-                <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
-                    <Text style={{ color: "black", paddingLeft: 5, fontSize: 20, fontWeight: "bold" }}>Create Team</Text>
-                    <Text onPress={() => {
-                        navigation.navigate("TeambuilderScreen")
-                    }} style={{ paddingLeft: 240, fontSize: 20 }}>back</Text>
-                </View>
+                <ScrollView>
+                    {/* <View style={{ flexDirection: "row", borderBottomWidth: .9, borderBottomColor: "gainsboro", padding: 9 }}>
+                        <Text style={{ color: "black", paddingLeft: 5, fontSize: 20, fontWeight: "bold" }}>Create Team</Text>
+                        <Text onPress={() => {
+                            navigation.navigate("TeambuilderScreen")
+                        }} style={{ paddingLeft: 200, fontSize: 20 }}>back</Text>
+                    </View> */}
 
-                <View>
-                    <TextInput
-                        placeholder="Team Name"
-                        style={styles.input}
-                        onChangeText={setTeamName}
-                        value={teamName}
-                    />
-                    <Text style={[styles.txtInput]}>Enter a name for your team</Text>
-                </View>
+                    <View>
+                        <TextInput
+                            placeholder="Team Name"
+                            style={styles.input}
+                            onChangeText={setTeamName}
+                            value={teamName}
+                        />
+                        <Text style={[styles.txtInput]}>Enter a name for your team</Text>
+                    </View>
 
-                <View>
-                    <Text style={[styles.txtPokePartyTitle]}>POKEMON PARTY</Text>
-                </View>
-                <View style={[styles.btn]}>
-                    <View style={{ flexDirection: "row" }}>
-                        <View>
-                            <Pressable style={({ pressed }) => [styles.btnSelection, {
-                                backgroundColor: pressed ? "blue" : "#9D9D9D",
-                                opacity: pressed ? .5 : 1
-                            }]} onPress={() => {
-                                setCondPokemon("poke1")
-                                setRoute("CreateTeamScreen")
-                                setCreateTeamToDash(true)
-                                navigation.navigate("DashboardScreen")
-                            }
-                            }>
-                                <View>
-                                    {
-                                        isFilled ?
-                                            <View>
-                                                <View style={[styles.imgStyle]}>
-                                                    <Image
-                                                        source={{ uri: selectedPokemon.sprites.front_default }}
-                                                        style={{
-                                                            height: 100,
-                                                            width: 100,
-                                                        }}
-                                                    />
+                    <View>
+                        <Text style={[styles.txtPokePartyTitle]}>POKEMON PARTY</Text>
+                    </View>
+                    <View style={[styles.btn]}>
+                        <View style={{ flexDirection: "row" }}>
+                            <View>
+                                <Pressable style={({ pressed }) => [styles.btnSelection, {
+                                    backgroundColor: pressed ? "blue" : "#9D9D9D",
+                                    opacity: pressed ? .5 : 1
+                                }]} onPress={() => {
+                                    setCondPokemon("poke1")
+                                    setRoute("CreateTeamScreen")
+                                    setCreateTeamToDash(true)
+                                    navigation.navigate("DashboardScreen")
+                                }
+                                }>
+                                    <View>
+                                        {
+                                            isFilled ?
+                                                <View>
+                                                    <View style={[styles.imgStyle]}>
+                                                        <Image
+                                                            source={{ uri: selectedPokemon.sprites.front_default }}
+                                                            style={{
+                                                                height: 100,
+                                                                width: 100,
+                                                            }}
+                                                        />
+                                                    </View>
+                                                    <Text style={[styles.pokeName]}>{selectedPokemon.name}</Text>
                                                 </View>
-                                                <Text style={[styles.pokeName]}>{selectedPokemon.name}</Text>
-                                            </View>
-                                            :
-                                            <Text style={[styles.plusIcon]}>+</Text>
-                                    }
-                                </View>
-                            </Pressable>
+                                                :
+                                                <Text style={[styles.plusIcon]}>+</Text>
+                                        }
+                                    </View>
+                                </Pressable>
+                            </View>
+
+                            <View>
+                                <Pressable style={({ pressed }) => [styles.btnSelection, {
+                                    backgroundColor: pressed ? "blue" : "#9D9D9D",
+                                    opacity: pressed ? .5 : 1
+                                }]} onPress={() => {
+                                    setCondPokemon("poke2")
+                                    setRoute("CreateTeamScreen")
+                                    setCreateTeamToDash(true)
+                                    navigation.navigate("DashboardScreen")
+                                }
+                                }>
+                                    <View>
+                                        {
+                                            isFilled2 ?
+                                                <View>
+                                                    <View style={[styles.imgStyle]}>
+                                                        <Image
+                                                            source={{ uri: selectedPokemon2.sprites.front_default }}
+                                                            style={{
+                                                                height: 100,
+                                                                width: 100,
+                                                            }}
+                                                        />
+                                                    </View>
+                                                    <Text style={[styles.pokeName]}>{selectedPokemon2.name}</Text>
+                                                </View>
+                                                :
+                                                <Text style={[styles.plusIcon]}>+</Text>
+                                        }
+                                    </View>
+                                </Pressable>
+                            </View>
+
+                            <View>
+                                <Pressable style={({ pressed }) => [styles.btnSelection, {
+                                    backgroundColor: pressed ? "blue" : "#9D9D9D",
+                                    opacity: pressed ? .5 : 1
+                                }]} onPress={() => {
+                                    setCondPokemon("poke3")
+                                    setRoute("CreateTeamScreen")
+                                    setCreateTeamToDash(true)
+                                    navigation.navigate("DashboardScreen")
+                                }
+                                }>
+                                    <View>
+                                        {
+                                            isFilled3 ?
+                                                <View>
+                                                    <View style={[styles.imgStyle]}>
+                                                        <Image
+                                                            source={{ uri: selectedPokemon3.sprites.front_default }}
+                                                            style={{
+                                                                height: 100,
+                                                                width: 100,
+                                                            }}
+                                                        />
+                                                    </View>
+                                                    <Text style={[styles.pokeName]}>{selectedPokemon3.name}</Text>
+                                                </View>
+
+                                                :
+                                                <Text style={[styles.plusIcon]}>+</Text>
+                                        }
+                                    </View>
+                                </Pressable>
+                            </View>
                         </View>
 
-                        <View>
-                            <Pressable style={({ pressed }) => [styles.btnSelection, {
-                                backgroundColor: pressed ? "blue" : "#9D9D9D",
-                                opacity: pressed ? .5 : 1
-                            }]} onPress={() => {
-                                setCondPokemon("poke2")
-                                setRoute("CreateTeamScreen")
-                                setCreateTeamToDash(true)
-                                navigation.navigate("DashboardScreen")
-                            }
-                            }>
-                                <View>
-                                    {
-                                        isFilled2 ?
-                                            <View>
-                                                <View style={[styles.imgStyle]}>
-                                                    <Image
-                                                        source={{ uri: selectedPokemon2.sprites.front_default }}
-                                                        style={{
-                                                            height: 100,
-                                                            width: 100,
-                                                        }}
-                                                    />
+                        <View style={{ flexDirection: "row" }}>
+                            <View>
+                                <Pressable style={({ pressed }) => [styles.btnSelection, {
+                                    backgroundColor: pressed ? "blue" : "#9D9D9D",
+                                    opacity: pressed ? .5 : 1
+                                }]} onPress={() => {
+                                    setCondPokemon("poke4")
+                                    setRoute("CreateTeamScreen")
+                                    setCreateTeamToDash(true)
+                                    navigation.navigate("DashboardScreen")
+                                }
+                                }>
+                                    <View>
+                                        {
+                                            isFilled4 ?
+                                                <View>
+                                                    <View style={[styles.imgStyle]}>
+                                                        <Image
+                                                            source={{ uri: selectedPokemon4.sprites.front_default }}
+                                                            style={{
+                                                                height: 100,
+                                                                width: 100,
+                                                            }}
+                                                        />
+                                                    </View>
+                                                    <Text style={[styles.pokeName]}>{selectedPokemon4.name}</Text>
                                                 </View>
-                                                <Text style={[styles.pokeName]}>{selectedPokemon2.name}</Text>
-                                            </View>
-                                            :
-                                            <Text style={[styles.plusIcon]}>+</Text>
-                                    }
-                                </View>
-                            </Pressable>
-                        </View>
 
-                        <View>
-                            <Pressable style={({ pressed }) => [styles.btnSelection, {
-                                backgroundColor: pressed ? "blue" : "#9D9D9D",
-                                opacity: pressed ? .5 : 1
-                            }]} onPress={() => {
-                                setCondPokemon("poke3")
-                                setRoute("CreateTeamScreen")
-                                setCreateTeamToDash(true)
-                                navigation.navigate("DashboardScreen")
-                            }
-                            }>
-                                <View>
-                                    {
-                                        isFilled3 ?
-                                            <View>
-                                                <View style={[styles.imgStyle]}>
-                                                    <Image
-                                                        source={{ uri: selectedPokemon3.sprites.front_default }}
-                                                        style={{
-                                                            height: 100,
-                                                            width: 100,
-                                                        }}
-                                                    />
+                                                :
+                                                <Text style={[styles.plusIcon]}>+</Text>
+                                        }
+                                    </View>
+                                </Pressable>
+                            </View>
+
+                            <View>
+                                <Pressable style={({ pressed }) => [styles.btnSelection, {
+                                    backgroundColor: pressed ? "blue" : "#9D9D9D",
+                                    opacity: pressed ? .5 : 1
+                                }]} onPress={() => {
+                                    setCondPokemon("poke5")
+                                    setRoute("CreateTeamScreen")
+                                    setCreateTeamToDash(true)
+                                    navigation.navigate("DashboardScreen")
+                                }
+                                }>
+                                    <View>
+                                        {
+                                            isFilled5 ?
+                                                <View>
+                                                    <View style={[styles.imgStyle]}>
+                                                        <Image
+                                                            source={{ uri: selectedPokemon5.sprites.front_default }}
+                                                            style={{
+                                                                height: 100,
+                                                                width: 100,
+                                                            }}
+                                                        />
+                                                    </View>
+                                                    <Text style={[styles.pokeName]}>{selectedPokemon5.name}</Text>
                                                 </View>
-                                                <Text style={[styles.pokeName]}>{selectedPokemon3.name}</Text>
-                                            </View>
 
-                                            :
-                                            <Text style={[styles.plusIcon]}>+</Text>
-                                    }
-                                </View>
-                            </Pressable>
+                                                :
+                                                <Text style={[styles.plusIcon]}>+</Text>
+                                        }
+                                    </View>
+                                </Pressable>
+                            </View>
+
+                            <View>
+                                <Pressable style={({ pressed }) => [styles.btnSelection, {
+                                    backgroundColor: pressed ? "blue" : "#9D9D9D",
+                                    opacity: pressed ? .5 : 1
+                                }]} onPress={() => {
+                                    setCondPokemon("poke6")
+                                    setRoute("CreateTeamScreen")
+                                    setCreateTeamToDash(true)
+                                    navigation.navigate("DashboardScreen")
+                                }
+                                }>
+                                    <View>
+                                        {
+                                            isFilled6 ?
+                                                <View>
+                                                    <View style={[styles.imgStyle]}>
+                                                        <Image
+                                                            source={{ uri: selectedPokemon6.sprites.front_default }}
+                                                            style={{
+                                                                height: 100,
+                                                                width: 100,
+                                                            }}
+                                                        />
+                                                    </View>
+                                                    <Text style={[styles.pokeName]}>{selectedPokemon6.name}</Text>
+                                                </View>
+                                                :
+                                                <Text style={[styles.plusIcon]}>+</Text>
+                                        }
+                                    </View>
+                                </Pressable>
+                            </View>
                         </View>
                     </View>
 
-                    <View style={{ flexDirection: "row" }}>
-                        <View>
-                            <Pressable style={({ pressed }) => [styles.btnSelection, {
-                                backgroundColor: pressed ? "blue" : "#9D9D9D",
-                                opacity: pressed ? .5 : 1
-                            }]} onPress={() => {
-                                setCondPokemon("poke4")
-                                setRoute("CreateTeamScreen")
-                                setCreateTeamToDash(true)
+                    <View>
+                        <Pressable
+                            style={[styles.button, styles.buttonClose]}
+                            onPress={async () => {
+                                await UsersNewAddedTeam(getUserId, teamName, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
+                                setGetNewAddedData(await GetUserLastAddedTeam(getUserId))
+                                setRoute("PokemonInfoScreen")
+                                setCreateTeamToDash(false)
                                 navigation.navigate("DashboardScreen")
-                            }
-                            }>
-                                <View>
-                                    {
-                                        isFilled4 ?
-                                            <View>
-                                                <View style={[styles.imgStyle]}>
-                                                    <Image
-                                                        source={{ uri: selectedPokemon4.sprites.front_default }}
-                                                        style={{
-                                                            height: 100,
-                                                            width: 100,
-                                                        }}
-                                                    />
-                                                </View>
-                                                <Text style={[styles.pokeName]}>{selectedPokemon4.name}</Text>
-                                            </View>
 
-                                            :
-                                            <Text style={[styles.plusIcon]}>+</Text>
-                                    }
-                                </View>
-                            </Pressable>
-                        </View>
-
-                        <View>
-                            <Pressable style={({ pressed }) => [styles.btnSelection, {
-                                backgroundColor: pressed ? "blue" : "#9D9D9D",
-                                opacity: pressed ? .5 : 1
-                            }]} onPress={() => {
-                                setCondPokemon("poke5")
-                                setRoute("CreateTeamScreen")
-                                setCreateTeamToDash(true)
-                                navigation.navigate("DashboardScreen")
-                            }
-                            }>
-                                <View>
-                                    {
-                                        isFilled5 ?
-                                            <View>
-                                                <View style={[styles.imgStyle]}>
-                                                    <Image
-                                                        source={{ uri: selectedPokemon5.sprites.front_default }}
-                                                        style={{
-                                                            height: 100,
-                                                            width: 100,
-                                                        }}
-                                                    />
-                                                </View>
-                                                <Text style={[styles.pokeName]}>{selectedPokemon5.name}</Text>
-                                            </View>
-
-                                            :
-                                            <Text style={[styles.plusIcon]}>+</Text>
-                                    }
-                                </View>
-                            </Pressable>
-                        </View>
-
-                        <View>
-                            <Pressable style={({ pressed }) => [styles.btnSelection, {
-                                backgroundColor: pressed ? "blue" : "#9D9D9D",
-                                opacity: pressed ? .5 : 1
-                            }]} onPress={() => {
-                                setCondPokemon("poke6")
-                                setRoute("CreateTeamScreen")
-                                setCreateTeamToDash(true)
-                                navigation.navigate("DashboardScreen")
-                            }
-                            }>
-                                <View>
-                                    {
-                                        isFilled6 ?
-                                            <View>
-                                                <View style={[styles.imgStyle]}>
-                                                    <Image
-                                                        source={{ uri: selectedPokemon6.sprites.front_default }}
-                                                        style={{
-                                                            height: 100,
-                                                            width: 100,
-                                                        }}
-                                                    />
-                                                </View>
-                                                <Text style={[styles.pokeName]}>{selectedPokemon6.name}</Text>
-                                            </View>
-                                            :
-                                            <Text style={[styles.plusIcon]}>+</Text>
-                                    }
-                                </View>
-                            </Pressable>
-                        </View>
+                            }}
+                        >
+                            <Text style={styles.textStyle}>Add Team</Text>
+                        </Pressable>
                     </View>
-                </View>
-
-                <View>
-                    <Pressable
-                        style={[styles.button, styles.buttonClose]}
-                        onPress={async () => {
-                            await UsersNewAddedTeam(getUserId, teamName, selectedPokemon.name, selectedPokemon2.name, selectedPokemon3.name, selectedPokemon4.name, selectedPokemon5.name, selectedPokemon6.name)
-                            setGetNewAddedData(await GetUserLastAddedTeam(getUserId))
-                            setRoute("PokemonInfoScreen")
-                            setCreateTeamToDash(false)
-                            navigation.navigate("DashboardScreen")
-                            
-                        }}
-                    >
-                        <Text style={styles.textStyle}>Add Team</Text>
-                    </Pressable>
-                </View>
+                </ScrollView>
             </SafeAreaView>
         </>
     )
@@ -348,7 +350,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "flex-start",
-        marginTop: 30,
         backgroundColor: "#FFFEEC"
     },
     input: {
@@ -406,6 +407,10 @@ const styles = StyleSheet.create({
         textTransform: 'capitalize',
         fontWeight: "bold",
         alignSelf: "center",
+
+    },
+    textStyle : {
+        textAlign: "center",
 
     }
 })

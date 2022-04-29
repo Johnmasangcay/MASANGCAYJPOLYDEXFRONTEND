@@ -195,9 +195,9 @@ export default function DashboardScreen({ navigation }) {
           </View>
           <View style={{ flexDirection: "row", backgroundColor: "#FFFEEC" }}>
             <Text style={{ paddingLeft: 45, marginTop: 5 }}>Move</Text>
-            <Text style={{ paddingLeft: 170, marginTop: 5 }}>Power</Text>
-            <Text style={{ paddingLeft: 30, marginTop: 5 }}>PP</Text>
-            <Text style={{ paddingLeft: 30, marginTop: 5 }}>Acc</Text>
+            <Text style={{ paddingLeft: 160, marginTop: 5 }}>Power</Text>
+            <Text style={{ paddingLeft: 22, marginTop: 5 }}>PP</Text>
+            <Text style={{ paddingLeft: 26, marginTop: 5 }}>Acc</Text>
           </View>
 
           <ScrollView>

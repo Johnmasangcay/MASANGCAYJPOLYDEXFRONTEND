@@ -1252,7 +1252,7 @@ const GetTeamByTeamID = async (teamId) => {
     return Team;
 }
 
-const EditedTeamByUser = async (teamId, userId, poke1, poke2, poke3, poke4, poke5, poke6) => {
+const EditedTeamByUser = async (teamId, userId, teamName, poke1, poke2, poke3, poke4, poke5, poke6) => {
     let editedTeam;
     await fetch("https://masangcayjpolydex.azurewebsites.net/TeamBuilder/UpdateTeam", {
         method: "POST",
@@ -1262,6 +1262,7 @@ const EditedTeamByUser = async (teamId, userId, poke1, poke2, poke3, poke4, poke
         body: JSON.stringify({
             "Id": teamId,
             "UserId": userId,
+            "TeamName": teamName,
             "Pokemon1": poke1,
             "Pokemon2": poke2,
             "Pokemon3": poke3,
